@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the current installation package for Unity Web Player. Imports it
+    into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.nmcspadden.munki.unitywebplayer</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>utility</string>
+        <key>NAME</key>
+        <string>UnityWebPlayer</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>The Unity Web Player enables you to view blazing 3D content created with Unity directly in your browser, and autoupdates as necessary.</string>
+            <key>display_name</key>
+            <string>UnityWebPlayer</string>
+            <key>minimum_os_version</key>
+            <string>10.5.8</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+		</dict>
+	</dict>
+    <key>ParentRecipe</key>
+    <string>unitywebplayer.download.recipe</string>
+   <key>Process</key>
+    <array>
+    	<dict>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>flat_pkg_path</key>
+    			<string>%pathname%/*.pkg</string>
+    			<key>destination_path</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack</string>
+    		</dict>
+    		<key>Processor</key>
+    		<string>FlatPkgUnpacker</string>
+    	</dict>
+    	<dict>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>pkgroot</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack/root/Library/Internet Plug-Ins/Unity Web Player.plugin</string>
+    			<key>pkgdirs</key>
+    			<dict/>
+    		</dict>
+    		<key>Processor</key>
+    		<string>PkgRootCreator</string>
+    	</dict>
+    	<dict>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>pkg_payload_path</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack/InstallUnityPlayer.pkg.tmp/Payload</string>
+    			<key>destination_path</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack/root/Library/Internet Plug-Ins/</string>
+    		</dict>
+    		<key>Processor</key>
+    		<string>PkgPayloadUnpacker</string>
+    	</dict>
+    	<dict>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>installs_item_paths</key>
+    			<array>
+    				<string>/Library/Internet Plug-Ins/Unity Web player.plugin</string>
+    			</array>
+    			<key>faux_root</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack/root/</string>
+    		</dict>
+    		<key>Processor</key>
+    		<string>MunkiInstallsItemsCreator</string>
+		</dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+			<dict/>
+        </dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>input_plist_path</key>
+				<string>%RECIPE_CACHE_DIR%/unpack/root/Library/Internet Plug-Ins/Unity Web Player.plugin/Contents/Info.plist</string>
+				<key>plist_version_key</key>
+				<string>CFBundleVersion</string>
+			</dict>
+			<key>Processor</key>
+			<string>Versioner</string>
+		</dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+			<dict>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>version</key>
+					<string>%version%</string>
+				</dict>
+			</dict>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/unpack</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
