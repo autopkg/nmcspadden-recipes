@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Fixes the damn minecraftedu installer to not suck.  Assumes you have placed minecraftedu.jar into the Cache dir.</string>
+    <string>Takes a downloaded "minecraftedu.jar" from the Caches folder and turns it into a package.</string>
     <key>Identifier</key>
-    <string>com.github.autopkg.pkg.minecraftedu</string>
+    <string>com.github.nmcspadden.pkg.minecraftedu</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -15,6 +15,23 @@
     <string>0.2.0</string>
     <key>Process</key>
     <array>
+    	<dict>
+    		<key>Comment</key>
+    		<string>Fake URL Downloader</string>
+    		<key>Processor</key>
+    		<string>URLDownloader</string>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>url</key>
+    			<string>IGNORED</string>
+    			<key>PKG</key>
+    			<string>%RECIPE_CACHE_DIR%/minecraftedu.jar</string>
+    		</dict>
+    	</dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
     	<dict>
     		<key>Comment</key>
     		<string>Copies .jar into .zip file</string>
@@ -109,7 +126,7 @@
         	<key>Arguments</key>
         	<dict>
         		<key>archive_path</key>
-        		<string>MinecraftEDU.app.zip</string>
+        		<string>%RECIPE_DIR%/MinecraftEDU.app.zip</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/Applications/</string>
         	</dict>
@@ -122,7 +139,7 @@
         	<key>Arguments</key>
         	<dict>
         		<key>source_path</key>
-        		<string>org.sacredsf.minecraftedu.plist</string>
+        		<string>%RECIPE_DIR%/org.sacredsf.minecraftedu.plist</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/Library/LaunchAgents/</string>
         	</dict>
@@ -135,7 +152,7 @@
         	<key>Arguments</key>
         	<dict>
         		<key>source_path</key>
-        		<string>VerifyMinecraftEdu.sh</string>
+        		<string>%RECIPE_DIR%/VerifyMinecraftEdu.sh</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/usr/local/libexec/</string>
         	</dict>
@@ -169,7 +186,7 @@
                 <key>pkg_request</key>
                 <dict>
                     <key>pkgdir</key>
-                    <string>%RECIPE_CACHE_DIR%/MinecraftEdu/</string>
+                    <string>%RECIPE_CACHE_DIR%/</string>
                     <key>id</key>
                     <string>org.sacredsf.pkg.minecraftedu</string>
                     <key>infofile</key>
@@ -205,6 +222,21 @@
                     </array>
                 </dict>
             </dict>
+        </dict>
+        <dict>
+        	<key>Comment</key>
+        	<string>Clean up after ourselves</string>
+        	<key>Processor</key>
+        	<string>PathDeleter</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>path_list</key>
+        		<array>
+        			<string>%RECIPE_CACHE_DIR%/minecraft_installer</string>
+        			<string>%RECIPE_CACHE_DIR%/MinecraftEdu</string>
+        			<string>%RECIPE_CACHE_DIR%/minecraftedu.zip</string>
+        		</array>
+        	</dict>
         </dict>
     </array>
 </dict>
