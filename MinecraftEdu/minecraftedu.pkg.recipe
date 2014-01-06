@@ -6,28 +6,48 @@
     <string>Fixes the damn minecraftedu installer to not suck.  Assumes you have placed minecraftedu.jar into the Cache dir.</string>
     <key>Identifier</key>
     <string>com.github.autopkg.pkg.minecraftedu</string>
-    <key>MinimumVersion</key>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>MinecraftEdu</string>
+	</dict>
+	<key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>Process</key>
     <array>
     	<dict>
     		<key>Comment</key>
-    		<string>Expand the MinecraftEdu .jar file</string>
+    		<string>Copies .jar into .zip file</string>
     		<key>Processor</key>
-    		<string>Unarchiver</string>
+    		<string>Copier</string>
     		<key>Arguments</key>
     		<dict>
-    			<key>destination_path<key>
-    			<string>%RECIPE_CACHE_DIR$%/minecraftedu.zip<string>
-    			<key>source_path<key>
+    			<key>destination_path</key>
+    			<string>%RECIPE_CACHE_DIR%/minecraftedu.zip</string>
+    			<key>source_path</key>
     			<string>%RECIPE_CACHE_DIR%/minecraftedu.jar</string>
     			<key>overwrite</key>
-    			</true>
+    			<false/>
     		</dict>
         </dict>
         <dict>
+        	<key>Comment</key>
+        	<string>Unpacks the minecraftedu.zip file</string>
+        	<key>Processor</key>
+        	<string>Unarchiver</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>archive_path</key>
+        		<string>%RECIPE_CACHE_DIR%/minecraftedu.zip</string>
+        		<key>destination_path</key>
+        		<string>%RECIPE_CACHE_DIR%/minecraft_installer/</string>
+        		<key>purge_destination</key>
+        		<false/>
+        	</dict>
+        </dict>
+        <dict>
             <key>Comment</key>
-            <string>Create a pkg root; we'll extract things from the disk image here.</string>
+            <string>Create a pkg root - /Lib/AppSupp/, /Applications, and /usr/local/libexec</string>
             <key>Processor</key>
             <string>PkgRootCreator</string>
             <key>Arguments</key>
@@ -40,147 +60,85 @@
                     <string>01775</string>
                     <key>Library/Application Support/</key>
                     <string>0775</string>
+                    <key>Library/Application Support/minecraftedu</key>
+                    <string>0775</string>
+                    <key>Library/LaunchAgents/</key>
+                    <string>0775</string>
+                    <key>usr</key>
+                    <string>01775</string>
+                    <key>usr/local/</key>
+                    <string>0775</string>
+                    <key>usr/local/libexec/</key>
+                    <string>0775</string>
+                    <key>Applications</key>
+                    <string>01775</string>
                 </dict>
             </dict>
         </dict>
         <dict>
-            <key>Comment</key>
-            <string>Copy AIR installer as Adobe AIR Uninstaller.app(!)</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pathname%/Adobe AIR Installer.app</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Utilities/Adobe AIR Uninstaller.app</string>
-            </dict>
+        	<key>Comment</key>
+        	<string>Extract the contents of "launcher.zip"</string>
+        	<key>Processor</key>
+        	<string>Unarchiver</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>archive_path</key>
+        		<string>%RECIPE_CACHE_DIR%/minecraft_installer/install_res/launcher.zip</string>
+        		<key>destination_path</key>
+        		<string>%pkgroot%/Library/Application Support/minecraftedu/</string>
+        	</dict>
         </dict>
         <dict>
-            <key>Comment</key>
-            <string>Copy embedded Adobe AIR.framework to pkgroot/Library/Frameworks/</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pkgroot%/Applications/Utilities/Adobe AIR Uninstaller.app/Contents/Frameworks/Adobe AIR.framework</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework</string>
-            </dict>
+        	<key>Comment</key>
+        	<string>Extract the contents of "servertool.zip"</string>
+        	<key>Processor</key>
+        	<string>Unarchiver</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>archive_path</key>
+        		<string>%RECIPE_CACHE_DIR%/minecraft_installer/install_res/servertool.zip</string>
+        		<key>destination_path</key>
+        		<string>%pkgroot%/Library/Application Support/minecraftedu/</string>
+        	</dict>
         </dict>
         <dict>
-            <key>Comment</key>
-            <string>Remove unneeded Adobe AIR Application Installer.app from inside Uninstaller.app</string>
-            <key>Processor</key>
-            <string>PathDeleter</string>
-            <key>Arguments</key>
-            <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%pkgroot%/Applications/Utilities/Adobe AIR Uninstaller.app/Contents/Frameworks/Adobe AIR.framework/Versions/Current/Adobe AIR Application Installer.app</string>
-                </array>
-            </dict>
+        	<key>Comment</key>
+        	<string>Extract the .app from the .app.zip file</string>
+        	<key>Processor</key>
+        	<string>Unarchiver</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>archive_path</key>
+        		<string>MinecraftEDU.app.zip</string>
+        		<key>destination_path</key>
+        		<string>%pkgroot%/Applications/</string>
+        	</dict>
         </dict>
         <dict>
-            <key>Comment</key>
-            <string>Copy embedded Adobe AIR Application Installer.app to /Applications/Utilities</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework/Versions/Current/Adobe AIR Application Installer.app</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Utilities/Adobe AIR Application Installer.app</string>
-            </dict>
+        	<key>Comment</key>
+        	<string>Copy the LaunchAgent into the pkgroot</string>
+        	<key>Processor</key>
+        	<string>Copier</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>source_path</key>
+        		<string>org.sacredsf.minecraftedu.plist</string>
+        		<key>destination_path</key>
+        		<string>%pkgroot%/Library/LaunchAgents/</string>
+        	</dict>
         </dict>
         <dict>
-            <key>Comment</key>
-            <string>Copy embedded airappinstaller tool to /Applications/Adobe/Flash Player/AddIns/airappinstaller/</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework/Resources/airappinstaller</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Adobe/Flash Player/AddIns/airappinstaller/airappinstaller</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Comment</key>
-            <string>Copy and merge resource fork for airappinstaller tool</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework/Resources/airappinstaller.rsrc</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Adobe/Flash Player/AddIns/airappinstaller/airappinstaller/..namedfork/rsrc</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Comment</key>
-            <string>Copy digest.s (library?) for airappinstaller tool</string>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework/Resources/digest.s</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/Adobe/Flash Player/AddIns/airappinstaller/digest.s</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Comment</key>
-            <string>Make Adobe AIR Application Installer.app be able to open .air files</string>
-            <key>Processor</key>
-            <string>PlistEditor</string>
-            <key>Arguments</key>
-            <dict>
-                <key>input_plist_path</key>
-                <string>%pkgroot%/Applications/Utilities/Adobe AIR Application Installer.app/Contents/Info.plist</string>
-                <key>output_plist_path</key>
-                <string>%pkgroot%/Applications/Utilities/Adobe AIR Application Installer.app/Contents/Info.plist</string>
-                <key>plist_data</key>
-                <dict>
-                    <key>CFBundleDocumentTypes</key>
-                    <array>
-                        <dict>
-                            <key>CFBundleTypeExtensions</key>
-                            <array>
-                                <string>air</string>
-                            </array>
-                            <key>CFBundleTypeIconFile</key>
-                            <string>Adobe AIR Installer Package.icns</string>
-                            <key>CFBundleTypeMIMETypes</key>
-                            <array>
-                                <string>application/vnd.adobe.air-application-installer-package+zip</string>
-                            </array>
-                            <key>CFBundleTypeName</key>
-                            <string>com.adobe.air.InstallerPackage</string>
-                            <key>CFBundleTypeRole</key>
-                            <string>Viewer</string>
-                        </dict>
-                    </array>
-                </dict>
-            </dict>
-        </dict>
-        <dict>
-            <key>Comment</key>
-            <string>Get Adobe AIR version from the framework bundle</string>
-            <key>Processor</key>
-            <string>Versioner</string>
-            <key>Arguments</key>
-            <dict>
-                <key>input_plist_path</key>
-                <string>%pkgroot%/Library/Frameworks/Adobe AIR.framework/Resources/Info.plist</string>
-                <key>plist_version_key</key>
-                <string>CFBundleVersion</string>
-            </dict>
+        	<key>Comment</key>
+        	<string>Copy the LaunchAgent script into /usr/local/libexec</string>
+        	<key>Processor</key>
+        	<string>Copier</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>source_path</key>
+        		<string>VerifyMinecraftEdu.sh</string>
+        		<key>destination_path</key>
+        		<string>%pkgroot%/usr/local/libexec/</string>
+        	</dict>
         </dict>
         <dict>
             <key>Comment</key>
@@ -195,11 +153,13 @@
                 <string>%RECIPE_CACHE_DIR%/PackageInfo</string>
                 <key>pkgtype</key>
                 <string>flat</string>
+                <key>version</key>
+                <string>1.64.6</string>
             </dict>
         </dict>
         <dict>
             <key>Comment</key>
-            <string>Finally! Build a real Apple package from Adobe's Inception-esque blob</string>
+            <string>Finally! Build a real Apple package from Minecraft's Java installer</string>
             <key>Processor</key>
             <string>PkgCreator</string>
             <key>Arguments</key>
@@ -209,13 +169,11 @@
                 <key>pkg_request</key>
                 <dict>
                     <key>pkgdir</key>
-                    <string>%RECIPE_CACHE_DIR%</string>
+                    <string>%RECIPE_CACHE_DIR%/MinecraftEdu/</string>
                     <key>id</key>
-                    <string>com.adobe.pkg.AIR</string>
+                    <string>org.sacredsf.pkg.minecraftedu</string>
                     <key>infofile</key>
                     <string>%RECIPE_CACHE_DIR%/PackageInfo</string>
-                    <key>resources</key>
-                    <string>%RECIPE_DIR%/Resources</string>
                     <key>options</key>
                     <string>purge_ds_store</string>
                     <key>chown</key>
@@ -235,6 +193,14 @@
                             <string>root</string>
                             <key>group</key>
                             <string>admin</string>
+                        </dict>
+                        <dict>
+                            <key>path</key>
+                            <string>usr</string>
+                            <key>user</key>
+                            <string>root</string>
+                            <key>group</key>
+                            <string>wheel</string>
                         </dict>
                     </array>
                 </dict>
