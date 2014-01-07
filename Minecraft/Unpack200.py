@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright 2010 Per Olofsson
+# Copyright 2013 Nick McSpadden
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# I would just like to state, for the record, I am fully aware of how awful this script is.
+# I will eventually fix it to make it much more robust, but it's more of a "get-it-done" kind of solution.
 
 import subprocess
 from autopkglib import Processor, ProcessorError

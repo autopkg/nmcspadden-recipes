@@ -207,18 +207,19 @@
                 </dict>
             </dict>
         </dict>
-<!--	<dict>
+		<dict>
         	<key>Comment</key>
-        	<string>Clean up after ourselves</string>
+        	<string>Clean up after ourselves.  Only thing left should be the .lzma and .dmg files.</string>
         	<key>Processor</key>
         	<string>PathDeleter</string>
         	<key>Arguments</key>
         	<dict>
         		<key>path_list</key>
         		<array>
-        			<string>%RECIPE_CACHE_DIR%/minecraft_installer</string>
-        			<string>%RECIPE_CACHE_DIR%/MinecraftEdu</string>
-        			<string>%RECIPE_CACHE_DIR%/minecraftedu.zip</string>
+        			<string>%RECIPE_CACHE_DIR%/downloads/launcher.pack</string>
+        			<string>%RECIPE_CACHE_DIR%/launcher.zip</string>
+        			<string>%RECIPE_CACHE_DIR%/Minecraft</string>
+        			<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
         		</array>
         	</dict>
 		</dict> -->
