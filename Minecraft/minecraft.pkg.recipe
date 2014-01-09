@@ -222,7 +222,7 @@
         			<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
         		</array>
         	</dict>
-		</dict> -->
+		</dict>
     </array>
 </dict>
 </plist>
