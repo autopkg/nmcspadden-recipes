@@ -13,25 +13,10 @@
 	</dict>
 	<key>MinimumVersion</key>
     <string>0.2.0</string>
+	<key>ParentRecipe</key>
+	<string>com.github.nmcspadden.download.minecraftedu</string>
     <key>Process</key>
     <array>
-    	<dict>
-    		<key>Comment</key>
-    		<string>Fake URL Downloader</string>
-    		<key>Processor</key>
-    		<string>URLDownloader</string>
-    		<key>Arguments</key>
-    		<dict>
-    			<key>url</key>
-    			<string>IGNORED</string>
-    			<key>PKG</key>
-    			<string>%RECIPE_CACHE_DIR%/minecraftedu.jar</string>
-    		</dict>
-    	</dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
-        </dict>
     	<dict>
     		<key>Comment</key>
     		<string>Copies .jar into .zip file</string>
@@ -42,7 +27,7 @@
     			<key>destination_path</key>
     			<string>%RECIPE_CACHE_DIR%/minecraftedu.zip</string>
     			<key>source_path</key>
-    			<string>%RECIPE_CACHE_DIR%/minecraftedu.jar</string>
+    			<string>%pathname%</string>
     			<key>overwrite</key>
     			<false/>
     		</dict>

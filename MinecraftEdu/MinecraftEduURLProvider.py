@@ -70,7 +70,7 @@ class MinecraftEduURLProvider(Processor):
 		except BaseException as e:
 			raise ProcessorError("Can't open %s: %s" % (base_url, e))
 
-		stable_releases = filter(lambda x: 'stable' in x,version_output.split("<version>"))
+		stable_releases = filter(lambda x: type in x,version_output.split("<version>"))
 		version_numbers = []
 		for item in stable_releases:
 			version_numbers.append(item[:-7].split("_"))
