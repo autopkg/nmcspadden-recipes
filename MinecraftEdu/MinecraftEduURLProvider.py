@@ -60,7 +60,7 @@ class MinecraftEduURLProvider(Processor):
 	
 	__doc__ = description
 	
-	def get_mcedu_url(self, type, hashed, username, password):
+	def get_mcedu_url(self, dl_type, hashed, username, password):
 		request = urllib2.Request(VERSION_LIST_URL)
 		request.add_header("x-requested-with", "XMLHttpRequest")
 		try:
@@ -70,7 +70,7 @@ class MinecraftEduURLProvider(Processor):
 		except BaseException as e:
 			raise ProcessorError("Can't open %s: %s" % (base_url, e))
 
-		stable_releases = filter(lambda x: type in x,version_output.split("<version>"))
+		stable_releases = filter(lambda x: dl_type in x,version_output.split("<version>"))
 		version_numbers = []
 		for item in stable_releases:
 			version_numbers.append(item[:-7].split("_"))
@@ -79,17 +79,17 @@ class MinecraftEduURLProvider(Processor):
 		# version_numbers[0][0] = latest stable version
 		# version_numbers[0][1] = latest stable build
 		
-		return DOWNLOAD_URL % (username, password, hashed, version_numbers[0][0], version_numbers[0][1], type)
+		return DOWNLOAD_URL % (username, password, hashed, version_numbers[0][0], version_numbers[0][1], dl_type)
    
 	def main(self):
 		# Determine type, hashed, username and password.
-		type = self.env.get("type", TYPE_DEFAULT)
+		dl_type = self.env.get("type", TYPE_DEFAULT)
 		username = self.env.get("username")
 		password = self.env.get("password")
 		hashed = self.env.get("hashed", HASHED_DEFAULT)
 		
 		self.env["url"] = self.get_mcedu_url(
-			type, hashed, username, password)
+			dl_type, hashed, username, password)
 		self.output("Found URL %s" % self.env["url"])
 	
 
