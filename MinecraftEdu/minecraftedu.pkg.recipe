@@ -107,11 +107,11 @@
         	<key>Comment</key>
         	<string>Extract the .app from the .app.zip file</string>
         	<key>Processor</key>
-        	<string>Unarchiver</string>
+        	<string>ParentUnarchiver</string>
         	<key>Arguments</key>
         	<dict>
         		<key>archive_path</key>
-        		<string>%RECIPE_DIR%/MinecraftEDU.app.zip</string>
+        		<string>MinecraftEDU.app.zip</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/Applications/</string>
         	</dict>
@@ -120,11 +120,11 @@
         	<key>Comment</key>
         	<string>Copy the LaunchAgent into the pkgroot</string>
         	<key>Processor</key>
-        	<string>Copier</string>
+        	<string>ParentCopier</string>
         	<key>Arguments</key>
         	<dict>
         		<key>source_path</key>
-        		<string>%RECIPE_DIR%/org.sacredsf.minecraftedu.plist</string>
+        		<string>org.sacredsf.minecraftedu.plist</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/Library/LaunchAgents/</string>
         	</dict>
@@ -133,11 +133,11 @@
         	<key>Comment</key>
         	<string>Copy the LaunchAgent script into /usr/local/libexec</string>
         	<key>Processor</key>
-        	<string>Copier</string>
+        	<string>ParentCopier</string>
         	<key>Arguments</key>
         	<dict>
         		<key>source_path</key>
-        		<string>%RECIPE_DIR%/VerifyMinecraftEdu.sh</string>
+        		<string>VerifyMinecraftEdu.sh</string>
         		<key>destination_path</key>
         		<string>%pkgroot%/usr/local/libexec/</string>
         	</dict>
@@ -156,7 +156,7 @@
                 <key>pkgtype</key>
                 <string>flat</string>
                 <key>version</key>
-                <string>1.64.6</string>
+                <string>%version%</string>
             </dict>
         </dict>
         <dict>
