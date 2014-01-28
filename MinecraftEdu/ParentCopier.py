@@ -20,7 +20,7 @@ import shutil
 
 from glob import glob
 from autopkglib import Processor, ProcessorError
-from DmgMounter import DmgMounter
+from autopkglib.DmgMounter import DmgMounter
 
 
 __all__ = ["ParentCopier"]
@@ -107,8 +107,8 @@ class ParentCopier(DmgMounter):
 
 		# Check to see if it's a relative path and can be found inside the parent recipes
 		if source_path and not source_path.startswith("/"):
-					# search for it
-					source_path = self.find_path_for_relpath(source_path)
+			# search for it
+			source_path = self.find_path_for_relpath(source_path)
 
 		try:
 			if dmg:
