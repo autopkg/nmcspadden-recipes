@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Packages the latest MinecraftEdu release, and imports it into Munki.  You MUST override the username and password variables or the recipe will fail.</string>
+    <string>Packages the latest MinecraftEdu release, and imports it into Munki.  You MUST override the username and password variables or the recipe will fail. If you do not want to put your password in plaintext, you can use a hash of it generated here: http://minecraftedu.com/api/api.php?action=gethash&amp;username=yourusername&amp;password=yourpassword</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.munki.minecraftedu</string>
     <key>Input</key>
