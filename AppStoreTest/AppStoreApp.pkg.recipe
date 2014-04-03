@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks a MAS app for update.</string>
+    <string>Pkg up a MAS app if it isn't already packaged.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.check.appstore</string>
+    <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -19,7 +19,7 @@
             <key>Arguments</key>
             <dict>
                 <key>app_item</key>
-                <string>%NAME%</string>
+                <string>/Applications/Numbers.app</string>
             </dict>
             <key>Processor</key>
             <string>AppStoreUpdateChecker</string>
