@@ -20,10 +20,10 @@ import sys
 
 from autopkglib import Processor, ProcessorError
 
-try:
-	import asn1
-except ImportError:
-	raise ProcessorError("No asn1!")
+#try:
+#	import asn1
+#except ImportError:
+#	raise ProcessorError("No asn1!")
 
 try:
 	import pyMASreceipt
