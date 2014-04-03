@@ -19,17 +19,18 @@ import os
 import subprocess
 import shutil
 
+from autopkglib import Processor, ProcessorError
+
 try:
 	import asn1
 except ImportError:
-	print "No asn1!"
+	raise ProcessorError("No asn1!")
 
 try:
 	import pyMASreceipt
 except ImportError:
-	print "No pyMASreceipt!"
+	raise ProcessorError("No pyMASreceipt!")
 
-from autopkglib import Processor, ProcessorError
 
 
 __all__ = ["AppStoreUpdateChecker"]
@@ -169,10 +170,8 @@ class AppStoreUpdateChecker(Processor):
 		else: #no update available, we're up to date
 			self.env["update_version"] = installer_version_identifier
 			self.env["update_available"] = False
-			self.output("%s is up to date: %s" % (self.env.get("app_item"), installer_version_identifier)
-		
+			self.output("%s is up to date: %s" % (self.env.get("app_item"), installer_version_identifier)		
 		# end
-		
 
 if __name__ == '__main__':
 	processor = AppStoreUpdateChecker()
