@@ -18,6 +18,8 @@
 import os
 import subprocess
 import shutil
+import urllib2
+import plistlib
 
 from autopkglib import Processor, ProcessorError
 
