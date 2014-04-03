@@ -43,7 +43,7 @@ class AppStoreUpdateChecker(Processor):
 	input_variables = {
 		"app_item": {
 			"required": True,
-			"description": "Either an adam-id of an App Store app, or a path to a local Mac App Store app."
+			"description": "Either an adam-id of an App Store app, or a path to a local Mac App Store app.",
 		}
 	}
 	output_variables = {
@@ -52,7 +52,7 @@ class AppStoreUpdateChecker(Processor):
 							"Always true if only an adam-id is passed.")
 		},
 		"update_version": {
-			"description": "Latest version found in the App Store."
+			"description": "Latest version found in the App Store.",
 		}
 	}
 	
@@ -109,9 +109,7 @@ class AppStoreUpdateChecker(Processor):
 		try:
 			response = response_handle.read()
 		except HTTPError, e:
-			raise ProcessorError(
-				"Invalid adam-id %s"
-				% e)
+			raise ProcessorError("Invalid adam-id %s" % e)
 		response_handle.close()
 		# Currently returning the raw response
 		# Initial analysis:
@@ -124,56 +122,57 @@ class AppStoreUpdateChecker(Processor):
 		return plistlib.readPlistFromString(response)
 
 			
-	def main(self):
-		# Assign variables
-		app_item = self.env.get("app_item")
-		
-		# 1) We either have an adam_id that we want to use, or a path to a local app
-		# 2) If we have a local app, we parse the receipt for its info
-		# 3) If we have an adam_id, we check directly.
-		# 4) If we have neither, ABORT
-		# 5) If we have both, pick adam_id
-		
-		installer_version_identifier = 0
-		
-		#Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.		
-		if ".app" in app_item:
-			try:
-				decoded_receipt = pyMASreceipt.get_app_receipt(app_path)
-				## WARNING: THIS MAY NOT ALWAYS WORK.  RETHINK THIS.
-				#decoded_receipt[7].value = adam-id
-				#decoded_receipt[0].value = "App Store Installer Version ID" 
-				app_item = decoded_receipt[7].value
-				installer_version_identifier = decoded_receipt[9].value
-			except IOError, e:
-				raise ProcessorError("Invalid app_path %s: %s" % (app_path, e))
-		
-		# If it was an .app path, the app_item gets set to an actual adam-id. 
-		# Otherwise, if it wasn't an .app path, we assume it already is an adam-id and
-		# try to use it.
-		app_details = []
-		app_dict = {}
-		app_dict['adam-id'] = app_item
-		app_dict['installer-version-identifier'] = installer_version_identifier
-		app_details.append(app_dict)
+def main(self):
+	# Assign variables
+	app_item = self.env.get("app_item")
+	
+	# 1) We either have an adam_id that we want to use, or a path to a local app
+	# 2) If we have a local app, we parse the receipt for its info
+	# 3) If we have an adam_id, we check directly.
+	# 4) If we have neither, ABORT
+	# 5) If we have both, pick adam_id
+	
+	installer_version_identifier = 0
+	
+	#Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.		
+	if ".app" in app_item:
 		try:
-			item_details = check_app_updates(app_details)
-		except HTTPError, e:
-			raise ProcessorError("Invalid adam-id %s: %s" % (app_item, e))
-		# If item_details contains a key 'incompatible-items', it means the version we have is not up to date.
-		# If installer-version-identifier wasn't set (and was 0), we'll always get 'incompatible-items'.
-		# So now we can check for the presence of 'incompatible-items' and then report that there's an update available with a specific version
-		# If that key isn't there, then the app is up to date.
-		
-		if 'incompatible-items' in item_details:
-			self.env["update_version"] = item_details['incompatible-items'][0]['current-version']
-			self.env["update_available"] = True
-			self.output("App store version: %s" % item_details['incompatible-items'][0]['current-version'])
-		else: #no update available, we're up to date
-			self.env["update_version"] = installer_version_identifier
-			self.env["update_available"] = False
-			self.output("%s is up to date: %s" % (self.env.get("app_item"), installer_version_identifier)		
-		# end
+			decoded_receipt = pyMASreceipt.get_app_receipt(app_path)
+			## WARNING: THIS MAY NOT ALWAYS WORK.  RETHINK THIS.
+			#decoded_receipt[7].value = adam-id
+			#decoded_receipt[0].value = "App Store Installer Version ID" 
+			app_item = decoded_receipt[7].value
+			installer_version_identifier = decoded_receipt[9].value
+		except IOError, e:
+			raise ProcessorError("Invalid app_path %s: %s" % (app_path, e))
+	
+	# If it was an .app path, the app_item gets set to an actual adam-id. 
+	# Otherwise, if it wasn't an .app path, we assume it already is an adam-id and
+	# try to use it.
+	app_details = []
+	app_dict = {}
+	app_dict['adam-id'] = app_item
+	app_dict['installer-version-identifier'] = installer_version_identifier
+	app_details.append(app_dict)
+	try:
+		item_details = check_app_updates(app_details)
+	except HTTPError, e:
+		raise ProcessorError("Invalid adam-id %s: %s" % (app_item, e))
+	# If item_details contains a key 'incompatible-items', it means the version we have is not up to date.
+	# If installer-version-identifier wasn't set (and was 0), we'll always get 'incompatible-items'.
+	# So now we can check for the presence of 'incompatible-items' and then report that there's an update available with a specific version
+	# If that key isn't there, then the app is up to date.
+	
+	if 'incompatible-items' in item_details:
+		self.env["update_version"] = item_details['incompatible-items'][0]['current-version']
+		self.env["update_available"] = True
+		self.output("App store version: %s" % item_details['incompatible-items'][0]['current-version'])
+	else: 
+		#no update available, we're up to date
+		self.env["update_version"] = installer_version_identifier
+		self.env["update_available"] = False
+		self.output("%s is up to date: %s" % (self.env.get("app_item"), installer_version_identifier))
+	# end
 
 if __name__ == '__main__':
 	processor = AppStoreUpdateChecker()
