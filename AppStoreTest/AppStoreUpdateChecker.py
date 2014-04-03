@@ -14,12 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-import os
-import subprocess
-import shutil
 import urllib2
 import plistlib
+import sys
 
 from autopkglib import Processor, ProcessorError
 
