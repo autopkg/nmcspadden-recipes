@@ -27,8 +27,8 @@ from autopkglib import Processor, ProcessorError
 
 try:
 	import pyMASreceipt
-except ImportError:
-	raise ProcessorError("No pyMASreceipt!")
+except ImportError, e:
+	raise ProcessorError("No pyMASreceipt! %s" % e)
 
 
 
