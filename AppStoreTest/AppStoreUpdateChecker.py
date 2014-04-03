@@ -71,7 +71,7 @@ class AppStoreUpdateChecker(Processor):
 	# If you pass '0' for the installed-version-identifier, you will always get a result for the app from the App Store
 	# update mechanism, which includes the latest installed-version-identifier (and all prior ones)
 
-	def check_app_updates(app_info_list, raw_result=False):
+	def check_app_updates(self, app_info_list, raw_result=False):
 		# This function expects a list of dicts with, at a minimum, the 'adam-id' key set
 		# This ID is the unique product identifier for an app on the App Store and can be found in the store URL
 		# when viewing the app's page in a web browser, like so:
