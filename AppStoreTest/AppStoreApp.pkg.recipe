@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Pkg up a MAS app if it isn't already packaged.</string>
+    <string>Pkg up a MAS app.</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
