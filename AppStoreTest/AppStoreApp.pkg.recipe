@@ -46,7 +46,7 @@
                 <key>source_path</key>
                 <string>%NAME%</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/%appname%</string>
+                <string>%pkgroot%/Applications/%appname%.app</string>
             </dict>
         </dict>
         <dict>
