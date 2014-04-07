@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Pkg up a MAS app.</string>
+    <string>Pkg up a MAS app. REQUIRES: https://github.com/geertj/python-asn1</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
@@ -46,7 +46,20 @@
                 <key>source_path</key>
                 <string>%NAME%</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/Applications/%appname%.app</string>
+                <string>%pkgroot%/%NAME%</string>
+            </dict>
+        </dict>
+        <dict>
+        	<key>Processor</key>
+        	<string>PkgInfoCreator</string>
+        	<key>Arguments</key>
+        	<dict>
+                <key>template_path</key>
+                <string>PackageInfoTemplate</string>
+                <key>infofile</key>
+                <string>%RECIPE_CACHE_DIR%/PackageInfo</string>
+                <key>pkgtype</key>
+                <string>flat</string>
             </dict>
         </dict>
         <dict>
@@ -78,6 +91,20 @@
                 </dict>
             </dict>
         </dict>
+        <dict>
+        	<key>Comment</key>
+        	<string>Clean up after ourselves</string>
+        	<key>Processor</key>
+        	<string>PathDeleter</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>path_list</key>
+        		<array>
+        			<string>%RECIPE_CACHE_DIR%/Numbers</string>
+        		</array>
+        	</dict>
+        </dict>
+
     </array>
 </dict>
 </plist>

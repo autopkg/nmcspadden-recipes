@@ -57,8 +57,11 @@ from autopkglib import Processor, ProcessorError
 # 	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # 	SOFTWARE.
 
-
-import asn1, os
+try:
+	import asn1
+except ImportError:
+	raise ProcessorError("asn1 not found.  Please install asn1 from https://github.com/geertj/python-asn1")
+import os
 from collections import namedtuple
 MASattr = namedtuple('MASattr', 'type version value')
 
@@ -162,6 +165,10 @@ def get_app_receipt(path_to_MAS_app):
     dec2 = asn1.Decoder()
     dec2.start(payload)
     return parse_receipt(unwind(dec2)[1])
+
+#
+# End of pyMASreceipt code.
+#
 
 __all__ = ["AppStoreReceiptParser"]
 
