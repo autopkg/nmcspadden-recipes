@@ -200,6 +200,12 @@ class AppStoreReceiptParser(Processor):
 		self.env["bundleid"] = details['Bundle Identifier'] + '.pkg'
 		self.env["version"] = details['Application Version']
 		self.env["appname"] = os.path.basename(path.rstrip(os.sep).rstrip(".app"))
+		
+# TO DO:
+# 1. Provide an unescaped path for use in recipes
+# 2. Some kind of logic to make sure we don't repackage things that are already packaged
+# 3. Leave a receipt plist behind in the cache to indicate last packaged version
+# 4. If last packaged version is older than current packaged version, repackage
 
 if __name__ == '__main__':
 	processor = AppStoreReceiptParser()
