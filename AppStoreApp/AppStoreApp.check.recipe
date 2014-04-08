@@ -3,13 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks a MAS app for update.</string>
+    <string>Checks a MAS app for update. Requires override of NAME and PATH. PREREQUISITE: You must install asn1 from https://github.com/geertj/python-asn1 or recipe will fail.</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.check.appstore</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>/Applications/Safari.app</string>
+        <string>AppStoreApp</string>
+        <key>PATH</key>
+        <string>/Applications/%NAME%.app</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
@@ -19,7 +21,7 @@
             <key>Arguments</key>
             <dict>
                 <key>app_item</key>
-                <string>%NAME%</string>
+                <string>%PATH%</string>
             </dict>
             <key>Processor</key>
             <string>AppStoreUpdateChecker</string>

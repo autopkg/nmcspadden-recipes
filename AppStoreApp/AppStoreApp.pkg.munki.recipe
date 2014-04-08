@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Checks for the update of a MAS app.  If the version on disk is up to date, then package it up and import into Munki.  If out of date, abort. PREREQUISITE: You must install asn1 from https://github.com/geertj/python-asn1 or recipe will fail.</string>
+    <key>Identifier</key>
+    <string>com.github.nmcspadden.pkg.munki.appstore</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/apple</string>
+        <key>NAME</key>
+        <string>AppStoreApp</string>
+        <key>PATH</key>
+        <string>/Applications/%NAME%.app</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>release</string>
+            </array>
+            <key>display_name</key>
+            <string>%NAME%</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+		</dict>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.nmcspadden.pkg.appstore</string>
+	<key>Process</key>
+    <array>
+    	<dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pkg_path%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>

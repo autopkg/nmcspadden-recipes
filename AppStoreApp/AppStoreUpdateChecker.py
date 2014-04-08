@@ -245,7 +245,7 @@ class AppStoreUpdateChecker(Processor):
 	input_variables = {
 		"app_item": {
 			"required": True,
-			"description": "Either an adam-id of an App Store app, or a path to a local Mac App Store app.",
+			"description": "Path to a local Mac App Store app.",
 		}
 	}
 	output_variables = {
@@ -253,8 +253,11 @@ class AppStoreUpdateChecker(Processor):
 			"description": ("Boolean value indicating true if an update is available from the version on disk. "
 							"Always true if only an adam-id is passed.")
 		},
-		"update_version": {
-			"description": "Latest version found in the App Store.",
+		"bundleid" : {
+			"description": "Bundle identifier for the App Store app.",
+		},
+		"version": {
+			"description": "Version of the App Store app.",
 		}
 	}
 	
@@ -269,7 +272,7 @@ class AppStoreUpdateChecker(Processor):
 		app_dict = {}
 		details = {}
 
-		#Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.		
+		# Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.		
 		if ".app" in app_item:
 			try:
 				decoded_receipt = get_app_receipt(app_item)
@@ -279,11 +282,9 @@ class AppStoreUpdateChecker(Processor):
 			app_dict['CFBundleIdentifier'] = details['Bundle Identifier']
 			app_dict['installed-version-identifier'] = int(details['App Store Installer Version ID'])
 			app_dict['adam-id'] = details['Product ID']
-#			appname = os.path.basename(path.rstrip(os.sep).rstrip(".app"))
 		else:
-			# If it wasn't an .app path, we assume it already is an adam-id and try to use it.
-			app_dict['adam-id'] = app_item
-			app_dict['installed-version-identifier'] = 0
+			# We got bad data
+			raise ProcessorError("Invalid app_item: %s" % app_item)
 		
 		app_details.append(app_dict)
 		try:
@@ -291,20 +292,20 @@ class AppStoreUpdateChecker(Processor):
 		except urllib2.HTTPError, e:
 			raise ProcessorError("Invalid adam-id %s: %s" % (app_item, e))
 		# If item_details contains a key 'incompatible-items', it means the version we have is not up to date.
-		# If installer-version-identifier wasn't set (and was 0), we'll always get 'incompatible-items'.
 		# So now we can check for the presence of 'incompatible-items' and then report that there's an update available with a specific version
 		# If that key isn't there, then the app is up to date.
 	
 		if 'incompatible-items' in item_details:
-			self.env["update_version"] = item_details['incompatible-items'][0]['current-version']
+			self.env["version"] = item_details['incompatible-items'][0]['current-version']
 			self.env["update_available"] = True
 			self.output("App store version: %s" % item_details['incompatible-items'][0]['current-version'])
 			self.output("Our version: %s" % details['Application Version'])
 		else: 
 			#no update available, we're up to date
-			self.env["update_version"] = app_dict['installed-version-identifier']
+			self.env["version"] = str(details['Application Version'])
 			self.env["update_available"] = False
 			self.output("%s is up to date: %s" % (self.env.get("app_item"), details['Application Version']))
+		self.env["bundleid"] = details['Bundle Identifier']
 		# end
 
 if __name__ == '__main__':

@@ -3,13 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Pkg up a MAS app. REQUIRES: https://github.com/geertj/python-asn1</string>
+    <string>Pkg up a MAS app. PREREQUISITE: You must install asn1 from https://github.com/geertj/python-asn1 or recipe will fail.</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>/Applications/Safari.app</string>
+        <string>AppStoreApp</string>
+        <key>PATH</key>
+        <string>/Applications/%NAME%.app</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
@@ -26,22 +28,13 @@
 	    		<string>update_available == YES</string>
 	    	</dict>
     	</dict>
-    	<dict>
-    		<key>Processor</key>
-    		<string>AppStoreReceiptParser</string>
-    		<key>Arguments</key>
-    		<dict>
-    			<key>path</key>
-    			<string>%NAME%</string>
-    		</dict>
-    	</dict>
         <dict>
             <key>Processor</key>
             <string>PkgRootCreator</string>
             <key>Arguments</key>
             <dict>
                 <key>pkgroot</key>
-                <string>%RECIPE_CACHE_DIR%/%appname%</string>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
                 <key>pkgdirs</key>
                 <dict>
                     <key>Applications</key>
@@ -55,9 +48,9 @@
             <key>Arguments</key>
             <dict>
                 <key>source_path</key>
-                <string>%NAME%</string>
+                <string>%PATH%</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/%NAME%</string>
+                <string>%pkgroot%/%PATH%</string>
             </dict>
         </dict>
         <dict>
@@ -79,7 +72,7 @@
             <key>Arguments</key>
             <dict>
                 <key>pkgname</key>
-                <string>%appname%-%version%</string>
+                <string>%NAME%-%version%</string>
                 <key>pkg_request</key>
                 <dict>
                     <key>pkgdir</key>
@@ -111,7 +104,7 @@
         	<dict>
         		<key>path_list</key>
         		<array>
-        			<string>%RECIPE_CACHE_DIR%/%appname%</string>
+        			<string>%RECIPE_CACHE_DIR%/%NAME%</string>
         			<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
         		</array>
         	</dict>
