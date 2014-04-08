@@ -13,8 +13,19 @@
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.9</string>
+	<key>ParentRecipe</key>
+	<string>com.github.nmcspadden.check.appstore</string>
     <key>Process</key>
     <array>
+		<dict>
+	    	<key>Processor</key>
+	    	<string>StopProcessingIf</string>
+	    	<key>Arguments</key>
+	    	<dict>
+	    		<key>predicate</key>
+	    		<string>update_available == YES</string>
+	    	</dict>
+    	</dict>
     	<dict>
     		<key>Processor</key>
     		<string>AppStoreReceiptParser</string>
@@ -105,7 +116,6 @@
         		</array>
         	</dict>
         </dict>
-
     </array>
 </dict>
 </plist>
