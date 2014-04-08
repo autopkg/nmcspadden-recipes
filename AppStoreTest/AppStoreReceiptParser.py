@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import urllib2
-import plistlib
-import sys
 
 from autopkglib import Processor, ProcessorError
 
@@ -199,7 +196,6 @@ class AppStoreReceiptParser(Processor):
 		# Assign variables
 		path = self.env.get("path")	
 		try:
-	#		decoded_receipt = pyMASreceipt.get_app_receipt(path)
 			decoded_receipt = get_app_receipt(path)
 		except IOError, e:
 			raise ProcessorError("Invalid app_path %s: %s" % (app_path, e))
@@ -208,11 +204,6 @@ class AppStoreReceiptParser(Processor):
 		self.env["version"] = details['Application Version']
 		self.env["appname"] = os.path.basename(path.rstrip(os.sep).rstrip(".app"))
 		
-# TO DO:
-# 1. Provide an unescaped path for use in recipes
-# 2. Some kind of logic to make sure we don't repackage things that are already packaged
-# 3. Leave a receipt plist behind in the cache to indicate last packaged version
-# 4. If last packaged version is older than current packaged version, repackage
 
 if __name__ == '__main__':
 	processor = AppStoreReceiptParser()
