@@ -19,6 +19,7 @@ import plistlib
 import sys
 
 from autopkglib import Processor, ProcessorError
+from Foundation import NSData, NSPropertyListSerialization, NSPropertyListMutableContainers
 
 # pyMASreceipt - python module for parsing the contents of _MASReceipt/receipt file inside a Mac App Store .app
 # 
@@ -62,7 +63,7 @@ try:
     pymasreceipt_avail = True
 except ImportError:
     pymasreceipt_avail = False
-    raise ProcessorError("asn1 not found.  Please install asn1 from https://github.com/geertj/python-asn1")
+    #raise ProcessorError("asn1 not found.  Please install asn1 from https://github.com/geertj/python-asn1")
 import os
 from collections import namedtuple
 MASattr = namedtuple('MASattr', 'type version value')
