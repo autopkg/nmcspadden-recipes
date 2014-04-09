@@ -38,10 +38,23 @@ class IDPkgCreator(Processor):
             "description": ("A package request dictionary. See "
                             "Code/autopkgserver/autopkgserver for more details.")
         },
+        "force_pkg_build": {
+            "required": False,
+            "description": ("When set, this forces building a new package even if "
+                            "a package already exists in the output directory with "
+                            "the same identifier and version number. Defaults to "
+                            "False."),
+        },
     }
     output_variables = {
         "pkg_path": {
             "description": "The created package.",
+        },
+        "new_package_request": {
+            "description": ("True if a new package was actually requested to be built. "
+                            "False if a package with the same filename, identifier and "
+                            "version already exists and thus no package was built (see "
+                            "'force_pkg_build' input variable.")
         },
     }
     
@@ -85,7 +98,7 @@ class IDPkgCreator(Processor):
                 % (e.errno, e.strerror))
         if p.returncode != 0:
             raise ProcessorError("extraction of %s with xar failed: %s" 
-                % (self.env['flat_pkg_path'], err))
+                % (source_path, err))
 
     
     def package(self):
@@ -126,39 +139,35 @@ class IDPkgCreator(Processor):
                     # search for it
                     request[key] = self.find_path_for_relpath(value)
         
-        ## NOW WE CHECK FOR THE PACKAGE ALREADY EXISTING
-        # does a package of the same name already exist?
-        # if so: xar -x -f name.pkg PackageInfo
-        # import xml.etree.ElementTree as ET
-        # tree = ET.parse('PackageInfo')
-        # root = tree.getroot()
-        # root.attrib['version'] --> this is the package version
-        # root.attrib['identifier'] --> this is the bundle identifier
-        # if filename, identifier, and version match, safe to assume the package is identical?
-        # don't package - simply continue on
-        # if not identical, KILL IT WITH FIRE and then package
-        self.output("Package Name: " + request['pkgname'])
-        pkg_path = os.path.join(self.env['RECIPE_CACHE_DIR'],request['pkgname']+'.pkg')
-        self.output("pkg_path: " + pkg_path)
-        if os.path.exists(pkg_path):
-            self.output("Package exists.")
+        # Check for an existing flat package in the output dir and compare its
+        # identifier and version to the one we're going to build.
+        pkg_path = os.path.join(request['pkgdir'], request['pkgname'] + '.pkg')
+        if os.path.exists(pkg_path) and not self.env.get("force_pkg_build"):
+            self.output("Package already exists at path %s." % pkg_path)
             self.xarExpand(pkg_path)
-        tree = ET.parse(os.path.join(self.env['RECIPE_CACHE_DIR'],'PackageInfo'))
-        root = tree.getroot()
-        local_version = root.attrib['version']
-        local_id = root.attrib['identifier']
-        if (local_version == request['version']):
-            if (local_id == request['id']):
-                #we're done here
-                self.output("No changes - package matches version, identifier, and name.")
-                self.env["pkg_path"] = pkg_path
-                return
+            packageinfo_file = os.path.join(self.env['RECIPE_CACHE_DIR'], 'PackageInfo')
+            if not os.path.exists(packageinfo_file):
+                raise ProcessorError(
+                    "Failed to parse existing package, as no PackageInfo "
+                    "file count be found in the extracted archive.")
+                
+            tree = ET.parse(packageinfo_file)
+            root = tree.getroot()
+            local_version = root.attrib['version']
+            local_id = root.attrib['identifier']
+
+            if (local_version == request['version']) and (local_id == request['id']):
+                    self.output("Existing package matches version and identifier, not building.")
+                    self.env["pkg_path"] = pkg_path
+                    self.env["new_package_request"] = False
+                    return
         
         # Send packaging request.
         try:
             self.output("Connecting")
             self.connect()
             self.output("Sending packaging request")
+            self.env["new_package_request"] = True
             pkg_path = self.send_request(request)
         finally:
             self.output("Disconnecting")
