@@ -65,13 +65,29 @@
     	</dict>
     	<dict>
     		<key>Processor</key>
+    		<string>MunkiPkginfoMerger</string>
+    		<key>Arguments</key>
+    		<dict>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>blocking_applications</key>
+					<array>
+						<string>%NAME%</string>
+					</array>
+				</dict>	
+			</dict>
+		</dict>
+    	<dict>
+    		<key>Processor</key>
     		<string>MunkiInstallsItemsCreator</string>
     		<key>Arguments</key>
     		<dict>
     			<key>faux_root</key>
     			<string>%RECIPE_CACHE_DIR%/%NAME%</string>
     			<key>installs_item_paths</key>
-    			<string>%PATH%</string>
+    			<array>
+	    			<string>%PATH%</string>
+				</array>
     		</dict>
     	</dict>
     	<dict>
@@ -87,13 +103,6 @@
                 <string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
-                <key>pkginfo</key>
-                <dict>
-                	<key>blocking_applications</key>
-                	<array>
-                		<string>%NAME%</string>
-                	</array>
-                </dict>
             </dict>
         </dict>
         <dict>
@@ -106,7 +115,6 @@
         		<key>path_list</key>
         		<array>
         			<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-        			<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
         		</array>
         	</dict>
         </dict>
