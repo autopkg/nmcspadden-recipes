@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks a MAS app for update. Requires override of NAME and PATH. PREREQUISITE: You must install asn1 from https://github.com/geertj/python-asn1 or recipe will fail.</string>
+    <string>Checks a MAS app for update. Requires override of NAME and PATH. If pyasn1 is NOT installed, this will not perform any actual check and return true for update_available.</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.check.appstore</string>
     <key>Input</key>
