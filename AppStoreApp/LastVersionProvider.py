@@ -40,10 +40,12 @@ class LastVersionProvider(Processor):
 		if not os.path.isdir(receipts_path):
 			self.output("No receipts directory found.")
 			self.env['last_version'] = '0.0'
+			return
 		files = sorted([f for f in os.listdir(receipts_path)])
 		if not files:
 			self.output("No receipts found.")
 			self.env['last_version'] = '0.0'
+			return
 		path = os.path.join(self.env['RECIPE_CACHE_DIR'],'receipts',files[-1])
 
 		# Try to read the plist
