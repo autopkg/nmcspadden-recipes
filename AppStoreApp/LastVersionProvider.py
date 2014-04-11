@@ -40,7 +40,7 @@ class LastVersionProvider(Processor):
 		if not os.path.isdir(receipts_path):
 			self.output("No receipts directory found.")
 			self.env['last_version'] = '0.0'
-		files = sorted([f for f in os.listdir(receipts_path) if f.startswith(self.env['NAME']+'-MAS-receipt')])
+		files = sorted([f for f in os.listdir(receipts_path)])
 		if not files:
 			self.output("No receipts found.")
 			self.env['last_version'] = '0.0'
