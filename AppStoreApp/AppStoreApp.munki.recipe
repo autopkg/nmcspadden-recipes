@@ -41,7 +41,20 @@
 	    		<string>update_available == YES</string>
 	    	</dict>
     	</dict>
-   	<dict>
+    	<dict>
+    		<key>Processor</key>
+    		<string>LastVersionProvider</string>
+    	</dict>
+   		<dict>
+	    	<key>Processor</key>
+	    	<string>StopProcessingIf</string>
+	    	<key>Arguments</key>
+	    	<dict>
+	    		<key>predicate</key>
+	    		<string>last_version == version</string>
+	    	</dict>
+    	</dict>  	
+   		<dict>
     		<key>Processor</key>
     		<string>Copier</string>
     		<key>Arguments</key>
