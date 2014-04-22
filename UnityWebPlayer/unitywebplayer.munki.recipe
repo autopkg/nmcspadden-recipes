@@ -6,7 +6,7 @@
     <string>Downloads the current installation package for Unity Web Player. Imports it
     into Munki.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.munki.unitywebplayer</string>
+    <string>com.github.nmcspadden.munki.UnityWebPlayer</string>
     <key>Input</key>
     <dict>
         <key>MUNKI_REPO_SUBDIR</key>
