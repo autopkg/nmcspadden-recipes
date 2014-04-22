@@ -18,6 +18,19 @@
     <key>Process</key>
     <array>
     	<dict>
+    		<key>Processor</key>
+    		<string>LastVersionProvider</string>
+    	</dict>
+   		<dict>
+	    	<key>Processor</key>
+	    	<string>StopProcessingIf</string>
+	    	<key>Arguments</key>
+	    	<dict>
+	    		<key>predicate</key>
+	    		<string>last_version == version</string>
+	    	</dict>
+    	</dict>  	
+    	<dict>
     		<key>Comment</key>
     		<string>Copies .jar into .zip file</string>
     		<key>Processor</key>
