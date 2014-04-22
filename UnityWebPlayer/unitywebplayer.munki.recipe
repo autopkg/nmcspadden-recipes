@@ -10,7 +10,7 @@
     <key>Input</key>
     <dict>
         <key>MUNKI_REPO_SUBDIR</key>
-        <string>utility</string>
+        <string>utility/unity</string>
         <key>NAME</key>
         <string>UnityWebPlayer</string>
         <key>pkginfo</key>
