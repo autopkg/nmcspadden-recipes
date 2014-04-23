@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Takes a downloaded "minecraftedu.jar" from the Caches folder and turns it into a package.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.pkg.minecraftedu</string>
+    <string>com.github.nmcspadden.pkg.MinecraftEdu</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
