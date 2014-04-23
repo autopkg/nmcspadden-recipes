@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Packages the latest MinecraftEdu release, and imports it into Munki.  You MUST override the username and password variables or the recipe will fail. If you do not want to put your password in plaintext, you can use a hash of it generated here: http://minecraftedu.com/api/api.php?action=gethash&amp;username=yourusername&amp;password=yourpassword</string>
+    <key>Identifier</key>
+    <string>com.github.nmcspadden.munki.MinecraftEdu</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps</string>
+        <key>NAME</key>
+        <string>MinecraftEDUInstaller</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>MinecraftEDU with ServerTool installed.</string>
+            <key>display_name</key>
+            <string>Minecraft EDU</string>
+            <key>minimum_os_version</key>
+            <string>10.6.8</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>requires</key>
+            <array>
+            	<string>Java6_Apple</string>
+            </array>
+            <key>unattended_install</key>
+            <true/>
+		</dict>
+	</dict>
+	<key>ParentRecipe</key>
+	<string>com.github.nmcspadden.pkg.minecraftedu</string>
+	<key>Process</key>
+    <array>
+    	<dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pkg_path%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
