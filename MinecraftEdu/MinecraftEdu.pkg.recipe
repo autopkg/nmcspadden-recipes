@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Takes a downloaded "minecraftedu.jar" from the Caches folder and turns it into a package.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.pkg.minecraftedu</string>
+    <string>com.github.nmcspadden.pkg.MinecraftEdu</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -17,6 +17,19 @@
 	<string>com.github.nmcspadden.download.minecraftedu</string>
     <key>Process</key>
     <array>
+    	<dict>
+    		<key>Processor</key>
+    		<string>LastVersionProvider</string>
+    	</dict>
+   		<dict>
+	    	<key>Processor</key>
+	    	<string>StopProcessingIf</string>
+	    	<key>Arguments</key>
+	    	<dict>
+	    		<key>predicate</key>
+	    		<string>last_version == version</string>
+	    	</dict>
+    	</dict>  	
     	<dict>
     		<key>Comment</key>
     		<string>Copies .jar into .zip file</string>

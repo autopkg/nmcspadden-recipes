@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads latest version of Unity Web Player.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.download.unitywebplayer</string>
+    <string>com.github.nmcspadden.download.UnityWebPlayer</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
