@@ -35,7 +35,7 @@
 		</dict>
 	</dict>
 	<key>ParentRecipe</key>
-	<string>com.github.nmcspadden.pkg.minecraftedu</string>
+	<string>com.github.nmcspadden.pkg.MinecraftEdu</string>
 	<key>Process</key>
     <array>
     	<dict>
