@@ -270,6 +270,8 @@ class AppStoreUpdateChecker(Processor):
         """Read Contents/Info.plist inside a bundle."""
         
         plistpath = os.path.join(path, "Contents", "Info.plist")
+        if not (os.path.isfile(plistpath)):
+			raise ProcessorError("File does not exist: %s" % plistpath)
         info, format, error = \
             NSPropertyListSerialization.propertyListFromData_mutabilityOption_format_errorDescription_(
                 NSData.dataWithContentsOfFile_(plistpath),
