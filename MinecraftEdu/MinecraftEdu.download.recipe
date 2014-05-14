@@ -16,6 +16,8 @@
         <string>password</string>
         <key>HASHED</key>
         <string>true</string>
+        <key>TYPE</key>
+        <string>stable</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
@@ -28,6 +30,8 @@
     			<string>%USERNAME%</string>
     			<key>password</key>
     			<string>%PASSWORD%</string>
+    			<key>type</key>
+    			<string>%TYPE%</string>
     		</dict>
     		<key>Processor</key>
     		<string>MinecraftEduURLProvider</string>
