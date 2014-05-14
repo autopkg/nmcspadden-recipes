@@ -72,18 +72,22 @@ class MinecraftEduURLProvider(Processor):
 			url_handle.close()
 		except BaseException as e:
 			raise ProcessorError("Can't open %s: %s" % (base_url, e))
-
 		stable_releases = filter(lambda x: dl_type in x,version_output.split("<version>"))
 		version_numbers = []
+		build_length = int(len(dl_type)) + 1 #length of 'stable' or 'development' + 1 for the '|'
 		for item in stable_releases:
-			version_numbers.append(item[:-7].split("_"))
-		
-		version_numbers.sort(key = itemgetter(1))
+			version_numbers.append(item[:-build_length].split("_"))
+		#version_numbers.sort(key = itemgetter(1))
+		float_version_numbers = list()
+		# Now convert all the strings to floats, so we can sort them
+		for version in version_numbers:
+			float_version_numbers.append([float(x) for x in version])
+		float_version_numbers.sort(reverse=True)
 		# version_numbers[0][0] = latest stable version
 		# version_numbers[0][1] = latest stable build
 		separator = "."
-		self.env["version"] = separator.join(version_numbers[0])
-		return DOWNLOAD_URL % (username, password, hashed, version_numbers[0][0], version_numbers[0][1], dl_type)
+		self.env["version"] = separator.join(float_version_numbers[0])
+		return DOWNLOAD_URL % (username, password, hashed, float_version_numbers[0][0], float_version_numbers[0][1], dl_type)
    
 	def main(self):
 		# Determine type, hashed, username and password.
