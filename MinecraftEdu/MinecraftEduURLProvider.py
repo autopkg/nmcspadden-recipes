@@ -87,7 +87,7 @@ class MinecraftEduURLProvider(Processor):
 		# version_numbers[0][1] = latest stable build
 		separator = "."
 		self.env["version"] = separator.join(str(float_version_numbers[0]))
-		return DOWNLOAD_URL % (username, password, hashed, float_version_numbers[0][0], float_version_numbers[0][1], dl_type)
+		return DOWNLOAD_URL % (username, password, hashed, float_version_numbers[0][0], int(float_version_numbers[0][1]), dl_type)
    
 	def main(self):
 		# Determine type, hashed, username and password.
