@@ -78,20 +78,6 @@
     	</dict>
     	<dict>
     		<key>Processor</key>
-    		<string>MunkiPkginfoMerger</string>
-    		<key>Arguments</key>
-    		<dict>
-				<key>additional_pkginfo</key>
-				<dict>
-					<key>blocking_applications</key>
-					<array>
-						<string>%NAME%</string>
-					</array>
-				</dict>	
-			</dict>
-		</dict>
-    	<dict>
-    		<key>Processor</key>
     		<string>MunkiInstallsItemsCreator</string>
     		<key>Arguments</key>
     		<dict>
