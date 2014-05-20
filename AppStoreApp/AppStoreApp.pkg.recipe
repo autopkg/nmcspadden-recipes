@@ -14,7 +14,7 @@
         <string>/Applications/%NAME%.app</string>
     </dict>
     <key>MinimumVersion</key>
-    <string>0.2.9</string>
+    <string>0.3.0</string>
 	<key>ParentRecipe</key>
 	<string>com.github.nmcspadden.check.appstore</string>
     <key>Process</key>
@@ -68,7 +68,7 @@
         </dict>
         <dict>
             <key>Processor</key>
-            <string>IDPkgCreator</string>
+            <string>PkgCreator</string>
             <key>Arguments</key>
             <dict>
                 <key>pkgname</key>
