@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks a MAS app for update. Requires override of NAME and PATH. If pyasn1 is NOT installed, this will not perform any actual check and return true for update_available.</string>
+    <string>Checks a MAS app for update. Requires override of NAME and PATH. If pyasn1 is NOT installed, this will not perform any actual check and return true for update_available.  Install here: sudo pip install git+https://github.com/geertj/python-asn1.git#egg=pyasn1</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.check.appstore</string>
     <key>Input</key>

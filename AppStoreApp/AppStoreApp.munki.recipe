@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks for the update of a MAS app.  If the version on disk is up to date, then import into Munki directly.  If out of date, abort. If pyasn1 is installed, updates will be checked beforehand from the App Store.</string>
+    <string>Checks for the update of a MAS app.  If the version on disk is up to date, then import into Munki directly.  If out of date, abort. If pyasn1 is installed, updates will be checked beforehand from the App Store.  Install pyasn1 here: sudo pip install git+https://github.com/geertj/python-asn1.git#egg=pyasn1</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.munki.appstore</string>
     <key>Input</key>
