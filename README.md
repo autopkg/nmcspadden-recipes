@@ -21,7 +21,7 @@ Sutton][] for the suggestions]:
 -   Since pip is not a standard part of OS X, you can instead use
     `easy_install`:
 
-    -   `easy_install --install-dir="$HOME/Library/Python/2.7/lib/python/site-packages"https://github.com/geertj/python-asn1/archive/master.zip`
+    -   `easy_install --install-dir="$HOME/Library/Python/2.7/lib/python/site-packages" https://github.com/geertj/python-asn1/archive/master.zip`
 
     -   This install is slightly different, packaging the module into an
         egg (zipfile) and adding loader commands to a .pth file, which
