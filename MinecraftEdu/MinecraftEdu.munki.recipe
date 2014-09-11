@@ -30,6 +30,16 @@
             <array>
             	<string>Java6_Apple</string>
             </array>
+            <key>preinstall_script</key>
+            <string>#!/bin/bash
+
+mcpath=&quot;/Library/Application Support/minecraftedu&quot;
+
+if [[ -e &quot;$mcpath&quot; ]]
+then
+	/bin/rm -rf &quot;$mcpath&quot;
+fi
+            </string>
             <key>unattended_install</key>
             <true/>
 		</dict>

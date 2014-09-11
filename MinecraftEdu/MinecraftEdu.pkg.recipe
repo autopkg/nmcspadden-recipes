@@ -113,7 +113,7 @@
         		<key>archive_path</key>
         		<string>%RECIPE_CACHE_DIR%/minecraft_installer/install_res/servertool.zip</string>
         		<key>destination_path</key>
-        		<string>%pkgroot%/Library/Application Support/minecraftedu/</string>
+        		<string>%pkgroot%/Library/Application Support/minecraftedu/servertool/</string>
         	</dict>
         </dict>
         <dict>
