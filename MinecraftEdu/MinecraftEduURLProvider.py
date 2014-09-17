@@ -80,7 +80,7 @@ class MinecraftEduURLProvider(Processor):
             release = item[:-build_length].split("_")
             # Convert version number to a distutils.version.LooseVersion, and
             # the build to an int.
-            version_numbers.append((LooseVersion(release[0]), release[1]))
+            version_numbers.append((LooseVersion(release[0]), int(release[1])))
         version_numbers.sort(reverse=True)
         # version_numbers[0][0] = latest version
         # version_numbers[0][1] = latest build
