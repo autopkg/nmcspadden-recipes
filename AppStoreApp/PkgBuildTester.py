@@ -16,7 +16,6 @@
 """See docstring for PkgBuildTester class"""
 
 import os.path
-import FoundationPlist
 import subprocess
 import xml.etree.ElementTree as ET
 
@@ -27,25 +26,23 @@ __all__ = ["PkgBuildTester"]
 
 
 class PkgBuildTester(Processor):
-    """Calls autopkgserver to create a package."""
+    """Look in the build directory for a pre-existing package."""
     description = __doc__
     input_variables = {
         "pkg_build_name": {
             "required": True,
             "description": (
-                "A package request dictionary. See "
-                "Code/autopkgserver/autopkgserver for more details.")
+                "The name of the pkg to be built.")
         },
         "pkg_dir": {
             "required": True,
             "description": (
-                "A package request dictionary. See "
-                "Code/autopkgserver/autopkgserver for more details.")
+                "The directory where the packages are built.")
         },
         "force_pkg_build": {
             "required": False,
             "description": (
-                "When set, this forces building a new package even if "
+                "When set, this forces returning False even if "
                 "a package already exists in the output directory with "
                 "the same identifier and version number. Defaults to False"),
         },
@@ -54,10 +51,10 @@ class PkgBuildTester(Processor):
         "pkgbuilt": {
             "default": False,
             "description": (
-                "True if a new package was actually requested to be built. "
-                "False if a package with the same filename, identifier and "
-                "version already exists and thus no package was built (see "
-                "'force_pkg_build' input variable."),
+                "False if no built package exists. "
+                "True if a package with the same filename, identifier and "
+                "version already exists and thus no package needs to be built "
+                "(see 'force_pkg_build' input variable."),
         },
     }
 
