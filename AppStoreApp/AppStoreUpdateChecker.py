@@ -22,22 +22,22 @@ from autopkglib import Processor, ProcessorError
 from Foundation import NSData, NSPropertyListSerialization, NSPropertyListMutableContainers
 
 # pyMASreceipt - python module for parsing the contents of _MASReceipt/receipt file inside a Mac App Store .app
-# 
+#
 # pyMASreceipt is a python module for parsing the receipt contents of a Mac App Store app (located within the application bundle: Contents/Resources/_MASReceipt/receipt).
-# 
+#
 # It is a best guess at contents, following the documentation provided by Apple at: http://developer.apple.com/library/mac/#releasenotes/General/ValidateAppStoreReceipt/_index.html
-# 
+#
 # This module depends on the module 'python-asn1' by Geert Jansen (geertj@github), available here: https://github.com/geertj/python-asn1
-# 
+#
 # Credits
-# 
-# - pyMASreceipt is written by pudquick@github 
-# - python-asn1 is written by geertj@github 
-# 
+#
+# - pyMASreceipt is written by pudquick@github
+# - python-asn1 is written by geertj@github
+#
 # License
-# 
+#
 # pyMASreceipt is released under a standard MIT license.
-# 
+#
 #   Permission is hereby granted, free of charge, to any person
 #   obtaining a copy of this software and associated documentation files
 #   (the "Software"), to deal in the Software without restriction,
@@ -45,10 +45,10 @@ from Foundation import NSData, NSPropertyListSerialization, NSPropertyListMutabl
 #   publish, distribute, sublicense, and/or sell copies of the Software,
 #   and to permit persons to whom the Software is furnished to do so,
 #   subject to the following conditions:
-# 
+#
 #   The above copyright notice and this permission notice shall be
 #   included in all copies or substantial portions of the Software.
-# 
+#
 #   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 #   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 #   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -87,7 +87,7 @@ MASattr = namedtuple('MASattr', 'type version value')
 # Seems to indicate a few new types:
 # 0x00: Receipt type
 # 0x0C: LastAuthTime as seen in com.apple.storeagent (likely set at time of download?)
-# 
+#
 # Apple documentation:
 # https://developer.apple.com/library/mac/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html
 # 0x13: Original version number of application purchased
@@ -140,7 +140,7 @@ def extract_data(asn1_seq):
                 if x[2] == '1.2.840.113549.1.7.1':
                     ret_val.append(asn1_seq[i+2][0][2])
         elif (type(x) is list):
-            sub_val = extract_data(x) 
+            sub_val = extract_data(x)
             if (type(sub_val) is list):
                 ret_val.extend(sub_val)
             else:
@@ -263,12 +263,12 @@ class AppStoreUpdateChecker(Processor):
             "description": "Version of the App Store app.",
         }
     }
-    
+
     __doc__ = description
 
     def read_bundle_info(self, path):
         """Read Contents/Info.plist inside a bundle."""
-        
+
         plistpath = os.path.join(path, "Contents", "Info.plist")
         if not (os.path.isfile(plistpath)):
 			raise ProcessorError("File does not exist: %s" % plistpath)
@@ -281,18 +281,18 @@ class AppStoreUpdateChecker(Processor):
             )
         if error:
             raise ProcessorError("Can't read %s: %s" % (plistpath, error))
-        
+
         return info
-            
+
     def main(self):
         # Assign variables
         app_item = self.env.get("app_item")
-            
+
         app_details = []
         app_dict = {}
         details = {}
 
-        # Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.        
+        # Assumption: all App Store app paths will contain ".app" in the name.  Probably a safe one.
         if ".app" in app_item:
             #if pyMASreceipt is unavailable due to the lack of third party modules, we'll just assume it's up to date:
             if not pymasreceipt_avail:
@@ -313,7 +313,7 @@ class AppStoreUpdateChecker(Processor):
         else:
             # We got bad data
             raise ProcessorError("Invalid app_item: %s" % app_item)
-        
+
         app_details.append(app_dict)
         try:
             item_details = check_app_updates(app_details)
@@ -322,13 +322,13 @@ class AppStoreUpdateChecker(Processor):
         # If item_details contains a key 'incompatible-items', it means the version we have is not up to date.
         # So now we can check for the presence of 'incompatible-items' and then report that there's an update available with a specific version
         # If that key isn't there, then the app is up to date.
-    
+
         if 'incompatible-items' in item_details:
             self.env["version"] = item_details['incompatible-items'][0]['current-version']
             self.env["update_available"] = True
             self.output("App store version: %s" % item_details['incompatible-items'][0]['current-version'])
             self.output("Our version: %s" % details['Application Version'])
-        else: 
+        else:
             #no update available, we're up to date
             self.env["version"] = str(details['Application Version'])
             self.env["update_available"] = False
@@ -339,4 +339,4 @@ class AppStoreUpdateChecker(Processor):
 if __name__ == '__main__':
     processor = AppStoreUpdateChecker()
     processor.execute_shell()
-    
+
