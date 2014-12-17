@@ -13,7 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""See docstring for PkgBuildTester class"""
+"""Look in the build directory for a pre-existing package."""
+
 
 import os.path
 import subprocess
@@ -31,24 +32,32 @@ class PkgBuildTester(Processor):
     input_variables = {
         "pkg_build_name": {
             "required": True,
-            "description": (
-                "The name of the pkg to be built.")
+            "description": "The name of the pkg to be built."
         },
         "pkg_dir": {
             "required": True,
-            "description": (
-                "The directory where the packages are built.")
+            "description": "The directory where the packages are built."
         },
         "force_pkg_build": {
             "required": False,
             "description": (
-                "When set, this forces returning False even if "
-                "a package already exists in the output directory with "
-                "the same identifier and version number. Defaults to False"),
+                "When set, this forces returning False even if a package "
+                "already exists in the output directory with the same "
+                "identifier and version number. See docs for PkgCreator "
+                "processor for more information. Defaults to False."),
+        },
+        "version": {
+            "required": True,
+            "description" : "The version number of the software.",
+        },
+        "bundleid": {
+            "required": True,
+            "description": (
+                "The software's bundle identifier."),
         },
     }
     output_variables = {
-        "pkgbuilt": {
+        "pkg_build_matches": {
             "default": False,
             "description": (
                 "False if no built package exists. "
@@ -59,7 +68,8 @@ class PkgBuildTester(Processor):
     }
 
     def xar_expand(self, source_path):
-        '''Uses xar to expand an archive'''
+        '''Uses xar to expand an archive.'''
+        # Originally from PkgCreator.py
         try:
             xarcmd = ["/usr/bin/xar",
                       "-x",
@@ -83,6 +93,7 @@ class PkgBuildTester(Processor):
 
         # Check for an existing flat package in the output dir and compare its
         # identifier and version to the one we're going to build.
+        # Originally from PkgCreator.py
         pkg_build_name = self.env['pkg_build_name']
         pkg_dir = self.env['pkg_dir']
         pkg_path = os.path.join(pkg_dir, pkg_build_name + '.pkg')
@@ -106,8 +117,7 @@ class PkgBuildTester(Processor):
                 self.output("Existing package matches version and identifier, "
                             "not building.")
                 self.env["pkg_path"] = pkg_path
-                self.env['pkgbuilt'] = True
-                return
+                self.env['pkg_build_matches'] = True
 
 
     def main(self):

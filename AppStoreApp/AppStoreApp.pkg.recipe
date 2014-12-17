@@ -31,6 +31,8 @@
         <dict>
             <key>Processor</key>
             <string>PkgBuildTester</string>
+			<key>comment</key>
+			<string>Look in our recipe cache for an existing, current package.</string>
             <key>Arguments</key>
             <dict>
                 <key>pkg_build_name</key>
@@ -42,10 +44,12 @@
         <dict>
             <key>Processor</key>
             <string>StopProcessingIf</string>
+			<key>comment</key>
+			<string>If a package has already been built with this version and ID (and "force_pkg_build" is False), we're done.</string>
             <key>Arguments</key>
             <dict>
                 <key>predicate</key>
-                <string>pkgbuilt == YES</string>
+                <string>pkg_build_matches == YES</string>
             </dict>
         </dict>
         <dict>
