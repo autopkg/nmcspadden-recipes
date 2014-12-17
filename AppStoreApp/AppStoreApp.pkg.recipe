@@ -15,39 +15,39 @@
     </dict>
     <key>MinimumVersion</key>
     <string>0.3.0</string>
-	<key>ParentRecipe</key>
-	<string>com.github.nmcspadden.check.appstore</string>
+    <key>ParentRecipe</key>
+    <string>com.github.nmcspadden.check.appstore</string>
     <key>Process</key>
     <array>
-		<dict>
-	    	<key>Processor</key>
-	    	<string>StopProcessingIf</string>
-	    	<key>Arguments</key>
-	    	<dict>
-	    		<key>predicate</key>
-	    		<string>update_available == YES</string>
-	    	</dict>
-    	</dict>
-		<dict>
-	    	<key>Processor</key>
-	    	<string>PkgBuildTester</string>
-	    	<key>Arguments</key>
-	    	<dict>
-	    		<key>pkg_build_name</key>
-	    		<string>%NAME%-%version%</string>
-	    		<key>pkg_dir</key>
-	    		<string>%RECIPE_CACHE_DIR%</string>
-	    	</dict>
-    	</dict>
-		<dict>
-	    	<key>Processor</key>
-	    	<string>StopProcessingIf</string>
-	    	<key>Arguments</key>
-	    	<dict>
-	    		<key>predicate</key>
-	    		<string>pkgbuilt == YES</string>
-	    	</dict>
-    	</dict>
+        <dict>
+            <key>Processor</key>
+            <string>StopProcessingIf</string>
+            <key>Arguments</key>
+            <dict>
+                <key>predicate</key>
+                <string>update_available == YES</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgBuildTester</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_build_name</key>
+                <string>%NAME%-%version%</string>
+                <key>pkg_dir</key>
+                <string>%RECIPE_CACHE_DIR%</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>StopProcessingIf</string>
+            <key>Arguments</key>
+            <dict>
+                <key>predicate</key>
+                <string>pkgbuilt == YES</string>
+            </dict>
+        </dict>
         <dict>
             <key>Processor</key>
             <string>PkgRootCreator</string>
@@ -74,10 +74,10 @@
             </dict>
         </dict>
         <dict>
-        	<key>Processor</key>
-        	<string>PkgInfoCreator</string>
-        	<key>Arguments</key>
-        	<dict>
+            <key>Processor</key>
+            <string>PkgInfoCreator</string>
+            <key>Arguments</key>
+            <dict>
                 <key>template_path</key>
                 <string>PackageInfoTemplate</string>
                 <key>infofile</key>
