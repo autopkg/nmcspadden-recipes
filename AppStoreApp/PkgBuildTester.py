@@ -88,12 +88,11 @@ class PkgBuildTester(Processor):
                                  % (source_path, stderr))
 
     def check_for_package(self):
-        '''Build a packaging request, send it to the autopkgserver and get the
-        constructed package.'''
+        """Check for an existing flat package in the output dir and compare its
+        identifier and version to the one we're going to build.  Originally
+        from PkgCreator.py.
 
-        # Check for an existing flat package in the output dir and compare its
-        # identifier and version to the one we're going to build.
-        # Originally from PkgCreator.py
+        """
         pkg_build_name = self.env['pkg_build_name']
         pkg_dir = self.env['pkg_dir']
         pkg_path = os.path.join(pkg_dir, pkg_build_name + '.pkg')
