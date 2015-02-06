@@ -46,9 +46,9 @@
             <key>Arguments</key>
             <dict>
                 <key>source_path</key>
-                <string>%pathname%/Google Earth.app</string>
+                <string>%pathname%/Google Earth Pro.app</string>
                 <key>destination_path</key>
-                <string>%pkgroot%/Applications/Google Earth.app</string>
+                <string>%pkgroot%/Applications/Google Earth Pro.app</string>
             </dict>
         </dict>
         <dict>
