@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadContent</key>
+			<dict>
+				<key>com.google.GoogleEarthPro</key>
+				<dict>
+					<key>Set-Once</key>
+					<array>
+						<dict>
+							<key>mcx_data_timestamp</key>
+							<date>2015-02-06T21:16:14Z</date>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<key>ActivationInfo</key>
+								<data>AAAAAAABABAAAAABAAAAARAAAAEAAAABAAAAAQAEACQAUgiAUQRsBLWQKntBcRgf4V9stsf7PCyVR+koFwIOaK/jaTlf1y/w</data>
+								<key>Passport</key>
+								<string>GEPFREE</string>
+								<key>Username</key>
+								<string>username</string>
+								<key>osName</key>
+								<string>Mac OS X</string>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+			<key>PayloadEnabled</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>MCXToProfile.87da2811-c40f-4447-9255-a636fb3995ac.alacarte.customsettings.7c18e942-b0ea-417d-9d82-135b4b8e4db1</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadUUID</key>
+			<string>7c18e942-b0ea-417d-9d82-135b4b8e4db1</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDescription</key>
+	<string>Included custom settings:
+com.google.GoogleEarthPro
+
+Git revision: 1d30395cd4</string>
+	<key>PayloadDisplayName</key>
+	<string>Google Earth Pro</string>
+	<key>PayloadIdentifier</key>
+	<string>com.github.autopkg.nmcspadden-recipes.googleearthpro</string>
+	<key>PayloadOrganization</key>
+	<string></string>
+	<key>PayloadRemovalDisallowed</key>
+	<true/>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>87da2811-c40f-4447-9255-a636fb3995ac</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

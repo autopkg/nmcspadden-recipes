@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ -f /Library/Profiles/com.github.autopkg.nmcspadden-recipes.googleearthpro.mobileconfig ]]; then
+	/usr/bin/profiles -I -F /Library/Profiles/com.github.autopkg.nmcspadden-recipes.googleearthpro.mobileconfig
+else
+	exit 1
+fi
