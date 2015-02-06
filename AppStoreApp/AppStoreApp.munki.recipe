@@ -74,6 +74,8 @@
     			<string>%PATH%</string>
 	   			<key>destination_path</key>
     			<string>%RECIPE_CACHE_DIR%/%NAME%/%PATH%</string>
+    			<key>overwrite</key>
+    			<true/>
     		</dict>
     	</dict>
     	<dict>
