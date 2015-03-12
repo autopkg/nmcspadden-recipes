@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Oracle Java 8 JDK.</string>
+    <key>Identifier</key>
+    <string>com.github.nmcspadden.download.OracleJava8JDK</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>OracleJava8JDK</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Java SE Development Kit 8 a software development environment for building applications, applets, and components using the Java programming language. The JDK includes tools useful for developing and testing programs written in the Java programming language and running on the Java platform.</string>
+            <key>display_name</key>
+            <string>Oracle Java SE Development Kit 8</string>
+            <key>minimum_os_version</key>
+            <string>10.7.3</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>OracleJava8JDKURLProvider</string>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+            </dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+    </array>
+</dict>
+</plist>
