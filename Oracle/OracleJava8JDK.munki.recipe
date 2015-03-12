@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads latest release version of Oracle Java 8 JDK and imports into a Munki repository.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.munki.OracleJava8JDK</string>
+    <string>com.github.nmcspadden.OracleJava8JDK.munki</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -21,7 +21,7 @@
             <key>category</key>
             <string>Utility</string>
             <key>developer</key>
-            <string>Oracle</key>
+            <string>Oracle</string>
             <key>description</key>
             <string>The JDK is a development environment for building applications, applets, and components using the Java programming language. The JDK includes tools useful for developing and testing programs written in the Java programming language and running on the Java platform.</string>
             <key>display_name</key>
@@ -45,6 +45,44 @@
     <string>com.github.hansen-m.download.OracleJava8JDK</string>
     <key>Process</key>
     <array>
+        <dict>
+        	<key>Processor</key>
+        	<string>FlatPkgUnpacker</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>flat_pkg_path</key>
+        		<string>%pathname%/*.pkg</string>
+        		<key>destination_path</key>
+        		<string>%RECIPE_CACHE_DIR%/unpack</string>
+        	</dict>
+        </dict>
+        <dict>
+        	<key>Processor</key>
+        	<string>PkgPayloadUnpacker</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>pkg_payload_path</key>
+        		<string>%RECIPE_CACHE_DIR%/unpack/jdk18040.pkg/Payload</string>
+        		<key>destination_path</key>
+        		<string>%RECIPE_CACHE_DIR%/jdk</string>
+        		<key>purge_destination</key>
+        		<true/>
+        	</dict>
+        </dict>
+        <dict>
+        	<key>Processor</key>
+        	<string>PlistReader</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>info_path</key>
+        		<string>%RECIPE_CACHE_DIR%/jdk/Contents/Info.plist</string>
+        		<key>plist_keys</key>
+        		<dict>
+        			<key>CFBundleVersion</key>
+        			<string>version</string>
+        		</dict>
+        	</dict>
+        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
