@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Recipe stub for the Yo PostProcessor.
+    <string>Recipe stub for any Shared Processors in this directory.
     </string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.shared.yo</string>
+    <string>com.github.nmcspadden.shared</string>
     <key>Input</key>
     <dict/>
     <key>MinimumVersion</key>
