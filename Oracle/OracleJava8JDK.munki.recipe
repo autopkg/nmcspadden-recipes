@@ -26,6 +26,8 @@
             <string>The JDK is a development environment for building applications, applets, and components using the Java programming language. The JDK includes tools useful for developing and testing programs written in the Java programming language and running on the Java platform.</string>
             <key>display_name</key>
             <string>Oracle Java 8 development kit</string>
+        	<key>minimum_os_version</key>
+        	<string>10.7.4</string>
             <key>name</key>
             <string>%NAME%</string>
             <key>unattended_install</key>
@@ -58,11 +60,20 @@
         </dict>
         <dict>
         	<key>Processor</key>
+        	<string>FileFinder</string>
+        	<key>Arguments</key>
+        	<dict>
+        		<key>pattern</key>
+        		<string>%RECIPE_CACHE_DIR%/unpack/jdk*.pkg/Payload</string>
+        	</dict>
+        </dict>
+        <dict>
+        	<key>Processor</key>
         	<string>PkgPayloadUnpacker</string>
         	<key>Arguments</key>
         	<dict>
         		<key>pkg_payload_path</key>
-        		<string>%RECIPE_CACHE_DIR%/unpack/jdk18040.pkg/Payload</string>
+        		<string>%found_filename%</string>
         		<key>destination_path</key>
         		<string>%RECIPE_CACHE_DIR%/jdk</string>
         		<key>purge_destination</key>
