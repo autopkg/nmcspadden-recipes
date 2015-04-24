@@ -4,10 +4,11 @@ My own collection of recipes for Autopkg.
 
 ## AppStoreApp Recipe
 
-This recipe allows you to override it with an App Store app, optionally
-check your local downloaded copy for updates against the App Store, and
-then either directly import into Munki or package it up (and then import
-it into Munki).
+This recipe is designed to include an App Store app in Autopkg checks.  It optionally
+checks your local downloaded copy for updates against the App Store, and
+then either directly imports into Munki or packages it up (which can then be imported into Munki or any other package-based deployment system).
+
+**You must override this recipe for each App Store app you want to include.  This set of recipes does nothing useful by itself!**
 
 In order to benefit from the actual update check, you need to install
 [pyasn1][]. There are a couple of ways to do this [credit to [Timothy
@@ -49,19 +50,6 @@ What actually happens when you run the Munki recipe:
     you are running with at least one level of verbosity
     (`autopkg run -v MAS-Keynote.munki`), the version mismatch will be
     printed to the standard output.
-
-2.  **Check to see if we already processed this version.** It uses a
-    processor called LastVersionProvider that reads the receipt in the
-    AutoPkg cache to see if it successfully imported the same exact App
-    Store version previously. If it did so, it assumes that we don't
-    need to do anything because it's already in the repo and then aborts
-    the run (*last\_version == version* resolves to true).
-
-    -   *NOTE:* This may result in unexpected behavior if the
-        munkiimport operation fails, as the receipt left behind may
-        indicate a version number which the processor will assume was
-        correct. If you are not getting expected behavior here, delete
-        the Receipts folder for that recipe and run it again.
 
 3.  **Copy the app from /Applications into the cache directory.**
 
