@@ -19,13 +19,13 @@
 import os.path
 import FoundationPlist
 
-from autopkglib import ProcessorError
+from autopkglib import Processor, ProcessorError
 
 
 __all__ = ["UserPlistReader"]
 
 
-class UserPlistReader():
+class UserPlistReader(Processor):
     """Extracts values from top-level keys in a plist file, and assigns to
     arbitrary output variables. This is intended to be used on account plist
     files, which have a specific structure inside."""
