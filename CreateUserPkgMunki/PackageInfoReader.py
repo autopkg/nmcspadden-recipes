@@ -48,6 +48,7 @@ class PackageInfoReader(Processor):
 
 
     def main(self):
+    	path = self.env["info_path"]
         # Check whether this is at least a valid path
         if not os.path.exists(path):
             raise ProcessorError("Path '%s' doesn't exist!" % path)
@@ -62,14 +63,14 @@ class PackageInfoReader(Processor):
 
         # Copy each PackageInfo's key's value and assign to new env variables
         self.env["packageinfo_reader_output_variables"] = {}
-        for key in root.attrib:
+        for key in info.attrib:
             self.env["packageinfo_" + str(key)] = info.attrib.get(key)
             self.output(
                 "Assigning value of '%s' to output variable '%s'"
                 % (self.env["packageinfo_" + str(key)], info.attrib.get(key)))
             # This one is for documentation/recordkeeping
-            self.env["plist_reader_output_variables"]["packageinfo_" + str(key)] = (
-                self.env[info.attrib.get(key)])
+            self.env["packageinfo_reader_output_variables"]["packageinfo_" + str(key)] = (
+                self.env["packageinfo_" + str(key)])
      
 
 
