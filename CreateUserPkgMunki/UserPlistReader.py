@@ -17,17 +17,15 @@
 """See docstring for UserPlistReader class"""
 
 import os.path
-import glob
 import FoundationPlist
 
-from autopkglib.DmgMounter import DmgMounter
 from autopkglib import ProcessorError
 
 
 __all__ = ["UserPlistReader"]
 
 
-class UserPlistReader(DmgMounter):
+class UserPlistReader():
     """Extracts values from top-level keys in a plist file, and assigns to
     arbitrary output variables. This is intended to be used on account plist
     files, which have a specific structure inside."""
