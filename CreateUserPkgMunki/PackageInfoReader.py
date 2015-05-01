@@ -18,13 +18,13 @@
 import os.path
 import xml.etree.ElementTree as ET
 
-from autopkglib import ProcessorError
+from autopkglib import Processor, ProcessorError
 
 
 __all__ = ["PackageInfoReader"]
 
 
-class PackageInfoReader():
+class PackageInfoReader(Processor):
     """Extracts attributes from a PackageInfo file extracted from a flat package."""
 
     description = __doc__
@@ -60,15 +60,15 @@ class PackageInfoReader():
         except Error as err:
             raise ProcessorError(err)
 
-        # Copy each plist_keys' values and assign to new env variables
+        # Copy each PackageInfo's key's value and assign to new env variables
         self.env["packageinfo_reader_output_variables"] = {}
         for key in root.attrib:
-            self.env[key] = info.attrib.get(key)
+            self.env["packageinfo_" + str(key)] = info.attrib.get(key)
             self.output(
                 "Assigning value of '%s' to output variable '%s'"
-                % (self.env[key], info.attrib.get(key)))
+                % (self.env["packageinfo_" + str(key)], info.attrib.get(key)))
             # This one is for documentation/recordkeeping
-            self.env["plist_reader_output_variables"][key] = (
+            self.env["plist_reader_output_variables"]["packageinfo_" + str(key)] = (
                 self.env[info.attrib.get(key)])
      
 
