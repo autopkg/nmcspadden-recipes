@@ -111,17 +111,14 @@
 					<key>installcheck_script</key>
 					<string>#!/usr/bin/python
 import subprocess
-
-user_name = "/Users/" + %username%
-
-print user_name
-
+import sys
+user_name = "/Users/" + "%username%"
 cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
 
 if not subprocess.call(cmd):
 	# User does not exist on this system
-	return 0
-return 1
+	sys.exit(0)
+sys.exit(1)
 					</string>
 				</dict>
 			</dict>
