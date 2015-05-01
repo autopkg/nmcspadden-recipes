@@ -141,6 +141,9 @@ user_name = "/Users/" + "%username%"
 homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"])
 guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"])
 
+# need to convert homeDir to parse just the result
+# right now it's "NFSHomeDirectory: result"
+# same with guid
 if os.path.isdir(homeDir):
 	shutil.rmtree(homeDir)
 if os.path.exists("/private/var/db/dslocal/nodes/Default/users/%username%.plist"):
