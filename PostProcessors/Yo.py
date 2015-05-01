@@ -1,4 +1,4 @@
-#!/usr/bin/env/python
+#!/usr/bin/python
 #
 # Copyright 2015 Nick McSpadden
 #
@@ -44,7 +44,6 @@ class Yo(Processor):
     __doc__ = description
    
     def main(self):
-        # Determine type, hashed, username and password.
         was_imported = self.env.get("munki_repo_changed")
         munkiInfo = self.env.get("munki_info")
         yo_path = self.env.get("yo_path") or "/Applications/Utilities/yo.app"
