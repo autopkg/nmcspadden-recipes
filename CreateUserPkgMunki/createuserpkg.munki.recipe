@@ -141,9 +141,12 @@ user_name = "/Users/" + "%username%"
 homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"])
 guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"])
 
-shutil.rmtree(homeDir)
-os.remove("/private/var/db/dslocal/nodes/Default/users/%username%.plist")
-os.remove("/private/var/db/shadow/hash/%s" % guid)
+if os.path.isdir(homeDir):
+	shutil.rmtree(homeDir)
+if os.path.exists("/private/var/db/dslocal/nodes/Default/users/%username%.plist"):
+	os.remove("/private/var/db/dslocal/nodes/Default/users/%username%.plist")
+if os.path.exists("/private/var/db/shadow/hash/%s" % guid):
+	os.remove("/private/var/db/shadow/hash/%s" % guid)
 
 subprocess.call(["/usr/bin/dscl", "/Local/Default", "-delete", user_name])
 subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
