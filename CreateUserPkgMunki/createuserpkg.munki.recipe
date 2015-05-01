@@ -78,6 +78,16 @@
 			</dict>
 		</dict>
 		<dict>
+			<key>Processor</key>
+			<string>PackageInfoReader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>info_path</key>
+				<string>%RECIPE_CACHE_DIR%/unpack/PackageInfo</string>
+			</dict>
+		</dict>
+<!--
+		<dict>
 			<key>Arguments</key>
 			<dict>
 				<key>path_list</key>
@@ -99,6 +109,7 @@
 			<key>Processor</key>
 			<string>PathDeleter</string>
 		</dict>
+-->
 		<dict>
 			<key>Processor</key>
 			<string>MunkiPkginfoMerger</string>
@@ -108,18 +119,35 @@
 				<dict>
 					<key>display_name</key>
 					<string>Create User - %username%</string>
-					<key>installcheck_script</key>
+					<key>uninstall_method</key>
+					<string>uninstall_script</key>
+					<key>install_script</key>
 					<string>#!/usr/bin/python
 import subprocess
 import sys
 user_name = "/Users/" + "%username%"
 cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
 
-if not subprocess.call(cmd):
-	# User does not exist on this system
+if subprocess.call(cmd):
 	sys.exit(0)
 sys.exit(1)
 					</string>
+					<key>uninstall_script</key>
+					<string>#!/usr/bin/python
+import subprocess
+import shutil
+import os
+user_name = "/Users/" + "%username%"
+homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"])
+guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"])
+
+shutil.rmtree(homeDir)
+os.remove("/private/var/db/dslocal/nodes/Default/users/%username%.plist")
+os.remove("/private/var/db/shadow/hash/%s" % guid)
+
+subprocess.call(["/usr/bin/dscl", "/Local/Default", "-delete", user_name])
+subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
+				</string>
 				</dict>
 			</dict>
 		</dict>
