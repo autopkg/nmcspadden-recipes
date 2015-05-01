@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Takes an existing CreateUserPkg .pkg file and adds Munki-specific features.</string>
+    <key>Identifier</key>
+    <string>com.github.nmcspadden.munki.CreateUserPkg</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>users</string>
+        <key>NAME</key>
+        <string>CreateUserPkg</string>
+        <key>PKG_PATH</key>
+        <string>/Users/nmcspadden/Google\ Drive/Tools/Updates/Account\ Packages/CreateMunkiAccountPkg/create_test-1.0.pkg</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>display_name</key>
+            <string>Create User</string>
+            <key>minimum_os_version</key>
+            <string>10.7.0</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>installcheck_script</key>
+            <string>#!/usr/bin/python
+import subprocess
+
+user = %username%
+user_name = "/Users/" + user
+
+cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
+
+if not subprocess.call(cmd):
+	# User does not exist on this system
+	return 0
+return 1
+            </string>
+            <key>unattended_install</key>
+            <true/>
+		</dict>
+	</dict>
+	<key>Process</key>
+	<array>
+    	<dict>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>flat_pkg_path</key>
+    			<string>%PKG_PATH%</string>
+    			<key>destination_path</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack</string>
+    		</dict>
+    		<key>Processor</key>
+    		<string>FlatPkgUnpacker</string>
+    	</dict>
+    	<dict>
+    		<key>Processor</key>
+    		<string>PkgPayloadUnpacker</string>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>pkg_payload_path</key>
+    			<string>%RECIPE_CACHE_DIR%/unpack/Payload</string>
+    			<key>destination_path</key>
+    			<string>%RECIPE_CACHE_DIR%/payload</string>
+    			<key>purge_destination</key>
+    			<true/>
+    		</dict>
+    	</dict>
+    	<dict>
+    		<key>Processor</key>
+    		<string>FileFinder</string>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>pattern</key>
+    			<string>%RECIPE_CACHE_DIR%/payload/private/var/db/dslocal/nodes/Default/users/*.plist</string>
+    		</dict>
+    	</dict>
+    	<dict>
+    		<key>Processor</key>
+    		<string>PlistReader</string>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>info_path</key>
+    			<string>%found_filename%</string>
+    			<key>plist_keys</key>
+    			<dict>
+    				<key>name</key>
+    				<string>username</string>
+    			</dict>
+    		</dict>
+    	</dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+			<dict/>
+        </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/unpack</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+        </dict>
+         <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/payload</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+        </dict>
+       <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
