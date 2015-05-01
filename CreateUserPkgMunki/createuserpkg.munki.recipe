@@ -11,9 +11,9 @@
         <key>MUNKI_REPO_SUBDIR</key>
         <string>users</string>
         <key>NAME</key>
-        <string>CreateUserPkg</string>
+        <string>CreateUser</string>
         <key>PKG_PATH</key>
-        <string>/Users/nmcspadden/Google\ Drive/Tools/Updates/Account\ Packages/CreateMunkiAccountPkg/create_test-1.0.pkg</string>
+        <string>/Users/nmcspadden/Google Drive/Tools/Updates/Account Packages/CreateMunkiAccountPkg/create_test-1.0.pkg</string>
         <key>pkginfo</key>
         <dict>
             <key>catalogs</key>
@@ -94,12 +94,6 @@ return 1
     		</dict>
     	</dict>
         <dict>
-            <key>Processor</key>
-            <string>MunkiPkginfoMerger</string>
-			<key>Arguments</key>
-			<dict/>
-        </dict>
-        <dict>
             <key>Arguments</key>
             <dict>
                 <key>path_list</key>
@@ -125,7 +119,7 @@ return 1
             <key>Arguments</key>
             <dict>
                 <key>pkg_path</key>
-                <string>%pathname%</string>
+                <string>%PKG_PATH%</string>
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
             </dict>
