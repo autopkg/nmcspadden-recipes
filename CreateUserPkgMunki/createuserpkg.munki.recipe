@@ -120,8 +120,8 @@
 					<key>display_name</key>
 					<string>Create User - %username%</string>
 					<key>uninstall_method</key>
-					<string>uninstall_script</key>
-					<key>install_script</key>
+					<string>uninstall_script</string>
+					<key>installcheck_script</key>
 					<string>#!/usr/bin/python
 import subprocess
 import sys
