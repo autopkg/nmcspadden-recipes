@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Takes an existing CreateUserPkg .pkg file and adds Munki-specific features.</string>
+	<string>Takes an existing CreateUserPkg .pkg file and adds Munki-specific features. You should override the NAME and PKG_PATH variables.</string>
 	<key>Identifier</key>
 	<string>com.github.nmcspadden.munki.CreateUserPkg</string>
 	<key>Input</key>
@@ -13,15 +13,13 @@
 		<key>NAME</key>
 		<string>CreateUser</string>
 		<key>PKG_PATH</key>
-		<string>/Users/nmcspadden/Google Drive/Tools/Updates/Account Packages/CreateMunkiAccountPkg/create_test-1.0.pkg</string>
+		<string>/path/to/user_package.pkg</string>
 		<key>pkginfo</key>
 		<dict>
 			<key>catalogs</key>
 			<array>
 				<string>testing</string>
 			</array>
-			<key>display_name</key>
-			<string>Create User</string>
 			<key>minimum_os_version</key>
 			<string>10.7.0</string>
 			<key>name</key>
@@ -67,7 +65,7 @@
 		</dict>
 		<dict>
 			<key>Processor</key>
-			<string>PlistReader</string>
+			<string>UserPlistReader</string>
 			<key>Arguments</key>
 			<dict>
 				<key>info_path</key>
@@ -79,7 +77,6 @@
 				</dict>
 			</dict>
 		</dict>
-<!--
 		<dict>
 			<key>Arguments</key>
 			<dict>
@@ -102,7 +99,6 @@
 			<key>Processor</key>
 			<string>PathDeleter</string>
 		</dict>
--->
 		<dict>
 			<key>Processor</key>
 			<string>MunkiPkginfoMerger</string>
@@ -110,11 +106,15 @@
 			<dict>
 				<key>additional_pkginfo</key>
 				<dict>
+					<key>display_name</key>
+					<string>Create User - %username%</string>
 					<key>installcheck_script</key>
 					<string>#!/usr/bin/python
 import subprocess
 
-user_name = "/Users/" + str(%username%)
+user_name = "/Users/" + %username%
+
+print user_name
 
 cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
 
