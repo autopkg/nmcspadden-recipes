@@ -138,8 +138,8 @@ import subprocess
 import shutil
 import os
 user_name = "/Users/" + "%username%"
-homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"]).split(":")[1]
-guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"]).split(":")[1]
+homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"]).split(":")[1].strip()
+guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"]).split(":")[1].strip()
 
 # need to convert homeDir to parse just the result
 # right now it's "NFSHomeDirectory: result"
