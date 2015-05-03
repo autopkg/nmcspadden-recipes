@@ -86,30 +86,6 @@
 				<string>%RECIPE_CACHE_DIR%/unpack/PackageInfo</string>
 			</dict>
 		</dict>
-<!--
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>path_list</key>
-				<array>
-					<string>%RECIPE_CACHE_DIR%/unpack</string>
-				</array>
-			</dict>
-			<key>Processor</key>
-			<string>PathDeleter</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>path_list</key>
-				<array>
-					<string>%RECIPE_CACHE_DIR%/payload</string>
-				</array>
-			</dict>
-			<key>Processor</key>
-			<string>PathDeleter</string>
-		</dict>
--->
 		<dict>
 			<key>Processor</key>
 			<string>MunkiPkginfoMerger</string>
