@@ -141,17 +141,18 @@ user_name = "/Users/" + "%username%"
 homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"]).split(":")[1].strip()
 guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"]).split(":")[1].strip()
 
-# need to convert homeDir to parse just the result
-# right now it's "NFSHomeDirectory: result"
-# same with guid
+subprocess.call(["/usr/bin/dscl", "/Local/Default", "-delete", user_name])
+
 if os.path.isdir(homeDir):
+	print "Removing home directory: %s" % homeDir
 	shutil.rmtree(homeDir)
 if os.path.exists("/private/var/db/dslocal/nodes/Default/users/%username%.plist"):
+	print "Removing user account plist."
 	os.remove("/private/var/db/dslocal/nodes/Default/users/%username%.plist")
 if os.path.exists("/private/var/db/shadow/hash/%s" % guid):
+	print "Removing user password hash."
 	os.remove("/private/var/db/shadow/hash/%s" % guid)
 
-subprocess.call(["/usr/bin/dscl", "/Local/Default", "-delete", user_name])
 subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
 				</string>
 				</dict>
@@ -168,6 +169,30 @@ subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
 			<key>Processor</key>
 			<string>MunkiImporter</string>
 		</dict>
+<!--
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/unpack</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/payload</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+		</dict>
+-->
 	</array>
 </dict>
 </plist>
