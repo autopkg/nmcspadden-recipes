@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Takes an existing CreateUserPkg .pkg file and adds Munki-specific features. You should override the NAME and PKG_PATH variables.</string>
+	<key>Identifier</key>
+	<string>com.github.nmcspadden.munki.CreateUserPkg</string>
+	<key>Input</key>
+	<dict>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>users</string>
+		<key>NAME</key>
+		<string>CreateUser</string>
+		<key>PKG_PATH</key>
+		<string>/path/to/user_package.pkg</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>minimum_os_version</key>
+			<string>10.7.0</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>unattended_install</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>flat_pkg_path</key>
+				<string>%PKG_PATH%</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/unpack</string>
+			</dict>
+			<key>Processor</key>
+			<string>FlatPkgUnpacker</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>PkgPayloadUnpacker</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_payload_path</key>
+				<string>%RECIPE_CACHE_DIR%/unpack/Payload</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/payload</string>
+				<key>purge_destination</key>
+				<true/>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>FileFinder</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pattern</key>
+				<string>%RECIPE_CACHE_DIR%/payload/private/var/db/dslocal/nodes/Default/users/*.plist</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>UserPlistReader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>info_path</key>
+				<string>%found_filename%</string>
+				<key>plist_keys</key>
+				<dict>
+					<key>name</key>
+					<string>username</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>PackageInfoReader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>info_path</key>
+				<string>%RECIPE_CACHE_DIR%/unpack/PackageInfo</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+			<key>Arguments</key>
+			<dict>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>display_name</key>
+					<string>Create User - %username%</string>
+					<key>uninstall_method</key>
+					<string>uninstall_script</string>
+					<key>installcheck_script</key>
+					<string>#!/usr/bin/python
+import subprocess
+import sys
+import os
+user_name = "/Users/" + "%username%"
+cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
+fnull = open(os.devnull, 'w')
+if subprocess.call(cmd, stdout=fnull):
+	print "%username% needs to be installed."
+	sys.exit(0)
+print "%username% is installed."
+sys.exit(1)
+					</string>
+					<key>uninstallcheck_script</key>
+					<string>#!/bin/bash
+currentUser=$(ls -la /dev/console | awk '{print $3}')
+if [[ $currentUser == "%username%" ]]; then
+	echo "Cannot remove currently logged in user!"
+	exit 1
+fi
+exit 0
+					</string>
+					<key>uninstall_script</key>
+					<string>#!/usr/bin/python
+import subprocess
+import shutil
+import os
+user_name = "/Users/" + "%username%"
+homeDir = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "NFSHomeDirectory"]).split(":")[1].strip()
+guid = subprocess.check_output(["/usr/bin/dscl", "/Local/Default", "-read", user_name, "GeneratedUID"]).split(":")[1].strip()
+
+subprocess.call(["/usr/bin/dscl", "/Local/Default", "-delete", user_name])
+
+if os.path.isdir(homeDir):
+	print "Removing home directory: %s" % homeDir
+	shutil.rmtree(homeDir)
+if os.path.exists("/private/var/db/dslocal/nodes/Default/users/%username%.plist"):
+	print "Removing user account plist."
+	os.remove("/private/var/db/dslocal/nodes/Default/users/%username%.plist")
+if os.path.exists("/private/var/db/shadow/hash/%s" % guid):
+	print "Removing user password hash."
+	os.remove("/private/var/db/shadow/hash/%s" % guid)
+
+subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
+				</string>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%PKG_PATH%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+<!--
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/unpack</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/payload</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+		</dict>
+-->
+	</array>
+</dict>
+</plist>
