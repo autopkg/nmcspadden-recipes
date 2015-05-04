@@ -101,12 +101,24 @@
 					<string>#!/usr/bin/python
 import subprocess
 import sys
+import os
 user_name = "/Users/" + "%username%"
 cmd = (["/usr/bin/dscl", "/Local/Default", "-read", user_name])
-
-if subprocess.call(cmd):
+fnull = open(os.devnull, 'w')
+if subprocess.call(cmd, stdout=fnull):
+	print "%username% needs to be installed."
 	sys.exit(0)
+print "%username% is installed."
 sys.exit(1)
+					</string>
+					<key>uninstallcheck_script</key>
+					<string>#!/bin/bash
+currentUser=$(ls -la /dev/console | awk '{print $3}')
+if [[ $currentUser == "%username%" ]]; then
+	echo "Cannot remove currently logged in user!"
+	exit 1
+fi
+exit 0
 					</string>
 					<key>uninstall_script</key>
 					<string>#!/usr/bin/python
