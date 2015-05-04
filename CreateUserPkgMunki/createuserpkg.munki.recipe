@@ -157,7 +157,6 @@ subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
 			<key>Processor</key>
 			<string>MunkiImporter</string>
 		</dict>
-<!--
 		<dict>
 			<key>Arguments</key>
 			<dict>
@@ -180,7 +179,6 @@ subprocess.call(["/usr/sbin/pkgutil", "--forget", "%packageinfo_identifier%"])
 			<key>Processor</key>
 			<string>PathDeleter</string>
 		</dict>
--->
 	</array>
 </dict>
 </plist>
