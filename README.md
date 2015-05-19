@@ -17,10 +17,11 @@ Sutton][] for the suggestions]:
 -   `pip install --user git+https://github.com/geertj/python-asn1.git#egg=pyasn1`
     which will install in the user's Python library, which is by default
     part of the search path on OS X. This will need to be run from the
-    same user account that runs Autopkg.
+    same user account that runs Autopkg. *This is the recommended way.*
 
 -   Since pip is not a standard part of OS X, you can instead use
     `easy_install`:
+    -	`mkdir ~/Library/Python/2.7/lib/python/site-packages`
 
     -   `easy_install --install-dir="$HOME/Library/Python/2.7/lib/python/site-packages" https://github.com/geertj/python-asn1/archive/master.zip`
 
