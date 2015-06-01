@@ -17,42 +17,61 @@
 	<string>com.github.autopkg.nmcspadden-recipes.download.google-earth-pro</string>
 	<key>Process</key>
 	<array>
-		<dict>
-			<key>Processor</key>
-			<string>AppDmgVersioner</string>
-			<key>Arguments</key>
-			<dict>
-				<key>dmg_path</key>
-				<string>%pathname%</string>
-			</dict>
-		</dict>
-		<dict>
-			<key>Processor</key>
-			<string>PkgRootCreator</string>
-			<key>Arguments</key>
-			<dict>
-				<key>pkgroot</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-				<key>pkgdirs</key>
-				<dict>
-					<key>Applications</key>
-					<string>0775</string>
-					<key>Library</key>
-					<string>0755</string>
-				</dict>
-			</dict>
-		</dict>
-		<dict>
-			<key>Processor</key>
-			<string>Copier</string>
-			<key>Arguments</key>
-			<dict>
-				<key>source_path</key>
-				<string>%pathname%/Google Earth Pro.app</string>
-				<key>destination_path</key>
-				<string>%pkgroot%/Applications/Google Earth Pro.app</string>
-			</dict>
-		</dict>
+        <!-- Make a fake pkg root -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgroot</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/root</string>
+                <key>pkgdirs</key>
+                <dict>
+                    <key>Applications</key>
+                    <string>0775</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>PkgRootCreator</string>
+        </dict>
+        <!-- Expand packages into fake root -->
+        <dict>
+            <key>Processor</key>
+            <string>FlatPkgUnpacker</string>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/expanded</string>
+                <key>flat_pkg_path</key>
+                <string>%pathname%/Install Google Earth.pkg</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/root/Applications</string>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%/expanded/Google_Earth_Pro.pkg/Payload</string>
+            </dict>
+        </dict>
+        <!-- Extract a version from Google Earth.app -->
+        <dict>
+            <key>Processor</key>
+            <string>PlistReader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>info_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/root/Applications/Google Earth Pro.app/Contents/Info.plist</string>
+                <key>plist_keys</key>
+                <dict>
+                    <key>CFBundleVersion</key>
+                    <string>version</string>
+                    <key>CFBundleIdentifier</key>
+                    <string>bundleid</string>
+                </dict>
+            </dict>
+        </dict>
 		<dict>
 			<key>Processor</key>
 			<string>PkgCreator</string>
@@ -63,7 +82,7 @@
 				<key>pkg_request</key>
 				<dict>
 					<key>pkgdir</key>
-					<string>%RECIPE_CACHE_DIR%</string>
+					<string>%RECIPE_CACHE_DIR%/</string>
 					<key>id</key>
 					<string>%bundleid%</string>
 					<key>options</key>
@@ -91,7 +110,9 @@
 			<dict>
 				<key>path_list</key>
 				<array>
-					<string>%pkgroot%</string>
+					<string>%RECIPE_CACHE_DIR%/unpack</string>
+					<string>%RECIPE_CACHE_DIR%/expanded</string>
+					<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
 				</array>
 			</dict>
 		</dict>
