@@ -46,8 +46,6 @@
                     <string>0775</string>
                     <key>Library</key>
                     <string>0775</string>
-                    <key>Library/Internet Plug-Ins</key>
-                    <string>0775</string>
                 </dict>
             </dict>
             <key>Processor</key>
@@ -111,6 +109,18 @@
             <key>Processor</key>
             <string>MunkiImporter</string>
         </dict>
+		<dict>
+			<key>Processor</key>
+			<string>PathDeleter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>path_list</key>
+				<array>
+					<string>%RECIPE_CACHE_DIR%/unpack</string>
+					<string>%RECIPE_CACHE_DIR%/expanded</string>
+				</array>
+			</dict>
+		</dict>
     </array>
 </dict>
 </plist>
