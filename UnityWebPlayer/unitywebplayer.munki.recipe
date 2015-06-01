@@ -32,7 +32,7 @@
 		</dict>
 	</dict>
     <key>ParentRecipe</key>
-    <string>unitywebplayer.download.recipe</string>
+    <string>com.github.nmcspadden.download.UnityWebPlayer</string>
    <key>Process</key>
     <array>
     	<dict>
