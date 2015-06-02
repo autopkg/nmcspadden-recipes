@@ -110,7 +110,6 @@
 				<array>
 					<string>%RECIPE_CACHE_DIR%/unpack</string>
 					<string>%RECIPE_CACHE_DIR%/expanded</string>
-					<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
 				</array>
 			</dict>
 		</dict>
