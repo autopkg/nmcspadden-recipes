@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest Chef Client for Mac version.</string>
+    <string>Downloads the latest Chef DK for Mac version.</string>
     <key>Identifier</key>
-    <string>com.github.autopkg.download.ChefClient</string>
+    <string>com.github.autopkg.download.chefdk</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -13,23 +13,23 @@
         <key>OS</key>
         <string>10.11</string>
         <key>URL</key>
-        <string>https://downloads.chef.io/chef-client/mac/</string>
+        <string>https://downloads.chef.io/chef-dk/mac/</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>Process</key>
     <array>
-        <dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>%URL%</string>
+    	<dict>
+    		<key>Processor</key>
+    		<string>URLTextSearcher</string>
+    		<key>Arguments</key>
+    		<dict>
+    			<key>url</key>
+    			<string>%URL%</string>
                 <key>re_pattern</key>
-                <string>(mac_os_x\/%OS%\/x86_64\/chef-(.*?)\.dmg)</string>
-            </dict>
-        </dict>
+                <string>(mac_os_x\/%OS%\/x86_64\/chefdk-(.*?)\.dmg)</string>
+    		</dict>
+    	</dict>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
