@@ -27,7 +27,7 @@
                 <key>url</key>
                 <string>%URL%</string>
                 <key>re_pattern</key>
-                <string>(mac_os_x\/%OS%\/x86_64\/chef-(.*?)\.dmg)</string>
+                <string>(mac_os_x\/%OS%\/chef-(.*?)\.dmg)</string>
             </dict>
         </dict>
         <dict>
@@ -38,7 +38,7 @@
                 <key>filename</key>
                 <string>%NAME%.dmg</string>
                 <key>url</key>
-                <string>https://opscode-omnibus-packages.s3.amazonaws.com/%match%</string>
+                <string>https://packages.chef.io/stable/%match%</string>
             </dict>
         </dict>
         <dict>
