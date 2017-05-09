@@ -32,6 +32,17 @@
 	<string>com.github.nmcspadden.pkg.appstore</string>
 	<key>Process</key>
     <array>
+	<dict>
+		<key>Processor</key>
+		<string>Versioner</string>
+		<key>Arguments</key>
+		<dict>
+			<key>input_plist_path</key>
+			<string>/Applications/%NAME%.app/Contents/Info.plist</string>
+			<key>plist_version_key</key>
+			<string>LSMinimumSystemVersion</string>
+		</dict>
+	</dict>
     	<dict>
     		<key>Processor</key>
     		<string>MunkiPkginfoMerger</string>
@@ -43,6 +54,8 @@
 					<array>
 						<string>%NAME%</string>
 					</array>
+					<key>minimum_os_version</key>
+					<string>%version%</string>
 				</dict>	
 			</dict>
 		</dict>
@@ -73,21 +86,6 @@
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
             </dict>
-        </dict>
-        <dict>
-        	<key>Comment</key>
-        	<string>Clean up after ourselves</string>
-        	<key>Processor</key>
-        	<string>PathDeleter</string>
-        	<key>Arguments</key>
-        	<dict>
-        		<key>path_list</key>
-        		<array>
-        			<string>%RECIPE_CACHE_DIR%/%NAME%/%PATH%</string>
-        			<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-        			<string>%RECIPE_CACHE_DIR%/PackageInfo</string>
-        		</array>
-        	</dict>
         </dict>
     </array>
 </dict>
