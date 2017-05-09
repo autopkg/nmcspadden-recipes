@@ -60,7 +60,7 @@
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/expanded</string>
                 <key>flat_pkg_path</key>
-                <string>%pathname%/Install Google Earth.pkg</string>
+                <string>%pathname%/Install Google Earth*.pkg</string>
             </dict>
         </dict>
         <dict>
