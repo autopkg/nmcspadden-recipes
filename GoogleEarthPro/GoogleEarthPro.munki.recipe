@@ -30,10 +30,10 @@
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
-	<key>ParentRecipe</key>
-	<string>com.github.autopkg.nmcspadden-recipes.download.google-earth-pro</string>
+    <key>ParentRecipe</key>
+    <string>com.github.autopkg.nmcspadden-recipes.download.google-earth-pro</string>
     <key>Process</key>
-	<array>
+    <array>
         <!-- Make a fake pkg root -->
         <dict>
             <key>Arguments</key>
@@ -97,7 +97,24 @@
             </dict>
             <key>Processor</key>
             <string>MunkiPkginfoMerger</string>
-        </dict>        
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiInstallsItemsCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>installs_item_paths</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/unpack/root/Applications/Google Earth Pro.app</string>
+                </array>
+                <key>version_comparison_key</key>
+                <string>CFBundleVersion</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
         <dict>
             <key>Arguments</key>
             <dict>
@@ -109,18 +126,18 @@
             <key>Processor</key>
             <string>MunkiImporter</string>
         </dict>
-		<dict>
-			<key>Processor</key>
-			<string>PathDeleter</string>
-			<key>Arguments</key>
-			<dict>
-				<key>path_list</key>
-				<array>
-					<string>%RECIPE_CACHE_DIR%/unpack</string>
-					<string>%RECIPE_CACHE_DIR%/expanded</string>
-				</array>
-			</dict>
-		</dict>
+        <dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/unpack</string>
+                    <string>%RECIPE_CACHE_DIR%/expanded</string>
+                </array>
+            </dict>
+        </dict>
     </array>
 </dict>
 </plist>
