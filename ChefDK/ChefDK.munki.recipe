@@ -9,9 +9,9 @@
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>Chef</string>
+        <string>ChefDK</string>
         <key>OS</key>
-        <string>10.11</string>
+        <string>10.12</string>
         <key>MUNKI_REPO_SUBDIR</key>
         <string>apps/%NAME%</string>
         <key>pkginfo</key>
@@ -25,7 +25,7 @@
             <key>developer</key>
             <string>Opscode</string>
             <key>display_name</key>
-            <string>Chef DK</string>
+            <string>Chef Development Kit</string>
             <key>name</key>
             <string>%NAME%</string>
             <key>unattended_install</key>

@@ -2,56 +2,55 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Description</key>
-  <string>Downloads the latest Chef DK for Mac version.</string>
-  <key>Identifier</key>
-  <string>com.github.autopkg.download.ChefDK</string>
-  <key>Input</key>
-  <dict>
-    <key>OS</key>
-    <string>10.12</string>
-    <key>URL</key>
-    <string>https://downloads.chef.io/chefdk</string>
-    <key>REGEX</key>
-    <string>(https:&amp;#x2F;&amp;#x2F;packages\.chef\.io&amp;#x2F;files&amp;#x2F;stable&amp;#x2F;chefdk&amp;#x2F;[.\d]+&amp;#x2F;mac_os_x&amp;#x2F;[.\d]+&amp;#x2F;chefdk-(.*?).dmg)</string>
-  </dict>
-  <key>MinimumVersion</key>
-  <string>0.6.0</string>
-  <key>Process</key>
-  <array>
+    <key>Description</key>
+    <string>Downloads the latest Chef DK for Mac version.</string>
+    <key>Identifier</key>
+    <string>com.facebook.autopkg.download.chefdk</string>
+    <key>Input</key>
     <dict>
-      <key>Processor</key>
-      <string>URLTextSearcher</string>
-      <key>Arguments</key>
-      <dict>
-        <key>url</key>
-        <string>%URL%</string>
-        <key>re_pattern</key>
-        <string>%REGEX%</string>
-      </dict>
+        <key>NAME</key>
+        <string>Chef</string>
+        <key>OS</key>
+        <string>10.12</string>
+        <key>CHEF_VERSION</key>
+        <string>latest</string>
+        <key>URL</key>
+        <string>https://omnitruck.chef.io/stable/chefdk/download?p=mac_os_x&amp;pv=10.12&amp;m=x86_64&amp;v=%CHEF_VERSION%</string>
     </dict>
-    <dict>
-      <key>Processor</key>
-      <string>URLUnescaper</string>
-      <key>Arguments</key>
-      <dict>
-        <key>escaped_url</key>
-        <string>%match%</string>
-      </dict>
-    </dict>
-    <dict>
-      <key>Processor</key>
-      <string>URLDownloader</string>
-      <key>Arguments</key>
-      <dict>
-        <key>url</key>
-        <string>%url%</string>
-      </dict>
-    </dict>
-    <dict>
-      <key>Processor</key>
-      <string>EndOfCheckPhase</string>
-    </dict>
-  </array>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>filename</key>
+                <string>%NAME%.dmg</string>
+                <key>url</key>
+                <string>%URL%</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>   
+            <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>   
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/chef*.pkg</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+    </array>
 </dict>
 </plist>

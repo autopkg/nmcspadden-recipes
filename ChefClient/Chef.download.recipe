@@ -11,25 +11,16 @@
         <key>NAME</key>
         <string>Chef</string>
         <key>OS</key>
-        <string>10.11</string>
+        <string>10.12</string>
+        <key>CHEF_VERSION</key>
+        <string>latest</string>
         <key>URL</key>
-        <string>https://downloads.chef.io/chef-client/mac/</string>
+        <string>https://omnitruck.chef.io/stable/chef/download?p=mac_os_x&amp;pv=10.12&amp;m=x86_64&amp;v=%CHEF_VERSION%</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>Process</key>
     <array>
-        <dict>
-            <key>Processor</key>
-            <string>URLTextSearcher</string>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>%URL%</string>
-                <key>re_pattern</key>
-                <string>(mac_os_x\/%OS%\/chef-(.*?)\.dmg)</string>
-            </dict>
-        </dict>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
@@ -38,7 +29,22 @@
                 <key>filename</key>
                 <string>%NAME%.dmg</string>
                 <key>url</key>
-                <string>https://packages.chef.io/stable/%match%</string>
+                <string>%URL%</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>   
+            <string>CodeSignatureVerifier</string>   
+            <key>Arguments</key>   
+            <dict>   
+                <key>input_path</key>   
+                <string>%pathname%/chef*.pkg</string>
+                <key>expected_authority_names</key>
+                <array>
+                    <string>Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)</string>
+                    <string>Developer ID Certification Authority</string>
+                    <string>Apple Root CA</string>
+                </array>
             </dict>
         </dict>
         <dict>
