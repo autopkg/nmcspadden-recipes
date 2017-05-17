@@ -2,6 +2,8 @@
 
 My own collection of recipes for Autopkg.
 
+**NOTE: Several recipes are deprecated are left purely for historical reasons.**
+
 ## AppStoreApp Recipe
 
 This recipe is designed to include an App Store app in Autopkg checks.  It optionally
