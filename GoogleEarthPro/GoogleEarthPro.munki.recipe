@@ -103,9 +103,11 @@
             <string>MunkiInstallsItemsCreator</string>
             <key>Arguments</key>
             <dict>
+                <key>faux_root</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/root</string>
                 <key>installs_item_paths</key>
                 <array>
-                    <string>%RECIPE_CACHE_DIR%/unpack/root/Applications/Google Earth Pro.app</string>
+                    <string>/Applications/Google Earth Pro.app</string>
                 </array>
                 <key>version_comparison_key</key>
                 <string>CFBundleVersion</string>
