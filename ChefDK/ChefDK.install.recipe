@@ -8,6 +8,11 @@
     <string>com.bk.autopkg.install.chefdk</string>
     <key>Input</key>
     <dict>
+        <key>DESTINATION_PATH</key>
+        <string>/Applications/</string>
+    </dict>
+    <key>Input</key>
+    <dict>
         <key>NAME</key>
         <string>ChefDK</string>
     </dict>
@@ -19,11 +24,20 @@
     <array>
         <dict>
             <key>Processor</key>
-            <string>Installer</string>
+            <string>InstallFromDMG</string>
             <key>Arguments</key>
             <dict>
-                <key>pkg_path</key>
-                <string>%pathname%/chef*.pkg</string>
+                <key>dmg_path</key>
+                <string>%pathname%</string>
+                <key>items_to_copy</key>
+                <array>
+                    <dict>
+                        <key>source_item</key>
+                        <string>chefdk*.dmg</string>
+                        <key>destination_path</key>
+                        <string>%DESTINATION_PATH%</string>
+                    </dict>
+                </array>
             </dict>
         </dict>
     </array>
