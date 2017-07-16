@@ -16,26 +16,12 @@
     <key>MinimumVersion</key>
     <string>0.2.9</string>
     <key>ParentRecipe</key>
-    <string>com.facebook.autopkg.download.chefdk</string>
+    <string>com.bk.autopkg.pkg.chefdk</string>
     <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
-            <string>InstallFromDMG</string>
-            <key>Arguments</key>
-            <dict>
-                <key>dmg_path</key>
-                <string>%pathname%</string>
-                <key>items_to_copy</key>
-                <array>
-                    <dict>
-                        <key>source_item</key>
-                        <string>%DESTINATION_PATH%/chef*.pkg</string>
-                        <key>destination_path</key>
-                        <string>%DESTINATION_PATH%</string>
-                    </dict>
-                </array>
-            </dict>
+            <string>Installer</string>
         </dict>
     </array>
 </dict>
