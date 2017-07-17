@@ -25,7 +25,7 @@
             <key>Arguments</key>
               <dict>
                 <key>pkg_path</key>
-                <string>%pathname%/chef*.pkg</string>
+                <string>%input_path%</string>
               </dict>
         </dict>
     </array>
