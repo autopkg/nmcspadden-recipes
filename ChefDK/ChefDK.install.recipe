@@ -22,8 +22,11 @@
         <dict>
             <key>Processor</key>
             <string>Installer</string>
-            <key>pkg_path</key>
-            <string>%pathname%/chef*.pkg</string>
+            <key>Arguments</key>
+              <dict>
+                <key>pkg_path</key>
+                <string>%pathname%/chef*.pkg</string>
+              </dict>
         </dict>
     </array>
 </dict>
