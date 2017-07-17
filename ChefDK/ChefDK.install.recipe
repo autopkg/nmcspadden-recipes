@@ -16,7 +16,7 @@
     <key>MinimumVersion</key>
     <string>0.2.9</string>
     <key>ParentRecipe</key>
-    <string>ChefDK.pkg.recipe</string>
+    <string>ChefDK.download.recipe</string>
     <key>Process</key>
     <array>
         <dict>
