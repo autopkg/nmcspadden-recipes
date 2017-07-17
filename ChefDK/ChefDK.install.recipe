@@ -23,7 +23,7 @@
             <key>Processor</key>
             <string>Installer</string>
             <key>pkg_path</key>
-            <string>%pkgroot%/Applications/%app_name%</string>
+            <string>%pathname%/chef*.pkg</string>
         </dict>
     </array>
 </dict>
