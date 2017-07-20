@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads ChefClient installer and installs it.</string>
+    <key>Identifier</key>
+    <string>com.bk.autopkg.install.chefclient</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>ChefClient</string>
+        <key>DESTINATION_PATH</key>
+        <string>/Applications/</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.9</string>
+    <key>ParentRecipe</key>
+    <string>Chef.download.recipe</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>Installer</string>
+            <key>Arguments</key>
+              <dict>
+                <key>pkg_path</key>
+                <string>%input_path%</string>
+              </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
