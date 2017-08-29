@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads the latest Chef DK for Mac version.</string>
     <key>Identifier</key>
-    <string>com.facebook.autopkg.download.chefdk</string>
+    <string>com.github.autopkg.download.chefdk</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
