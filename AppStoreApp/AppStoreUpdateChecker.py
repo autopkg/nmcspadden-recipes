@@ -17,7 +17,6 @@
 from __future__ import absolute_import
 import urllib2
 import plistlib
-import sys
 
 from autopkglib import Processor, ProcessorError
 from Foundation import NSData, NSPropertyListSerialization, NSPropertyListMutableContainers
@@ -135,14 +134,14 @@ def unwind(input):
 
 def extract_data(asn1_seq):
     ret_val = []
-    for i,x in enumerate(asn1_seq):
-        if (type(x) is tuple):
+    for i, x in enumerate(asn1_seq):
+        if isinstance(x, tuple):
             if len(x) == 3:
                 if x[2] == '1.2.840.113549.1.7.1':
                     ret_val.append(asn1_seq[i+2][0][2])
-        elif (type(x) is list):
+        elif isinstance(x, list):
             sub_val = extract_data(x)
-            if (type(sub_val) is list):
+            if isinstance(sub_val, list):
                 ret_val.extend(sub_val)
             else:
                 ret_val.append(sub_val)
@@ -152,7 +151,7 @@ def extract_data(asn1_seq):
 
 def parse_receipt(rec):
     ret_val = []
-    for y in [z for z in rec if type(z) is list]:
+    for y in [z for z in rec if isinstance(z, list)]:
         try:
             dec = asn1.Decoder()
             dec.start(y[2][2])
@@ -272,7 +271,7 @@ class AppStoreUpdateChecker(Processor):
 
         plistpath = os.path.join(path, "Contents", "Info.plist")
         if not (os.path.isfile(plistpath)):
-			raise ProcessorError("File does not exist: %s" % plistpath)
+            raise ProcessorError("File does not exist: %s" % plistpath)
         info, format, error = \
             NSPropertyListSerialization.propertyListFromData_mutabilityOption_format_errorDescription_(
                 NSData.dataWithContentsOfFile_(plistpath),
@@ -307,7 +306,7 @@ class AppStoreUpdateChecker(Processor):
                 decoded_receipt = get_app_receipt(app_item)
             except IOError as e:
                 raise ProcessorError("Invalid path %s: %s" % (app_item, e))
-            details = { t.type: t.value for t in decoded_receipt }
+            details = {t.type: t.value for t in decoded_receipt}
             app_dict['CFBundleIdentifier'] = details['Bundle Identifier']
             app_dict['installed-version-identifier'] = int(details['App Store Installer Version ID'])
             app_dict['adam-id'] = details['Product ID']
@@ -340,4 +339,3 @@ class AppStoreUpdateChecker(Processor):
 if __name__ == '__main__':
     processor = AppStoreUpdateChecker()
     processor.execute_shell()
-
