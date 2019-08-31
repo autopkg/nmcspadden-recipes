@@ -17,6 +17,7 @@
 # I would just like to state, for the record, I am fully aware of how awful this script is.
 # I will eventually fix it to make it much more robust, but it's more of a "get-it-done" kind of solution.
 
+from __future__ import absolute_import
 import subprocess
 from autopkglib import Processor, ProcessorError
 

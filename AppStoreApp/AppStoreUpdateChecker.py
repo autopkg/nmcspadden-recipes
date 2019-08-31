@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import
 import urllib2
 import plistlib
 import sys
@@ -223,7 +224,7 @@ def check_app_updates(app_info_list, raw_result=False):
     response_handle = urllib2.urlopen(request)
     try:
         response = response_handle.read()
-    except HTTPError, e:
+    except HTTPError as e:
         raise ProcessorError("Invalid adam-id %s" % e)
     response_handle.close()
     # Currently returning the raw response
@@ -304,7 +305,7 @@ class AppStoreUpdateChecker(Processor):
                 return
             try:
                 decoded_receipt = get_app_receipt(app_item)
-            except IOError, e:
+            except IOError as e:
                 raise ProcessorError("Invalid path %s: %s" % (app_item, e))
             details = { t.type: t.value for t in decoded_receipt }
             app_dict['CFBundleIdentifier'] = details['Bundle Identifier']
@@ -317,7 +318,7 @@ class AppStoreUpdateChecker(Processor):
         app_details.append(app_dict)
         try:
             item_details = check_app_updates(app_details)
-        except urllib2.HTTPError, e:
+        except urllib2.HTTPError as e:
             raise ProcessorError("Invalid adam-id %s: %s" % (app_item, e))
         # If item_details contains a key 'incompatible-items', it means the version we have is not up to date.
         # So now we can check for the presence of 'incompatible-items' and then report that there's an update available with a specific version
