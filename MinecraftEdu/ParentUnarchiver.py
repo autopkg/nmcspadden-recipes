@@ -98,8 +98,8 @@ class ParentUnarchiver(Processor):
 
         # convert relative path into absolute path by stealing code from PkgCreator
         if archive_path and not archive_path.startswith("/"):
-                    # search for it
-                    archive_path = self.find_path_for_relpath(archive_path)
+            # search for it
+            archive_path = self.find_path_for_relpath(archive_path)
 
 
         destination_path = self.env.get("destination_path",
@@ -130,9 +130,9 @@ class ParentUnarchiver(Processor):
                         os.path.basename(archive_path))
             self.output("Guessed archive format '%s' from filename %s" %
                         (fmt, os.path.basename(archive_path)))
-        elif fmt not in EXTNS.keys():
+        elif fmt not in EXTNS:
             raise ProcessorError("'%s' is not valid for the 'archive_format' variable. Must be one of %s." %
-                                (fmt, ", ".join(EXTNS.keys())))
+                                (fmt, ", ".join(EXTNS)))
 
         if fmt == "zip":
             cmd = ["/usr/bin/ditto",
