@@ -24,44 +24,42 @@ from autopkglib import Processor, ProcessorError
 __all__ = ["LZMADecompress"]
 
 class LZMADecompress(Processor):
-	description = "Decompresses an LZMA file using xz, a precompiled binary for OS X 10.5+."
-	input_variables = {
-		"lzma_file": {
-			"required": True,
-			"description": ("Path to .lzma file."),
-		},
-		"decompressor": {
-			"required": True,
-			"description": ("Path to xz binary."),
-		}
-	}
-	output_variables = {
-	}
+    description = "Decompresses an LZMA file using xz, a precompiled binary for OS X 10.5+."
+    input_variables = {
+        "lzma_file": {
+            "required": True,
+            "description": ("Path to .lzma file."),
+        },
+        "decompressor": {
+            "required": True,
+            "description": ("Path to xz binary."),
+        }
+    }
+    output_variables = {
+    }
 
-	__doc__ = description
+    __doc__ = description
 
-	def decompress_the_file(self):
-		file = self.env.get("lzma_file")
-		if not file:
-			raise ProcessorError("lzma_file not found: %s" % (file))
-		xz = self.env.get("decompressor")
-		if not xz:
-			raise ProcessorError("xz binary not found: %s" % (xz))
-		cmd = [xz,'-k','--format=lzma','--decompress',file]
-		proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		(output, errors) = proc.communicate()
-		return errors      
+    def decompress_the_file(self):
+        file = self.env.get("lzma_file")
+        if not file:
+            raise ProcessorError("lzma_file not found: %s" % (file))
+        xz = self.env.get("decompressor")
+        if not xz:
+            raise ProcessorError("xz binary not found: %s" % (xz))
+        cmd = [xz,'-k','--format=lzma','--decompress',file]
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        (output, errors) = proc.communicate()
+        return errors
 
-	def main(self):
-		'''Does nothing except decompresses the file'''
-		if "lzma_file" in self.env:
-			self.output("Using input LZMA file %s decompressing with %s" % (self.env["lzma_file"], self.env["decompressor"]))
-		self.env["results"] = self.decompress_the_file()
-		self.output("Decompressed: %s" % self.env["results"])
+    def main(self):
+        '''Does nothing except decompresses the file'''
+        if "lzma_file" in self.env:
+            self.output("Using input LZMA file %s decompressing with %s" % (self.env["lzma_file"], self.env["decompressor"]))
+        self.env["results"] = self.decompress_the_file()
+        self.output("Decompressed: %s" % self.env["results"])
 
 
 if __name__ == '__main__':
     processor = LZMADecompress()
     processor.execute_shell()
-    
-

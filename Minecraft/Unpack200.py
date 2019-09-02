@@ -24,44 +24,42 @@ from autopkglib import Processor, ProcessorError
 __all__ = ["Unpack200"]
 
 class Unpack200(Processor):
-	description = "Unpacks a Java .pack file."
-	input_variables = {
-		"file_path": {
-			"required": True,
-			"description": ("Path to .pack file."),
-		},
-		"destination": {
-			"required": True,
-			"description": ("Location to unpack the file."),
-		}
-	}
-	output_variables = {
-	}
+    description = "Unpacks a Java .pack file."
+    input_variables = {
+        "file_path": {
+            "required": True,
+            "description": ("Path to .pack file."),
+        },
+        "destination": {
+            "required": True,
+            "description": ("Location to unpack the file."),
+        }
+    }
+    output_variables = {
+    }
 
-	__doc__ = description
+    __doc__ = description
 
-	def unpack_the_file(self):
-		file = self.env.get("file_path")
-		if not file:
-			raise ProcessorError("file_path not found: %s" % (file))
-		destination = self.env.get("destination")
-		if not destination:
-			raise ProcessorError("destination not found: %s" % (destination))
-		cmd = ['/usr/bin/unpack200',file,destination]
-		proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		(output, errors) = proc.communicate()
-		return output      
+    def unpack_the_file(self):
+        file = self.env.get("file_path")
+        if not file:
+            raise ProcessorError("file_path not found: %s" % (file))
+        destination = self.env.get("destination")
+        if not destination:
+            raise ProcessorError("destination not found: %s" % (destination))
+        cmd = ['/usr/bin/unpack200',file,destination]
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        (output, errors) = proc.communicate()
+        return output
 
-	def main(self):
-		'''Does nothing except decompresses the file'''
-		if "file_path" in self.env:
-			self.output("Using input .pack file %s to extract to %s" % (self.env["file_path"], self.env["destination"]))
-		self.env["results"] = self.unpack_the_file()
-		self.output("Unpacked: %s" % self.env["results"])
+    def main(self):
+        '''Does nothing except decompresses the file'''
+        if "file_path" in self.env:
+            self.output("Using input .pack file %s to extract to %s" % (self.env["file_path"], self.env["destination"]))
+        self.env["results"] = self.unpack_the_file()
+        self.output("Unpacked: %s" % self.env["results"])
 
 
 if __name__ == '__main__':
     processor = Unpack200()
     processor.execute_shell()
-    
-
