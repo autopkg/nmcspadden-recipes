@@ -14,10 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from autopkglib import Processor, ProcessorError
+from __future__ import absolute_import
 
-import subprocess
 import os.path
+import subprocess
+
+from autopkglib import Processor, ProcessorError
 
 __all__ = ["Yo"]
 
@@ -58,4 +60,3 @@ class Yo(Processor):
 if __name__ == "__main__":
     processor = Yo()
     processor.execute_shell()
-    

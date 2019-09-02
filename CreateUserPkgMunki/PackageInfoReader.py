@@ -15,11 +15,12 @@
 # limitations under the License.
 """See docstring for PackageInfoReader class"""
 
+from __future__ import absolute_import
+
 import os.path
 import xml.etree.ElementTree as ET
 
 from autopkglib import Processor, ProcessorError
-
 
 __all__ = ["PackageInfoReader"]
 
@@ -48,7 +49,7 @@ class PackageInfoReader(Processor):
 
 
     def main(self):
-    	path = self.env["info_path"]
+        path = self.env["info_path"]
         # Check whether this is at least a valid path
         if not os.path.exists(path):
             raise ProcessorError("Path '%s' doesn't exist!" % path)
@@ -71,7 +72,7 @@ class PackageInfoReader(Processor):
             # This one is for documentation/recordkeeping
             self.env["packageinfo_reader_output_variables"]["packageinfo_" + str(key)] = (
                 self.env["packageinfo_" + str(key)])
-     
+
 
 
 if __name__ == '__main__':

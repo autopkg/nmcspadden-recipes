@@ -16,11 +16,12 @@
 # limitations under the License.
 """See docstring for UserPlistReader class"""
 
+from __future__ import absolute_import
+
 import os.path
+
 import FoundationPlist
-
 from autopkglib import Processor, ProcessorError
-
 
 __all__ = ["UserPlistReader"]
 
