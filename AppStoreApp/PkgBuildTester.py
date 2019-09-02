@@ -17,12 +17,12 @@
 
 
 from __future__ import absolute_import
+
 import os.path
 import subprocess
 import xml.etree.ElementTree as ET
 
 from autopkglib import Processor, ProcessorError
-
 
 __all__ = ["PkgBuildTester"]
 
@@ -128,4 +128,3 @@ class PkgBuildTester(Processor):
 if __name__ == '__main__':
     PROCESSOR = PkgBuildTester()
     PROCESSOR.execute_shell()
-

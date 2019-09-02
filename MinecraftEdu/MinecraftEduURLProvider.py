@@ -15,10 +15,12 @@
 # limitations under the License.
 
 from __future__ import absolute_import
-from autopkglib import Processor, ProcessorError
+
+import urllib2
 from distutils.version import LooseVersion
 from operator import itemgetter
-import urllib2
+
+from autopkglib import Processor, ProcessorError
 
 __all__ = ["MinecraftEduURLProvider"]
 

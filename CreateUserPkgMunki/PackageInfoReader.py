@@ -16,11 +16,11 @@
 """See docstring for PackageInfoReader class"""
 
 from __future__ import absolute_import
+
 import os.path
 import xml.etree.ElementTree as ET
 
 from autopkglib import Processor, ProcessorError
-
 
 __all__ = ["PackageInfoReader"]
 

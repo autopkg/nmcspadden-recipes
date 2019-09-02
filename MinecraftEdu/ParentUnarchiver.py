@@ -16,12 +16,12 @@
 
 
 from __future__ import absolute_import
+
 import os
-import subprocess
 import shutil
+import subprocess
 
 from autopkglib import Processor, ProcessorError
-
 
 __all__ = ["ParentUnarchiver"]
 

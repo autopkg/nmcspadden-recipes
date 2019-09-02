@@ -15,10 +15,11 @@
 # limitations under the License.
 
 from __future__ import absolute_import
-from autopkglib import Processor, ProcessorError
 
-import subprocess
 import os.path
+import subprocess
+
+from autopkglib import Processor, ProcessorError
 
 __all__ = ["Yo"]
 
@@ -59,4 +60,3 @@ class Yo(Processor):
 if __name__ == "__main__":
     processor = Yo()
     processor.execute_shell()
-    

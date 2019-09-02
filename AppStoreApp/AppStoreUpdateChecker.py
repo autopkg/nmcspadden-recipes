@@ -15,11 +15,18 @@
 # limitations under the License.
 
 from __future__ import absolute_import
-import urllib2
+
+import os
 import plistlib
+import urllib2
+from collections import namedtuple
 
 from autopkglib import Processor, ProcessorError
-from Foundation import NSData, NSPropertyListSerialization, NSPropertyListMutableContainers
+from Foundation import (
+    NSData,
+    NSPropertyListMutableContainers,
+    NSPropertyListSerialization,
+)
 
 # pyMASreceipt - python module for parsing the contents of _MASReceipt/receipt file inside a Mac App Store .app
 #
@@ -64,8 +71,6 @@ try:
 except ImportError:
     pymasreceipt_avail = False
     #raise ProcessorError("asn1 not found.  Please install asn1 from https://github.com/geertj/python-asn1")
-import os
-from collections import namedtuple
 MASattr = namedtuple('MASattr', 'type version value')
 
 # The following attributes were determined from looking at the JSON attributes for a MAS app and the output

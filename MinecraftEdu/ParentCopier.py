@@ -16,13 +16,13 @@
 
 
 from __future__ import absolute_import
+
 import os.path
 import shutil
-
 from glob import glob
+
 from autopkglib import Processor, ProcessorError
 from autopkglib.DmgMounter import DmgMounter
-
 
 __all__ = ["ParentCopier"]
 

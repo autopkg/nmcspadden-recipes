@@ -15,9 +15,10 @@
 # limitations under the License.
 
 from __future__ import absolute_import
-import os
-import FoundationPlist
 
+import os
+
+import FoundationPlist
 from autopkglib import Processor, ProcessorError
 
 __all__ = ["LastVersionProvider"]
