@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Creates a package installer out of a MAS app (or any self-contained app, for that matter).</string>
+    <string>Creates a package installer out of a MAS app if a newer version is available locally.</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
