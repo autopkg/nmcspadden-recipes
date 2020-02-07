@@ -15,120 +15,24 @@
     </dict>
     <key>MinimumVersion</key>
     <string>0.3.0</string>
-    <key>ParentRecipe</key>
-    <string>com.github.nmcspadden.check.appstore</string>
     <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
-            <string>StopProcessingIf</string>
+            <string>Versioner</string>
             <key>Arguments</key>
             <dict>
-                <key>predicate</key>
-                <string>update_available == YES</string>
+                <key>input_plist_path</key>
+                <string>%PATH%/Contents/Info.plist</string>
             </dict>
         </dict>
         <dict>
             <key>Processor</key>
-            <string>PkgBuildTester</string>
-            <key>comment</key>
-            <string>Look in our recipe cache for an existing, current package.</string>
+            <string>AppPkgCreator</string>
             <key>Arguments</key>
             <dict>
-                <key>pkg_build_name</key>
-                <string>%NAME%-%version%</string>
-                <key>pkg_dir</key>
-                <string>%RECIPE_CACHE_DIR%</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>StopProcessingIf</string>
-            <key>comment</key>
-            <string>If a package has already been built with this version and ID (and "force_pkg_build" is False), we're done.</string>
-            <key>Arguments</key>
-            <dict>
-                <key>predicate</key>
-                <string>pkg_build_matches == YES</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PkgRootCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkgroot</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-                <key>pkgdirs</key>
-                <dict>
-                    <key>Applications</key>
-                    <string>0775</string>
-                </dict>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
+                <key>app_path</key>
                 <string>%PATH%</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/%PATH%</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PkgInfoCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>template_path</key>
-                <string>PackageInfoTemplate</string>
-                <key>infofile</key>
-                <string>%RECIPE_CACHE_DIR%/PackageInfo</string>
-                <key>pkgtype</key>
-                <string>flat</string>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PkgCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkgname</key>
-                <string>%NAME%-%version%</string>
-                <key>pkg_request</key>
-                <dict>
-                    <key>pkgdir</key>
-                    <string>%RECIPE_CACHE_DIR%</string>
-                    <key>id</key>
-                    <string>%bundleid%</string>
-                    <key>options</key>
-                    <string>purge_ds_store</string>
-                    <key>chown</key>
-                    <array>
-                        <dict>
-                            <key>path</key>
-                            <string>Applications</string>
-                            <key>user</key>
-                            <string>root</string>
-                            <key>group</key>
-                            <string>admin</string>
-                        </dict>
-                    </array>
-                </dict>
-            </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>PathDeleter</string>
-            <key>Arguments</key>
-            <dict>
-                <key>path_list</key>
-                <array>
-                    <string>%pkgroot%</string>
-                    <string>%infofile%</string>
-                </array>
             </dict>
         </dict>
     </array>
