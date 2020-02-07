@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Checks for the update of a MAS app.  If the version on disk is up to date, then create a package out of it.  If out of date, abort. If pyasn1 is installed, updates will be checked beforehand from the App Store.  Install pyasn1 here: sudo pip install git+https://github.com/geertj/python-asn1.git#egg=pyasn1</string>
+    <string>Creates a package installer out of a MAS app (or any self-contained app, for that matter).</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden.pkg.appstore</string>
     <key>Input</key>
@@ -14,7 +14,7 @@
         <string>/Applications/%NAME%.app</string>
     </dict>
     <key>MinimumVersion</key>
-    <string>0.3.0</string>
+    <string>1.0.0</string>
     <key>Process</key>
     <array>
         <dict>
