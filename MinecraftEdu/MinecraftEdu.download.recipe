@@ -23,31 +23,14 @@
     <string>0.2.0</string>
     <key>Process</key>
     <array>
-    	<dict>
-    		<key>Arguments</key>
-    		<dict>
-    			<key>username</key>
-    			<string>%USERNAME%</string>
-    			<key>password</key>
-    			<string>%PASSWORD%</string>
-    			<key>type</key>
-    			<string>%TYPE%</string>
-    		</dict>
-    		<key>Processor</key>
-    		<string>MinecraftEduURLProvider</string>
-    	</dict>
         <dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
             <key>Arguments</key>
             <dict>
-                <key>filename</key>
-                <string>%NAME%.jar</string>
+                <key>warning_message</key>
+                <string>This recipe is no longer supported. Please remove it from your recipe list.</string>
             </dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
         </dict>
     </array>
 </dict>

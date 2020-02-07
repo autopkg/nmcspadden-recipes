@@ -16,30 +16,13 @@
     <key>Process</key>
     <array>
         <dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
             <key>Arguments</key>
             <dict>
-                <key>url</key>
-                <string>https://s3.amazonaws.com/Minecraft.Download/launcher/launcher.pack.lzma</string>
-                <key>filename</key>
-                <string>launcher.pack.lzma</string>
+                <key>warning_message</key>
+                <string>This recipe is no longer supported. Please remove it from your recipe list.</string>
             </dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
-        </dict>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>url</key>
-                <string>https://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.dmg</string>
-                <key>filename</key>
-                <string>%NAME%.dmg</string>
-            </dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
         </dict>
     </array>
 </dict>
