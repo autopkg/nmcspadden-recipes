@@ -26,9 +26,9 @@
             <string>%NAME%</string>
             <key>unattended_install</key>
             <true/>
-		</dict>
-	</dict>
-	<key>Process</key>
+        </dict>
+    </dict>
+    <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
@@ -39,31 +39,31 @@
                 <string>%PATH%/Contents/Info.plist</string>
             </dict>
         </dict>
-   		<dict>
-    		<key>Processor</key>
-    		<string>Copier</string>
-    		<key>Arguments</key>
-    		<dict>
-     			<key>source_path</key>
-    			<string>%PATH%</string>
-	   			<key>destination_path</key>
-    			<string>%RECIPE_CACHE_DIR%/%NAME%/%PATH%</string>
-    			<key>overwrite</key>
-    			<true/>
-    		</dict>
-    	</dict>
-    	<dict>
-    		<key>Processor</key>
-			<string>DmgCreator</string>
-			<key>Arguments</key>
-			<dict>
-				<key>dmg_root</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%/%PATH%</string>
-				<key>dmg_path</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
-			</dict>
-    	</dict>
-    	<dict>
+        <dict>
+            <key>Processor</key>
+            <string>Copier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%PATH%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%%PATH%</string>
+                <key>overwrite</key>
+                <true/>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>DmgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>dmg_root</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%%PATH%</string>
+                <key>dmg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
+            </dict>
+        </dict>
+        <dict>
             <key>Processor</key>
             <string>MunkiImporter</string>
             <key>Arguments</key>
@@ -75,17 +75,17 @@
             </dict>
         </dict>
         <dict>
-        	<key>Comment</key>
-        	<string>Clean up after ourselves</string>
-        	<key>Processor</key>
-        	<string>PathDeleter</string>
-        	<key>Arguments</key>
-        	<dict>
-        		<key>path_list</key>
-        		<array>
-        			<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-        		</array>
-        	</dict>
+            <key>Comment</key>
+            <string>Clean up after ourselves</string>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                </array>
+            </dict>
         </dict>
     </array>
 </dict>
