@@ -19,7 +19,7 @@
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>http://webplayer.unity3d.com/download_webplayer-3.x/webplayer-mini.dmg</string>
+                <string>https://webplayer.unity3d.com/download_webplayer-3.x/webplayer-mini.dmg</string>
                 <key>filename</key>
                 <string>%NAME%.dmg</string>
             </dict>
