@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>GoogleEarthPro</string>
         <key>DOWNLOAD_URL</key>
-        <string>https://dl.google.com/earth/client/advanced/current/GoogleEarthProMacNoUpdate-Intel.dmg</string>
+        <string>https://dl.google.com/earth/client/advanced/current/GoogleEarthProMac-Intel.dmg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
@@ -32,21 +32,21 @@
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
-		<dict>
-			<key>Processor</key>
-			<string>CodeSignatureVerifier</string>
-			<key>Arguments</key>
-			<dict>
-				<key>input_path</key>
-				<string>%pathname%/*.pkg</string>
+        <dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%/*.pkg</string>
                 <key>expected_authority_names</key>
                 <array>
-                    <string>Developer ID Installer: Google, Inc. (EQHXZ8M8AV)</string>
+                    <string>Developer ID Installer: Google LLC (EQHXZ8M8AV)</string>
                     <string>Developer ID Certification Authority</string>
                     <string>Apple Root CA</string>
                 </array>
-			</dict>
-		</dict>
+            </dict>
+        </dict>
     </array>
 </dict>
 </plist>
