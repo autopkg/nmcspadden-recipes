@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright 2015 Nick McSpadden
 #
@@ -23,36 +23,37 @@ from autopkglib import Processor, ProcessorError
 
 __all__ = ["Yo"]
 
+
 class Yo(Processor):
     description = "Provides a Yo notification if anything was imported."
     input_variables = {
         "munki_info": {
             "required": False,
-            "description": ("Munki info dictionary to use to display info.")
+            "description": ("Munki info dictionary to use to display info."),
         },
         "munki_repo_changed": {
             "required": False,
-            "description": ("Whether or not item was imported.")
+            "description": ("Whether or not item was imported."),
         },
         "yo_path": {
             "required": False,
-            "description": ("Path to yo.app. Defaults to /Applications "
-                            "/Utilities/yo.app.")
-        }
+            "description": (
+                "Path to yo.app. Defaults to /Applications " "/Utilities/yo.app."
+            ),
+        },
     }
-    output_variables = {
-    }
-    
+    output_variables = {}
+
     __doc__ = description
-   
+
     def main(self):
         was_imported = self.env.get("munki_repo_changed")
         munkiInfo = self.env.get("munki_info")
         yo_path = self.env.get("yo_path") or "/Applications/Utilities/yo.app"
-        yo = os.path.join(yo_path, 'Contents/MacOS/yo')
+        yo = os.path.join(yo_path, "Contents/MacOS/yo")
         if was_imported:
             subtext = "%s was imported" % munkiInfo["name"]
-            cmd = [yo, "-t", "Autopkg", "-s", subtext ]
+            cmd = [yo, "-t", "Autopkg", "-s", subtext]
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             (cmd_out, cmd_err) = proc.communicate()
 
