@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads the latest Chef DK for Mac version and imports into Munki.</string>
     <key>Identifier</key>
-    <string>com.github.autopkg.munki.chefdk</string>
+    <string>com.github.nmcspadden.munki.chefdk</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -37,7 +37,7 @@
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.autopkg.download.chefdk</string>
+    <string>com.github.download.chefdk</string>
     <key>Process</key>
     <array>
         <dict>

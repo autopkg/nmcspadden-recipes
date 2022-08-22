@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads latest release version of Oracle Java 8 JDK and imports into a Munki repository.</string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.OracleJava8JDK.munki</string>
+    <string>com.github.nmcspadden.munki.OracleJava8JDK</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>

@@ -49,7 +49,7 @@ Git revision: 1d30395cd4</string>
 	<key>PayloadDisplayName</key>
 	<string>Google Earth Pro</string>
 	<key>PayloadIdentifier</key>
-	<string>com.github.autopkg.nmcspadden-recipes.googleearthpro</string>
+	<string>com.github.nmcspadden-recipes.googleearthpro</string>
 	<key>PayloadOrganization</key>
 	<string></string>
 	<key>PayloadRemovalDisallowed</key>

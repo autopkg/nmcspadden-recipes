@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads latest Google Earth disk image and makes a pkg, including profile to suppress startup screens.</string>
 	<key>Identifier</key>
-	<string>com.github.autopkg.nmcspadden-recipes.pkg.google-earth-pro.profile</string>
+	<string>com.github.nmcspadden-recipes.pkg.google-earth-pro.profile</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
@@ -14,7 +14,7 @@
 	<key>MinimumVersion</key>
 	<string>0.2.0</string>
 	<key>ParentRecipe</key>
-	<string>com.github.autopkg.nmcspadden-recipes.download.google-earth-pro</string>
+	<string>com.github.nmcspadden-recipes.download.google-earth-pro</string>
 	<key>Process</key>
 	<array>
         <!-- Make a fake pkg root -->
@@ -83,9 +83,9 @@
 			<key>Arguments</key>
 			<dict>
 				<key>source_path</key>
-				<string>%RECIPE_DIR%/com.github.autopkg.nmcspadden-recipes.googleearthpro.mobileconfig</string>
+				<string>%RECIPE_DIR%/com.github.nmcspadden-recipes.googleearthpro.mobileconfig</string>
 				<key>destination_path</key>
-				<string>%pkgroot%/Library/Profiles/com.github.autopkg.nmcspadden-recipes.googleearthpro.mobileconfig</string>
+				<string>%pkgroot%/Library/Profiles/com.github.nmcspadden-recipes.googleearthpro.mobileconfig</string>
 			</dict>
 		</dict>
 		<dict>

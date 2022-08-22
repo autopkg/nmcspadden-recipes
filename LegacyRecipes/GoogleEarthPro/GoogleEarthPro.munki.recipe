@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads latest Google Earth Pro disk image and imports into Munki.</string>
     <key>Identifier</key>
-    <string>com.github.autopkg.nmcspadden-recipes.munki.google-earth-pro</string>
+    <string>com.github.nmcspadden-recipes.munki.google-earth-pro</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
@@ -31,7 +31,7 @@
     <key>MinimumVersion</key>
     <string>0.2.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.autopkg.nmcspadden-recipes.download.google-earth-pro</string>
+    <string>com.github.nmcspadden-recipes.download.google-earth-pro</string>
     <key>Process</key>
     <array>
         <!-- Make a fake pkg root -->

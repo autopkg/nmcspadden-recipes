@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads the latest Dragon Dictate For Mac 3 version.</string>
     <key>Identifier</key>
-    <string>com.github.autopkg.download.DragonDictate3</string>
+    <string>com.github.download.DragonDictate3</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>

@@ -5,7 +5,7 @@
     <key>Description</key>
     <string>Downloads ChefClient installer and installs it.</string>
     <key>Identifier</key>
-    <string>com.bk.autopkg.install.chefclient</string>
+    <string>com.bk.install.chefclient</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
