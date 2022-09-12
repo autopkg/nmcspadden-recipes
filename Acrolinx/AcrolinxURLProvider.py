@@ -31,7 +31,7 @@ class AcrolinxURLProvider(URLGetter):
 
     description = __doc__
     input_variables = {
-        "acronlix_uuid": {"required": True, "description": "UUID that corresponds to a specific Acronlix customer portal"},
+        "acronlix_uuid": {"required": True, "description": "UUID that corresponds to a specific Acrolinx customer portal"},
         "username": {"required": True, "description": "Username for authentication."},
         "password": {"required": True, "description": "Password for authentication"},
     }
