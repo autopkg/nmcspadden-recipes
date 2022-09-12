@@ -23,7 +23,7 @@ from autopkglib.URLGetter import URLGetter
 
 __all__ = ["AcrolinxURLProvider"]
 
-URL = "https://{}:{}@download.acrolinx.com:1443/api/deliverablePackages/575b1d0d401ae30b00e90f40/download/latest?preserve_credentials=true&proxy=true"
+URL = "https://{}:{}@download.acrolinx.com:1443/api/deliverables/{}/download/latest"
 
 
 class AcrolinxURLProvider(URLGetter):
@@ -31,6 +31,7 @@ class AcrolinxURLProvider(URLGetter):
 
     description = __doc__
     input_variables = {
+        "acronlix_uuid": {"required": True, "description": "UUID that corresponds to a specific Acronlix customer portal"},
         "username": {"required": True, "description": "Username for authentication."},
         "password": {"required": True, "description": "Password for authentication"},
     }
@@ -38,9 +39,10 @@ class AcrolinxURLProvider(URLGetter):
 
     def main(self):
         """Find the download URL"""
+        uuid = self.env["acronlinx_uuid"]
         username = self.env["username"]
         password = self.env["password"]
-        url = URL.format(username, password)
+        url = URL.format(username, password, uuid)
         # Fetch the API data
         curl_cmd = self.prepare_curl_cmd()
         curl_cmd.extend(["--head", url])
