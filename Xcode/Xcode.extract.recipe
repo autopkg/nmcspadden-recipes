@@ -17,7 +17,7 @@
   <key>MinimumVersion</key>
   <string>1.0.4</string>
   <key>ParentRecipe</key>
-  <string>com.github.nmcspadden.xcode.downloader</string>
+  <string>com.github.nmcspadden.download.xcode</string>
   <key>Process</key>
   <array>
     <dict>
