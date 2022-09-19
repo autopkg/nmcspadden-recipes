@@ -61,6 +61,15 @@
                 <string>identifier "com.acrolinx.Acrolinx" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = TH2ET36H76</string>
             </dict>
         </dict>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>warning_message</key>
+                <string>This recipe is deprecated. Use https://github.com/autopkg/discentem-recipes/Acrolinx/Acrolinx.download.recipe.yaml instead.</string>
+            </dict>
+            <key>Processor</key>
+            <string>DeprecationWarning</string>
+        </dict>
     </array>
 </dict>
 </plist>
