@@ -51,7 +51,7 @@ done
   <key>MinimumVersion</key>
   <string>1.0.4</string>
   <key>ParentRecipe</key>
-  <string>com.github.nmcspadden.xcode.extract</string>
+  <string>com.github.nmcspadden.extract.code</string>
   <key>Process</key>
   <array>
     <dict>
