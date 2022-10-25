@@ -137,7 +137,7 @@ clear the `BETA` tag:
 		<key>BETA</key>
 		<string></string>
 		<key>PATTERN</key>
-		<string>((?!.*beta).*\/Xcode_.*\/Xcode.*.xip)</string>
+		<string>((?!.*beta)(?!.*Candidate).*\/Xcode_.*\/Xcode.*.xip)</string>
 ```
 
 **Override for latest Xcode of any type**
