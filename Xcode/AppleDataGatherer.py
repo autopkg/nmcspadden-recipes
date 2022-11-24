@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -23,14 +23,9 @@
 
 import os
 
+from urllib.parse import quote
+
 from autopkglib import Processor, ProcessorError
-
-
-try:
-    # python 2
-    from urllib import quote
-except ImportError:
-    from urllib.parse import quote
 
 
 __all__ = ["AppleDataGatherer"]
@@ -42,30 +37,38 @@ class AppleDataGatherer(Processor):
     description = __doc__
     input_variables = {
         "apple_id": {
-            "required": True,
-            "description": ("AppleID that can log into the Apple dev portal."),
+            "description": "AppleID that can log into the Apple dev portal.",
+            "required": True
         },
         "password": {
-            "required": False,
-            "description": ("Password for AppleID that can log into Apple dev portal."),
+            "description": (
+                "Password for AppleID that can log into Apple dev portal."
+            ),
+            "required": False
         },
         "password_file": {
-            "required": False,
             "description": (
-                "A path to a file to read the password from. Using this will "
-                "ignore the 'password' argument."
+                "A path to a file to read the password from. Using "
+                "this will ignore the 'password' argument."
             ),
+            "required": False
         },
-        "appID_key": {"required": True, "description": ("App ID key to log into.")},
+        "appID_key": {
+            "description": "App ID key to log into.",
+            "required": True
+        }
     }
-    output_variables = {"data_pathname": {"description": "Path to the data file."}}
+    output_variables = {
+        "data_pathname": {
+            "description": "Path to the data file."
+        }
+    }
 
-    __doc__ = description
 
     def main(self):
         """Store the login data file."""
-        appleIDstring = "appleId={}&".format(quote(self.env["apple_id"]))
-        appIDKeystring = "appIdKey={}&".format(self.env["appID_key"])
+        appleIDstring = f'appleId={quote(self.env["apple_id"])}&'
+        appIDKeystring = f"appIdKey={self.env['appID_key']}&"
         if not self.env.get("password") and not self.env.get("password_file"):
             raise ProcessorError(
                 "You must provide either a password, or a password_file argument."
@@ -74,7 +77,7 @@ class AppleDataGatherer(Processor):
         if self.env.get("password_file"):
             with open(self.env["password_file"]) as f:
                 password = f.read()
-        passwordstring = "accountPassword={}".format(password)
+        passwordstring = f"accountPassword={password}"
 
         login_data = appleIDstring + appIDKeystring + passwordstring
         download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
@@ -85,7 +88,7 @@ class AppleDataGatherer(Processor):
                 os.makedirs(download_dir)
             except OSError as err:
                 raise ProcessorError(
-                    "Can't create %s: %s" % (download_dir, err.strerror)
+                    f"Can't create {download_dir}: {err.strerror}"
                 )
         self.output("Writing data to file")
         self.env["data_pathname"] = os.path.join(download_dir, filename)

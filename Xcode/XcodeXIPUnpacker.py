@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -28,20 +28,22 @@ __all__ = ["XcodeXIPUnpacker"]
 class XcodeXIPUnpacker(Processor):
     """Unpack a XIP file from Apple."""
 
-    description = "Unpack an Apple XIP file."
+    description = __doc__
     input_variables = {
-        "PKG": {"required": True, "description": "Path to an Xcode .xip file."},
+        "PKG": {
+            "description": "Path to an Xcode .xip file.",
+            "required": True
+        },
         "output_path": {
-            "required": False,
             "description": (
                 "Path to unpack the contents. Defaults to "
                 "%RECIPE_CACHE_DIR%/%NAME%_unpack."
             ),
-        },
+            "required": False
+        }
     }
     output_variables = {}
 
-    __doc__ = description
 
     def main(self):
         """Main."""
@@ -60,7 +62,9 @@ class XcodeXIPUnpacker(Processor):
         )
         os.chdir(output)
         cmd = ["/usr/bin/xip", "--expand", xip_path]
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         (out, err) = proc.communicate()
         if err:
             raise ProcessorError(err)
@@ -68,5 +72,5 @@ class XcodeXIPUnpacker(Processor):
 
 
 if __name__ == "__main__":
-    processor = XcodeXIPUnpacker()
-    processor.execute_shell()
+    PROCESSOR = XcodeXIPUnpacker()
+    PROCESSOR.execute_shell()

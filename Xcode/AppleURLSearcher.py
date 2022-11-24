@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -23,14 +23,9 @@ import posixpath
 import re
 import subprocess
 
+from urllib.parse import urlsplit
+
 from autopkglib import Processor, ProcessorError
-
-
-try:
-    # python 2
-    from urlparse import urlsplit
-except ImportError:
-    from urllib.parse import urlsplit
 
 
 __all__ = ["AppleURLSearcher"]
@@ -45,32 +40,35 @@ class AppleURLSearcher(Processor):
             "description": (
                 "The name of the output variable that is returned "
                 "by the match. If not specified then a default of "
-                '"match" will be used.'
+                "'match' will be used."
             ),
-            "required": False,
             "default": "match",
+            "required": False
         },
         "re_pattern": {
-            "required": True,
             "description": (
                 "Path to download data file from AppleCookieDownloader."
                 "Ignored if BETA is set in the environment."
             ),
-        },
+            "required": True
+        }
     }
     output_variables = {
         "result_output_var_name": {
             "description": (
                 "First matched sub-pattern from input found on the fetched "
                 "URL. Note the actual name of variable depends on the input "
-                'variable "result_output_var_name" or is assigned a default of '
-                '"match."'
+                "variable 'result_output_var_name' or is assigned a default "
+                "of 'match.'"
             )
         }
     }
 
+
     # This code is taken directly from URLTextSearcher
-    def get_url_and_search(self, url, re_pattern, headers=None, flags=None, opts=None):
+    def get_url_and_search(
+        self, url, re_pattern, headers=None, flags=None, opts=None
+    ):
         """Get data from url and search for re_pattern"""
         flag_accumulator = 0
         if flags:
@@ -84,39 +82,43 @@ class AppleURLSearcher(Processor):
             cmd = [self.env["CURL_PATH"], "--location", "--compressed"]
             if headers:
                 for header, value in headers.items():
-                    cmd.extend(["--header", "%s: %s" % (header, value)])
+                    cmd.extend(["--header", f"{header}: {value}"])
             if opts:
                 for item in opts:
                     cmd.extend([item])
             cmd.append(url)
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            proc = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
             (content, stderr) = proc.communicate()
             if proc.returncode:
-                raise ProcessorError("Could not retrieve URL %s: %s" % (url, stderr))
+                raise ProcessorError(f"Could not retrieve URL {url}: {stderr}")
         except OSError:
-            raise ProcessorError("Could not retrieve URL: %s" % url)
+            raise ProcessorError(f"Could not retrieve URL: {url}")
 
         # Output this to disk so I can search it later
         with open(
-            os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads", "url_text.txt"),
+            os.path.join(
+                self.env["RECIPE_CACHE_DIR"], "downloads", "url_text.txt"
+            ),
             "wb",
         ) as f:
             f.write(content)
-        match = re_pattern.search(content.decode('utf-8'))
+        if match := re_pattern.search(content.decode("utf-8")):
+            # return the last matched group with the dict of named groups
+# return (match.group(match.lastindex or 0), match.groupdict())
+##### NEED TO VERIFY THE BELOW CHANGE
+            return match[(match.lastindex or 0)], match.groupdict()
+        else:
+            raise ProcessorError(f"No match found on URL: {url}")
 
-        if not match:
-            raise ProcessorError("No match found on URL: %s" % url)
-
-        # return the last matched group with the dict of named groups
-        return (match.group(match.lastindex or 0), match.groupdict())
 
     def output_result(self, url):
         """Output the desired result."""
         # The final entry is the highest one
-        self.output("Full URL: %s" % url)
+        self.output(f"Full URL: {url}")
         self.env[self.env["result_output_var_name"]] = url
-        self.output_variables = {}
-        self.output_variables[self.env["result_output_var_name"]] = url
+        self.output_variables = {self.env["result_output_var_name"]: url}
 
     def main(self):
         # If we have "URL" already passed in, we should just use it
@@ -139,17 +141,18 @@ class AppleURLSearcher(Processor):
                 "--cookie",
                 "login_cookies",
                 "--cookie-jar",
-                "download_cookies",
+                "download_cookies"
             ]
             pattern = r"""<a href=["'](.*.xip)"""
             groupmatch, groupdict = self.get_url_and_search(
                 beta_url, pattern, opts=curl_opts
             )
-            fixed_url = "https://developer.apple.com/" + groupmatch
+            fixed_url = f"https://developer.apple.com/{groupmatch}"
             self.env[self.env["result_output_var_name"]] = fixed_url
-            self.output("New fixed URL: {}".format(fixed_url))
-            self.output_variables = {}
-            self.output_variables[self.env["result_output_var_name"]] = fixed_url
+            self.output(f"New fixed URL: {fixed_url}")
+            self.output_variables = {
+                self.env["result_output_var_name"]: fixed_url
+            }
             return
         self.output("Beta flag not set, searching More downloads list...")
         # If we're not looking for BETA, then disregard everything from
@@ -158,7 +161,9 @@ class AppleURLSearcher(Processor):
         downloads = os.path.join(download_dir, "listDownloads")
 
         if not os.path.exists(downloads):
-            raise ProcessorError("Missing the download data from AppleCookieDownloader")
+            raise ProcessorError(
+                "Missing the download data from AppleCookieDownloader"
+            )
 
         pattern = self.env["re_pattern"]
         with open(downloads) as f:
@@ -194,18 +199,15 @@ class AppleURLSearcher(Processor):
             raise ProcessorError("No match found!")
 
         self.output(
-            "Sorted list of possible filenames: {}".format(
-                [x["filename"] for x in matches]
-            ),
-            verbose_level=2,
+            f"Sorted list of possible filenames: {[x['filename'] for x in matches]}",
+            verbose_level=2
         )
-        self.output("Found matching item: {}".format(match["filename"]))
-        full_url_match = match["full_url"]
+        self.output(f"Found matching item: {match['filename']}")
 
-        if not full_url_match:
+        if full_url_match := match["full_url"]:
+            self.output_result(full_url_match)
+        else:
             raise ProcessorError("No matching URL found!")
-
-        self.output_result(full_url_match)
 
 
 if __name__ == "__main__":
