@@ -4,7 +4,7 @@
     <!-- Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved -->
     <dict>
         <key>Description</key>
-        <string>Download, extract, and import Xcode into Munki. You must override the APPLE_ID and PASSWORD.</string>
+        <string>Download, extract, and import Xcode into Munki. You must override the APPLE_ID and one of PASSWORD or PASSWORD_FILE.</string>
         <key>Identifier</key>
         <string>com.github.nmcspadden.munki.xcode</string>
         <key>Input</key>
