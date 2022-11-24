@@ -16,13 +16,6 @@
 #
 """Get all Version information from Xcode."""
 
-from collections import namedtuple
-
-try:
-    import objc
-except ImportError:
-    pass
-
 from autopkglib import Processor, ProcessorError
 
 
@@ -77,39 +70,6 @@ class XcodeVersioner(Processor):
     }
 
 
-    def _load_objc_framework(self, f_name, f_path, class_whitelist):
-        loaded = {}
-        framework_bundle = objc.loadBundle(  # NOQA
-            f_name, bundle_path=f_path, module_globals=loaded
-        )
-        desired = {x: loaded[x] for x in class_whitelist if x in loaded}
-        return namedtuple("AttributedFramework", desired.keys())(**desired)
-
-
-    def xcode_info(self, app_path):
-        DVTFoundation_path = f"{app_path}/Contents/SharedFrameworks/DVTFoundation.framework"
-        desired_classes = ["DVTToolsInfo"]
-        DVTFoundation = self._load_objc_framework(
-            "DVTFoundation", DVTFoundation_path, desired_classes
-        )
-        x_info = DVTFoundation.DVTToolsInfo.toolsInfo()
-        x_v = x_info.toolsVersion()
-        x_b = x_info.toolsBuildVersion()
-        is_beta = bool(x_info.isBeta())
-        app_info = [
-            ["major_version", str(x_v.versionMajorComponent())],
-            ["minor_version", str(x_v.versionMinorComponent())],
-            ["patch_version", str(x_v.versionUpdateComponent())],
-            ["build_version", x_b.name()],
-            ["is_beta", is_beta]
-        ]
-        if is_beta:
-            app_info.append(["beta_version", str(x_info.toolsBetaVersion())])
-        else:
-            app_info.append(["beta_version", "0"])
-        return app_info
-
-
     def main(self):
         """Main."""
         main_version_string = self.env["version"]
@@ -128,19 +88,13 @@ class XcodeVersioner(Processor):
         except IndexError:
             self.output("Normalizing patch to 0")
             self.env["patch_version"] = "0"
-        self.env["is_beta"] = False
-        xcode_info_results = self.xcode_info(self.env["app_path"])
-        xcode_data = {
-            info_pair[0]: info_pair[1] for info_pair in xcode_info_results
-        }
-        if xcode_data["is_beta"]:
-            self.output(f"Beta version: {xcode_data['beta_version']}")
-            self.env["is_beta"] = xcode_data["is_beta"]
-            self.env["beta_version"] = xcode_data["beta_version"]
         self.output(f"Patch version: {self.env['patch_version']}")
-        self.env["build_version"] = xcode_data["build_version"]
         self.output(f"Build version: {self.env['build_version']}")
-
+        if "beta_version" not in self.env:
+            self.env["is_beta"] = False
+            self.output("Not a beta version")
+        else:
+            self.output(f"Beta version: {self.env['beta_version']}")
 
 if __name__ == "__main__":
     PROCESSOR = XcodeVersioner()
