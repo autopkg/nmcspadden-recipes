@@ -17,6 +17,8 @@
             <string>secret.txt</string>
             <key>NOSKIP</key>
             <string></string>
+            <key>PASSWORD</key>
+            <string></string>
             <key>BETA</key>
             <string></string>
             <key>PATTERN</key>
@@ -39,6 +41,8 @@
                     <string>%APPLE_ID%</string>
                     <key>password_file</key>
                     <string>%PASSWORD_FILE%</string>
+                    <key>password</key>
+                    <string>%PASSWORD%</string>
                     <key>appID_key</key>
                     <string>891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757</string>
                 </dict>
