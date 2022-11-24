@@ -7,7 +7,7 @@
         <key>Description</key>
         <string>Download, extract, and import Xcode as a unique entry into Munki. You must override the APPLE_ID and PASSWORD.</string>
         <key>Identifier</key>
-		<string>com.github.nmcspadden.xcode_versioned.munki</string>
+        <string>com.github.nmcspadden.munki.xcode_versioned</string>
         <key>Input</key>
         <dict>
             <key>APPLE_ID</key>
