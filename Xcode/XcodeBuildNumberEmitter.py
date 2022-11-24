@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -30,24 +30,27 @@ class XcodeBuildNumberEmitter(Processor):
     description = __doc__
     input_variables = {
         "dont_skip": {
-            "required": False,
+            "description": (
+                "If this evaluates as truthy, do not skip this step."
+            ),
             "default": False,
-            "description": ("If this evaluates as truthy, do not skip this step."),
+            "required": False
         },
         "build_version": {
-            "required": True,
-            "description": ("The build version number for this Xcode Release"),
+            "description": "The build version number for this Xcode Release",
+            "required": True
         },
         "output_filepath": {
-            "required": True,
-            "description": ("Path to which xcode build number is emitted."),
-        },
+            "description": "Path to which xcode build number is emitted.",
+            "required": True
+        }
     }
     output_variables = {
-        "derived_filename": {"description": "The derived filename to emit."}
+        "derived_filename": {
+            "description": "The derived filename to emit."
+        }
     }
 
-    __doc__ = description
 
     def main(self):
         """Main."""
@@ -56,16 +59,13 @@ class XcodeBuildNumberEmitter(Processor):
             return
 
         build_number = self.env["build_version"]
-
         destination = os.path.expandvars(self.env["output_filepath"])
+
         with open(destination, "w") as f:
             f.write(build_number)
-            self.output(
-                "Xcode build number ({}) written to disk at {}".format(
-                    build_number,
-                    destination,
-                )
-            )
+        self.output(
+            f"Xcode build number ({build_number}) written to disk at {destination}"
+        )
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -16,16 +16,11 @@
 #
 """Get all Version information from Xcode."""
 
-import os.path
+from os.path import basename, expandvars, splitext
+
+from urllib.parse import urlsplit
 
 from autopkglib import Processor
-
-
-try:
-    # python 2
-    from urlparse import urlsplit
-except ImportError:
-    from urllib.parse import urlsplit
 
 
 __all__ = ["XcodeVersionEmitter"]
@@ -37,21 +32,27 @@ class XcodeVersionEmitter(Processor):
     description = __doc__
     input_variables = {
         "dont_skip": {
-            "required": False,
+            "description": (
+                "If this evaluates as truthy, do not skip this step."
+            ),
             "default": False,
-            "description": ("If this evaluates as truthy, do not skip this step."),
+            "required": False
         },
-        "url": {"required": True, "description": ("URL to parse the version from.")},
+        "url": {
+            "description": "URL to parse the version from.",
+            "required": True
+        },
         "output_filepath": {
-            "required": True,
-            "description": ("Path to which xcode version tag is emitted."),
-        },
+            "description": "Path to which xcode version tag is emitted.",
+            "required": True
+        }
     }
     output_variables = {
-        "derived_filename": {"description": "The derived filename to emit."}
+        "derived_filename": {
+            "description": "The derived filename to emit."
+        }
     }
 
-    __doc__ = description
 
     def main(self):
         """Main."""
@@ -62,18 +63,15 @@ class XcodeVersionEmitter(Processor):
         url_split_object = urlsplit(url)
         # "https://download.developer.apple.com/Developer_Tools/Xcode_10.2.1/Xcode_10.2.1.xip"  # noqa
         # "https://developer.apple.com//services-account/download?path=/Developer_Tools/Xcode_11_Beta_2/Xcode_11_Beta_2.xip"  # noqa
-        filename = os.path.splitext(os.path.basename(url_split_object.path))[0].lower()
-        self.output("Derived filename: {}".format(filename))
+        filename = splitext(basename(url_split_object.path))[0].lower()
+        self.output(f"Derived filename: {filename}")
         self.env["derived_filename"] = filename
 
-        destination = os.path.expandvars(self.env["output_filepath"])
+        destination = expandvars(self.env["output_filepath"])
         with open(destination, "w") as f:
             f.write(filename)
-            self.output(
-                "Derived filename ({}) written to disk at {}".format(
-                    filename, destination
-                )
-            )
+        self.output(
+            f"Derived filename ({filename}) written to disk at {destination}")
 
 
 if __name__ == "__main__":
