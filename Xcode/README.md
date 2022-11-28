@@ -93,7 +93,7 @@ If `BETA` is empty (the default behavior), Xcode.download will look for the
 latest published Xcode xip that matches the regex. As of writing time, the
 most recently published Xcode is 11.2 beta 2:
 
-![More downloads](/../screenshots/screenshots/xcode_more.png)
+![More downloads](screenshots/xcode_more.png)
 
 It may be confusing and irritating that leaving `BETA` empty still results in
 obtaining a Beta release by default, but it's impossible to predict which
@@ -102,7 +102,7 @@ versions of Xcode Apple will choose to publish to the "More" list.
 ### Developer download portal
 As of writing time, the current released beta version of Xcode is 11.2 beta 2:
 
-![Developer download portal](/../screenshots/screenshots/xcode_beta.png)
+![Developer download portal](screenshots/xcode_beta.png)
 
 Thus, if `BETA` is populated, this is the version that will be obtained:
 ```
