@@ -6,7 +6,7 @@
     <string>Recipe stub for any Shared Processors in this directory.
     </string>
     <key>Identifier</key>
-    <string>com.github.nmcspadden.shared</string>
+    <string>com.github.nmcspadden.shared.postprocessors</string>
     <key>Input</key>
     <dict/>
     <key>MinimumVersion</key>
