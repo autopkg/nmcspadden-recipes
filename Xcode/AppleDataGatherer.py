@@ -79,6 +79,7 @@ class AppleDataGatherer(Processor):
         appleIDstring = f"appleId={quote(self.env['apple_id'])}&"
         appIDKeystring = f"appIdKey={self.env['appID_key']}&"
         passwordstring = f"accountPassword={password}"
+
         login_data = appleIDstring + appIDKeystring + passwordstring
         download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
         filename = "login_data"
