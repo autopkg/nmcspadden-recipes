@@ -4,7 +4,7 @@
     <!-- Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved -->
     <dict>
         <key>Description</key>
-        <string>Download Xcode from the Apple dev portal. You must override the APPLE_ID and PASSWORD_FILE. BETA must either be empty for stable releases or set to "Beta" in order to match Xcode betas.</string>
+        <string>Download Xcode from the Apple dev portal. You must override the APPLE_ID and one of PASSWORD or PASSWORD_FILE. BETA must either be empty for stable releases or set to "Beta" in order to match Xcode betas.</string>
         <key>Identifier</key>
         <string>com.github.nmcspadden.download.xcode</string>
         <key>Input</key>
@@ -16,6 +16,8 @@
             <key>PASSWORD_FILE</key>
             <string>secret.txt</string>
             <key>NOSKIP</key>
+            <string></string>
+            <key>PASSWORD</key>
             <string></string>
             <key>BETA</key>
             <string></string>
@@ -39,6 +41,8 @@
                     <string>%APPLE_ID%</string>
                     <key>password_file</key>
                     <string>%PASSWORD_FILE%</string>
+                    <key>password</key>
+                    <string>%PASSWORD%</string>
                     <key>appID_key</key>
                     <string>891bd3417a7776362562d2197f89480a8547b108fd934911bcbea0110d07f757</string>
                 </dict>
