@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 #
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
@@ -32,15 +32,15 @@ class XcodeFileNamer(Processor):
                 "Whether or not we should produce a versioned name. "
                 "If this is non-empty, it's evaluated as true."
             ),
-            "required": True,
+            "required": True
         },
         "major_version": {
             "description": "Major version of Xcode - i.e. Xcode 7, 8.",
-            "required": True,
+            "required": True
         },
         "minor_version": {
             "description": "Minor version of Xcode - i.e. Xcode X.1, X.2.",
-            "required": True,
+            "required": True
         },
         "patch_version": {
             "description": (
@@ -48,62 +48,61 @@ class XcodeFileNamer(Processor):
                 "Patch version will be normalized to 0 if missing (i.e. 8.3 "
                 "becomes 8.3.0)."
             ),
-            "required": True,
+            "required": True
         },
         "is_beta": {
-            "description": ("Boolean that is true if this Xcode is a beta version."),
-            "required": True,
+            "description": (
+                "Boolean that is true if this Xcode is a beta version."
+            ),
+            "required": True
         },
         "beta_version": {
             "description": (
                 "The beta number - 1, 2, 3, etc. Only used if is_beta is True. "
                 "Assumed to be 0 if not provided."
             ),
-            "required": False,
+            "required": False
         },
         "should_lowercase": {
             "description": (
-                "If this value is non-empty, use a lower-case filename - xcode_X.Y.0_suffix.app."
+                "If this value is non-empty, use a lower-case "
+                "filename - xcode_X.Y.0_suffix.app."
             ),
-            "required": False,
+            "required": False
         },
         "suffix": {
             "description": (
-                "Any additional suffix string to append to the name prior to the .app extension."
+                "Any additional suffix string to append to "
+                "the name prior to the .app extension."
             ),
-            "required": False,
-        },
+            "required": False
+        }
     }
     output_variables = {
-        "xcode_filename": {"description": "Allow producing a versioned Xcode name."}
+        "xcode_filename": {
+            "description": "Allow producing a versioned Xcode name."
+        }
     }
 
-    __doc__ = description
 
     def main(self):
         """Main."""
-        if not self.env["should_produce_versioned_name"] and self.env["is_beta"]:
-            # Default name for Xcode Beta
-            self.env["xcode_filename"] = "Xcode-beta"
-            return
-        elif not self.env["should_produce_versioned_name"]:
-            # Default name for Xcode
-            self.env["xcode_filename"] = "Xcode"
+        if not self.env["should_produce_versioned_name"]:
+            # Set the default name for Xcode Beta or the default name for Xcode
+            self.env["xcode_filename"] = "Xcode-beta" if self.env["is_beta"] else "Xcode"
             return
         # end up with xcode_10.2.0_beta_4 or xcode_10.2.1
-        prefix = "Xcode"
-        if self.env.get("should_lowercase"):
-            prefix = "xcode"
+        prefix = "xcode" if self.env.get("should_lowercase") else "Xcode"
         name = "{}_{}.{}.{}".format(
             prefix,
             self.env["major_version"],
             self.env["minor_version"],
-            self.env["patch_version"],
+            self.env["patch_version"]
         )
         if self.env["is_beta"]:
-            name = name + "_beta_{}".format(self.env.get("beta_version", "0"))
+            name += f"_beta_{self.env.get('beta_version', '0')}"
         name += self.env.get("suffix", "")
-        self.output("Xcode name: {}".format(name))
+        self.output(f"Xcode name: {name}")
         self.env["xcode_filename"] = name
 
 
