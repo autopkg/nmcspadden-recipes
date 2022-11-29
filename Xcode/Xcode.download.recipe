@@ -67,15 +67,6 @@
             </dict>
             <dict>
                 <key>Processor</key>
-                <string>AppleCookieDownloader</string>
-                <key>Arguments</key>
-                <dict>
-                    <key>login_data</key>
-                    <string>%RECIPE_CACHE_DIR%/downloads/login_data</string>
-                </dict>
-            </dict>
-            <dict>
-                <key>Processor</key>
                 <string>XcodeVersionEmitter</string>
                 <key>Arguments</key>
                 <dict>
