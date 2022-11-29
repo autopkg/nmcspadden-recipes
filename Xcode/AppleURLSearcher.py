@@ -18,20 +18,19 @@
 
 import datetime
 import json
-import os.path
+import os
 import posixpath
 import re
-import subprocess
 
 from urllib.parse import urlsplit
 
-from autopkglib import Processor, ProcessorError
+from autopkglib import ProcessorError, URLGetter
 
 
 __all__ = ["AppleURLSearcher"]
 
 
-class AppleURLSearcher(Processor):
+class AppleURLSearcher(URLGetter):
     """Search the various Apple URLs for a matching Xcode."""
 
     description = __doc__
@@ -96,9 +95,7 @@ class AppleURLSearcher(Processor):
 
 
     # This code is taken directly from URLTextSearcher
-    def get_url_and_search(
-        self, url, re_pattern, headers=None, flags=None, opts=None
-    ):
+    def search_for(self, content, re_pattern, flags=None):
         """Get data from url and search for re_pattern"""
         flag_accumulator = 0
         if flags:
@@ -107,40 +104,19 @@ class AppleURLSearcher(Processor):
                     flag_accumulator += re.__dict__[flag]
 
         re_pattern = re.compile(re_pattern, flags=flag_accumulator)
-
-        try:
-            cmd = [self.env["CURL_PATH"], "--location", "--compressed"]
-            if headers:
-                for header, value in headers.items():
-                    cmd.extend(["--header", f"{header}: {value}"])
-            if opts:
-                for item in opts:
-                    cmd.extend([item])
-            cmd.append(url)
-            proc = subprocess.Popen(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-            )
-            (content, stderr) = proc.communicate()
-            if proc.returncode:
-                raise ProcessorError(f"Could not retrieve URL {url}: {stderr}")
-        except OSError:
-            raise ProcessorError(f"Could not retrieve URL: {url}")
-
         # Output this to disk so I can search it later
         with open(
             os.path.join(
                 self.env["RECIPE_CACHE_DIR"], "downloads", "url_text.txt"
             ),
-            "wb",
+            "w",
         ) as f:
             f.write(content)
-        if match := re_pattern.search(content.decode("utf-8")):
+        if match := re_pattern.search(content):
             # return the last matched group with the dict of named groups
-# return (match.group(match.lastindex or 0), match.groupdict())
-##### NEED TO VERIFY THE BELOW CHANGE
             return match[(match.lastindex or 0)], match.groupdict()
         else:
-            raise ProcessorError(f"No match found on URL: {url}")
+            raise ProcessorError("No match found in URL")
 
 
     def output_result(self, url):
@@ -149,6 +125,7 @@ class AppleURLSearcher(Processor):
         self.output(f"Full URL: {url}")
         self.env[self.env["result_output_var_name"]] = url
         self.output_variables = {self.env["result_output_var_name"]: url}
+
 
     def main(self):
         # If we have "URL" already passed in, we should just use it
@@ -168,17 +145,23 @@ class AppleURLSearcher(Processor):
             # AppleURLSearcher = "more downloads" = stable/GM releases.
             # If we do get a url from URLTextSearcher, it needs to be appended
             # to the base Apple Developer Portal URL.
+            download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
+            login_cookies = os.path.join(download_dir, "login_cookies")
+            download_cookies = os.path.join(download_dir, "download_cookies")
             curl_opts = [
+                "--url",
+                beta_url,
                 "--cookie",
-                "login_cookies",
+                login_cookies,
                 "--cookie-jar",
-                "download_cookies"
+                download_cookies
             ]
+            # Initialize the curl_cmd, add base curl options, and execute curl
+            prepped_curl_cmd = self.prepare_curl_cmd()
             pattern = r"""<a href=["'](.*.xip)"""
-            groupmatch, groupdict = self.get_url_and_search(
-                beta_url, pattern, opts=curl_opts
-            )
-            fixed_url = f"https://developer.apple.com/{groupmatch}"
+            content = self.download_with_curl(prepped_curl_cmd + curl_opts)
+            groupmatch, groupdict = self.search_for(content, pattern)
+            fixed_url = f"https://developer.apple.com{groupmatch}"
             self.env[self.env["result_output_var_name"]] = fixed_url
             self.parse_beta_info(fixed_url)
             self.output(f"New fixed URL: {fixed_url}")
@@ -186,17 +169,16 @@ class AppleURLSearcher(Processor):
                 self.env["result_output_var_name"]: fixed_url
             }
             return
+
         self.output("Beta flag not set, searching More downloads list...")
         # If we're not looking for BETA, then disregard everything from
         # URLTextSearcher and search the Apple downloads list instead.
         download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
-        downloads = os.path.join(download_dir, "listDownloads")
-
+        downloads = os.path.join(download_dir, "listDownloads.json")
         if not os.path.exists(downloads):
             raise ProcessorError(
                 "Missing the download data from AppleCookieDownloader"
             )
-
         pattern = self.env["re_pattern"]
         with open(downloads) as f:
             data = json.load(f)
@@ -223,24 +205,19 @@ class AppleURLSearcher(Processor):
                     "full_url": url,
                 }
                 xcode_list.append(xcode_item)
-
         matches = sorted(xcode_list, key=lambda i: i["datePublished_obj"])
         match = matches[-1]
-
         if not match or not xcode_list:
             raise ProcessorError("No match found!")
-
         self.output(
             f"Sorted list of possible filenames: {[x['filename'] for x in matches]}",
             verbose_level=2
         )
         self.output(f"Found matching item: {match['filename']}")
-
-        if full_url_match := match["full_url"]:
-            self.parse_beta_info(full_url_match)
-            self.output_result(full_url_match)
-        else:
+        if not (full_url_match := match["full_url"]):
             raise ProcessorError("No matching URL found!")
+        self.parse_beta_info(full_url_match)
+        self.output_result(full_url_match)
 
 
 if __name__ == "__main__":
