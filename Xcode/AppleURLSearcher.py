@@ -46,8 +46,10 @@ class AppleURLSearcher(URLGetter):
         },
         "re_pattern": {
             "description": (
-                "Path to download data file from AppleCookieDownloader."
-                "Ignored if BETA is set in the environment."
+                "Regex to match URLs against. To match specific Xcodes, you "
+                "would need to know the URL from the Apple dev portal. "
+                "If BETA is set in the environment, only search Betas for "
+                "matches (i.e. isReleased is false)."
             ),
             "required": True
         }
@@ -134,45 +136,7 @@ class AppleURLSearcher(URLGetter):
             self.parse_beta_info(self.env["URL"])
             return
 
-        if self.env.get("BETA"):
-            self.output("Beta flag is set, searching Apple downloads URL...")
-            beta_url = "https://developer.apple.com/download/"
-            # We're going to make the strong assumption that if BETA is
-            # populated, we should only use URLTextSearcher, because as of
-            # 6/7/19, Apple has only posted the new Xcode beta to the main
-            # developer page, and not the "More Downloads" section.
-            # If this trend holds true, then URLTextSearcher = betas,
-            # AppleURLSearcher = "more downloads" = stable/GM releases.
-            # If we do get a url from URLTextSearcher, it needs to be appended
-            # to the base Apple Developer Portal URL.
-            download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
-            login_cookies = os.path.join(download_dir, "login_cookies")
-            download_cookies = os.path.join(download_dir, "download_cookies")
-            curl_opts = [
-                "--url",
-                beta_url,
-                "--cookie",
-                login_cookies,
-                "--cookie-jar",
-                download_cookies
-            ]
-            # Initialize the curl_cmd, add base curl options, and execute curl
-            prepped_curl_cmd = self.prepare_curl_cmd()
-            pattern = r"""<a href=["'](.*.xip)"""
-            content = self.download_with_curl(prepped_curl_cmd + curl_opts)
-            groupmatch, groupdict = self.search_for(content, pattern)
-            fixed_url = f"https://developer.apple.com{groupmatch}"
-            self.env[self.env["result_output_var_name"]] = fixed_url
-            self.parse_beta_info(fixed_url)
-            self.output(f"New fixed URL: {fixed_url}")
-            self.output_variables = {
-                self.env["result_output_var_name"]: fixed_url
-            }
-            return
-
-        self.output("Beta flag not set, searching More downloads list...")
-        # If we're not looking for BETA, then disregard everything from
-        # URLTextSearcher and search the Apple downloads list instead.
+        # Search the Apple downloads list
         download_dir = os.path.join(self.env["RECIPE_CACHE_DIR"], "downloads")
         downloads = os.path.join(download_dir, "listDownloads.json")
         if not os.path.exists(downloads):
@@ -184,24 +148,32 @@ class AppleURLSearcher(URLGetter):
             data = json.load(f)
         dl_base_url = "https://download.developer.apple.com"
         xcode_list = []
+        # data["downloads"] is the top-level list
         for x in data["downloads"]:
             for y in x["files"]:
-                url = dl_base_url + y["remotePath"]
+                # are we looking for Betas only? If so, limit our search to
+                # the "isReleased = false" entries.
+                # If we are not looking for betas, ignore anything for which
+                # isReleased is false
+                if self.env.get("BETA"):
+                    if x["isReleased"]:
+                        continue
+                else:
+                    if not x["isReleased"]:
+                        continue
                 # Regex the results
+                url = dl_base_url + y["remotePath"]
                 re_pattern = re.compile(pattern)
                 dl_match = re_pattern.findall(url)
                 if not dl_match:
                     continue
-                filename = os.path.splitext(
-                    posixpath.basename(urlsplit(y["remotePath"]).path)
-                )[0]
                 xcode_item = {
                     "datePublished_str": x["datePublished"],
                     "datePublished_obj": datetime.datetime.strptime(
                         x["datePublished"], "%m/%d/%y %H:%M"
                     ),
                     "remotePath": y["remotePath"],
-                    "filename": filename,
+                    "filename": y["filename"],
                     "full_url": url,
                 }
                 xcode_list.append(xcode_item)
