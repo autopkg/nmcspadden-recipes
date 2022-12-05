@@ -67,15 +67,15 @@ class AppleDataGatherer(Processor):
 
     def main(self):
         """Store the login data file."""
-        if self.env.get("password") not in [None, "%PASSWORD%"]:
-            password = self.env.get("password")
-        elif self.env.get("password_file") not in [None, "%PASSWORD_FILE%"]:
+        if not self.env.get("password") and not self.env.get("password_file"):
+            raise ProcessorError(
+                "You must provide either a password, or a password_file argument."
+            )
+        password = self.env.get("password")
+        if self.env.get("password_file"):
             with open(self.env["password_file"]) as f:
                 password = f.read()
-        if not password:
-            raise ProcessorError(
-                "You must provide either the 'password' or 'password_file' argument."
-            )
+
         appleIDstring = f"appleId={quote(self.env['apple_id'])}&"
         appIDKeystring = f"appIdKey={self.env['appID_key']}&"
         passwordstring = f"accountPassword={password}"
