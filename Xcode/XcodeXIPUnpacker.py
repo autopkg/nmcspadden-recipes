@@ -37,7 +37,7 @@ class XcodeXIPUnpacker(Processor):
         "output_path": {
             "description": (
                 "Path to unpack the contents. Defaults to "
-                "%RECIPE_CACHE_DIR%/%NAME%_unpack."
+                "%RECIPE_CACHE_DIR%/Xcode_unpack."
             ),
             "required": False
         }
@@ -52,7 +52,7 @@ class XcodeXIPUnpacker(Processor):
             output = self.env["output_path"]
         else:
             output = os.path.join(
-                self.env["RECIPE_CACHE_DIR"], self.env["NAME"] + "_unpack"
+                self.env["RECIPE_CACHE_DIR"], "Xcode_unpack"
             )
         if not os.path.isdir(output):
             os.makedirs(output)
