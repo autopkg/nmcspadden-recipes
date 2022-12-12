@@ -35,7 +35,7 @@
                 <key>Arguments</key>
                 <dict>
                     <key>pattern</key>
-                    <string>%RECIPE_CACHE_DIR%/%NAME%_unpack/*.app</string>
+                    <string>%RECIPE_CACHE_DIR%/Xcode_unpack/*.app</string>
                 </dict>
             </dict>
             <dict>
