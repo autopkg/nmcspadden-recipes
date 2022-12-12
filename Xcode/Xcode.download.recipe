@@ -14,7 +14,7 @@
             <key>APPLE_ID</key>
             <string>dev@domain.com</string>
             <key>PASSWORD_FILE</key>
-            <string>secret.txt</string>
+            <string></string>
             <key>NOSKIP</key>
             <string></string>
             <key>PASSWORD</key>
