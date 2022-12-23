@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads latest Google Earth Pro disk image.</string>
+    <string>This Recipe is no longer maintained please use https://github.com/autopkg/dataJAR-recipes/tree/master/Google%20Earth%20Pro</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden-recipes.download.google-earth-pro</string>
     <key>Input</key>
