@@ -7,7 +7,7 @@ Description: |
 
   OS may be 'mac' or others.
 
-  ARCH may be 'x64' or 'aarch64' for macOS-specific builds. Note that if you change this, you MUST also change MUNKI_ARCH to match what Munki expects: https://github.com/munki/munki/wiki/Pkginfo-Files#supported_architectures
+  DOWNLOAD_ARCH may be 'x64' or 'aarch64' for macOS-specific builds. Note that if you change this, you MUST also change MUNKI_ARCH to match what Munki expects: https://github.com/munki/munki/wiki/Pkginfo-Files#supported_architectures
 
   IMAGE_TYPE may be 'jdk', 'jre', 'testimage', 'debugimage' or 'staticlibs'.
 
@@ -25,7 +25,7 @@ Input:
   NAME: EclipseTemurin%FEATURE_VERSION%
   OS: mac
   RELEASE_TYPE: ga
-  ARCH: x64
+  DOWNLOAD_ARCH: x64
   MUNKI_ARCH: x86_64
   IMAGE_TYPE: jdk
   JVM_IMPLEMENTATION: hotspot
