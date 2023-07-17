@@ -1,5 +1,5 @@
 Description: |
-  Downloads the current release version of Eclipse Temurin 8 and imports into Munki. This is the signed pkg version rather than the tar version, for those that require a signed package rather than accurate version number.
+  Downloads the current release version of Eclipse Temurin and imports into Munki. This is the signed pkg version rather than the tar version, for those that require a signed package rather than accurate version number.
 
   FEATURE_VERSION may be any valid whole number, e.g. 8, 11, 16, 17. See https://api.adoptium.net/v3/info/available_releases for available feature versions.
 
@@ -7,7 +7,7 @@ Description: |
 
   OS may be 'mac' or others.
 
-  ARCH may be 'x64' or 'aarch64' for macOS-specific builds. Note that if you change this, you MUST also change the supported_architectures in the pkginfo dictionary to match what Munki expects: https://github.com/munki/munki/wiki/Pkginfo-Files#supported_architectures
+  ARCH may be 'x64' or 'aarch64' for macOS-specific builds. Note that if you change this, you MUST also change MUNKI_ARCH to match what Munki expects: https://github.com/munki/munki/wiki/Pkginfo-Files#supported_architectures
 
   IMAGE_TYPE may be 'jdk', 'jre', 'testimage', 'debugimage' or 'staticlibs'.
 
@@ -21,11 +21,12 @@ Description: |
 Identifier: com.github.nmcspadden.munki.EclipseTemurin-11-installer
 Input:
   MUNKI_REPO_SUBDIR: apps/%NAME%
-  NAME: EclipseTemurin11
   FEATURE_VERSION: "11"
+  NAME: EclipseTemurin%FEATURE_VERSION%
   OS: mac
   RELEASE_TYPE: ga
-  ARCH: aarch64
+  ARCH: x64
+  MUNKI_ARCH: x86_64
   IMAGE_TYPE: jdk
   JVM_IMPLEMENTATION: hotspot
   HEAP_SIZE: normal
@@ -33,15 +34,15 @@ Input:
   pkginfo:
     catalogs:
       - testing
-    description: Eclipse Temurin JDK 11
+    description: Eclipse Temurin JDK %FEATURE_VERSION%
     developer: Adoptium
-    display_name: Eclipse Temurin JDK 11
+    display_name: Eclipse Temurin JDK %FEATURE_VERSION%
     name: '%NAME%'
     supported_architectures: 
-      - 'arm64'
+      - '%MUNKI_ARCH%'
     unattended_install: true
 MinimumVersion: '2.3'
-ParentRecipe: com.github.grahampugh.recipes.download.EclipseTemurin-11-installer
+ParentRecipe: com.github.nmcspadden.recipes.download.EclipseTemurin
 Process:
   - Processor: FlatPkgUnpacker
     Arguments:
@@ -51,13 +52,13 @@ Process:
 
   - Processor: PkgPayloadUnpacker
     Arguments:
-      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/net.temurin.11.jdk.pkg/Payload"
+      pkg_payload_path: "%RECIPE_CACHE_DIR%/unpack/net.temurin.%FEATURE_VERSION%.jdk.pkg/Payload"
       destination_path: "%RECIPE_CACHE_DIR%/payload"
       purge_destination: False
 
   - Processor: PlistReader
     Arguments:
-      info_path: "%RECIPE_CACHE_DIR%/payload/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Info.plist"
+      info_path: "%RECIPE_CACHE_DIR%/payload/Library/Java/JavaVirtualMachines/temurin-%FEATURE_VERSION%.jdk/Contents/Info.plist"
       plist_keys:
         CFBundleShortVersionString: major_version
         CFBundleVersion: minor_version
