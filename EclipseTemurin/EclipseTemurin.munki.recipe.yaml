@@ -18,7 +18,7 @@ Description: |
   VENDOR may be 'adoptopenjdk', 'openjdk', 'adoptium', 'alibaba', 'ibm'.
 
   Note that not all options are available for all vendors, and not all listed vendors may be currently available.
-Identifier: com.github.nmcspadden.munki.EclipseTemurin-11-installer
+Identifier: com.github.nmcspadden.munki.EclipseTemurin
 Input:
   MUNKI_REPO_SUBDIR: apps/%NAME%
   FEATURE_VERSION: "11"
