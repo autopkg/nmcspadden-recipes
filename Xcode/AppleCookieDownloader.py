@@ -24,6 +24,12 @@ from autopkglib import ProcessorError, URLGetter
 
 __all__ = ["AppleCookieDownloader"]
 
+class DownloadCookieError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
 
 class AppleCookieDownloader(URLGetter):
     """Downloads a URL to the specified download_dir using curl."""
@@ -108,11 +114,15 @@ class AppleCookieDownloader(URLGetter):
         self.env["download_cookies"] = download_cookies
         try:
             with open(output) as f:
-                # Verify this can be successfully loaded this as JSON
-                json.load(f)
+                # Verify this can be successfully loaded this as JSON and that credentials were not rejected
+                login_attempt = json.load(f)
+                if "your session has expired" in login_attempt['resultString'].lower():
+                    raise DownloadCookieError(login_attempt)
         except IOError as error:
             raise ProcessorError(
                 "Unable to load the listDownloads.json file.") from error
+        except DownloadCookieError as error:
+            raise ProcessorError(error)
         except Exception as error:
             raise ProcessorError(
                 f"Unknown error loading the list of downloads. Error:  {error}") from error
