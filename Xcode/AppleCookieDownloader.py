@@ -116,8 +116,9 @@ class AppleCookieDownloader(URLGetter):
             with open(output) as f:
                 # Verify this can be successfully loaded this as JSON and that credentials were not rejected
                 login_attempt = json.load(f)
-                if "your session has expired" in login_attempt['resultString'].lower():
-                    raise DownloadCookieError(login_attempt)
+                if result_string := login_attempt.get("resultString"):
+                    if "your session has expired" in result_string.lower():
+                        raise DownloadCookieError(login_attempt)
         except IOError as error:
             raise ProcessorError(
                 "Unable to load the listDownloads.json file.") from error
