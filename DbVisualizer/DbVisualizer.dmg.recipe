@@ -14,11 +14,20 @@
 			<string>DbVisualizer</string>
 		</dict>
 		<key>MinimumVersion</key>
-		<string>0.5.0</string>
+		<string>1.1</string>
 		<key>ParentRecipe</key>
 		<string>com.github.nmcspadden.download.dbvisualizer</string>
 		<key>Process</key>
 		<array>
+			<dict>
+				<key>Processor</key>
+				<string>DeprecationWarning</string>
+				<key>Arguments</key>
+				<dict>
+					<key>warning_message</key>
+					<string>DbVisualizer already provides a dmg download, so this recipe is deprecated and will be removed in the future.</string>
+				</dict>
+			</dict>
 			<dict>
 				<key>Arguments</key>
 				<dict>
