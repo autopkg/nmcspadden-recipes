@@ -14,9 +14,18 @@
         <string>https://dl.google.com/earth/client/advanced/current/GoogleEarthProMac-Intel.dmg</string>
     </dict>
     <key>MinimumVersion</key>
-    <string>0.2.0</string>
+    <string>1.1</string>
     <key>Process</key>
     <array>
+		<dict>
+			<key>Processor</key>
+			<string>DeprecationWarning</string>
+			<key>Arguments</key>
+			<dict>
+				<key>warning_message</key>
+				<string>This recipe is no longer supported. Please remove it from your recipe list.</string>
+			</dict>
+		</dict>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
