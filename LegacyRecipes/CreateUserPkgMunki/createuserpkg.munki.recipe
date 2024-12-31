@@ -30,15 +30,15 @@
 	</dict>
 	<key>Process</key>
 	<array>
-        <dict>
-            <key>Processor</key>
-            <string>DeprecationWarning</string>
-            <key>Arguments</key>
-            <dict>
-                <key>warning_message</key>
-                <string>This recipe is no longer supported. Please remove it from your recipe list.</string>
-            </dict>
-        </dict>
+		<dict>
+			<key>Processor</key>
+			<string>DeprecationWarning</string>
+			<key>Arguments</key>
+			<dict>
+				<key>warning_message</key>
+				<string>This recipe is no longer supported. Please remove it from your recipe list.</string>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>
