@@ -16,7 +16,7 @@
     <key>MinimumVersion</key>
     <string>0.2.9</string>
     <key>ParentRecipe</key>
-    <string>ChefDK.download.recipe</string>
+    <string>com.github.nmcspadden.download.chefdk</string>
     <key>Process</key>
     <array>
         <dict>
