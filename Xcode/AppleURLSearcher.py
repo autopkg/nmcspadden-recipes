@@ -137,12 +137,13 @@ class AppleURLSearcher(URLGetter):
                 # the "isReleased = false" entries.
                 # If we are not looking for betas, ignore anything for which
                 # isReleased is false
+                # Disabling this check as only one 15.x verison (15.1) has had `isReleased = 1`
                 if self.env.get("BETA"):
-                    if x["isReleased"]:
-                        continue
-                else:
-                    if not x["isReleased"]:
-                        continue
+                    # if x["isReleased"]:
+                    continue
+                # else:
+                    # if not x["isReleased"]:
+                        # continue
                 # Regex the results
                 url = dl_base_url + y["remotePath"]
                 re_pattern = re.compile(pattern)
