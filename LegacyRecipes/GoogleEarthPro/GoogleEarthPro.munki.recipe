@@ -3,9 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads latest Google Earth Pro disk image and imports into Munki.
-
-Set the DERIVE_MIN_OS variable to a non-empty string to set the minimum_os_version via MunkiInstallsItemsCreator. This requires a minimum AutoPkg version of 2.7 please update if you're not already running it.</string>
+    <string>This Recipe is no longer maintained please use https://github.com/autopkg/dataJAR-recipes/tree/master/Google%20Earth%20Pro</string>
     <key>Identifier</key>
     <string>com.github.nmcspadden-recipes.munki.google-earth-pro</string>
     <key>Input</key>

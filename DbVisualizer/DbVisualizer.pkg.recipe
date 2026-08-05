@@ -36,32 +36,6 @@
 			<dict>
 				<key>Arguments</key>
 				<dict>
-					<key>archive_path</key>
-					<string>%pathname%</string>
-					<key>destination_path</key>
-					<string>%pkgroot%/Applications</string>
-					<key>purge_destination</key>
-					<true/>
-				</dict>
-				<key>Processor</key>
-				<string>Unarchiver</string>
-			</dict>
-			<dict>
-				<key>Arguments</key>
-				<dict>
-					<key>input_plist_path</key>
-					<string>%pkgroot%/Applications/DbVisualizer.app/Contents/Info.plist</string>
-					<key>plist_version_key</key>
-					<string>CFBundleShortVersionString</string>
-				</dict>
-				<key>Comment</key>
-				<string>Get version from the app</string>
-				<key>Processor</key>
-				<string>Versioner</string>
-			</dict>
-			<dict>
-				<key>Arguments</key>
-				<dict>
 					<key>pkg_request</key>
 					<dict>
 						<key>chown</key>
@@ -80,7 +54,7 @@
 						<key>options</key>
 						<string>purge_ds_store</string>
 						<key>pkgname</key>
-						<string>%NAME%-%version%</string>
+						<string>%NAME%-%DOWNLOAD_ARCH%-%version%</string>
 						<key>version</key>
 						<string>%version%</string>
 					</dict>

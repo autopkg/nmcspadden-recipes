@@ -5,7 +5,10 @@
 		<key>Copyright</key>
 		<string>Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved</string>
 		<key>Description</key>
-		<string>Downloads and makes a DMG of the latest version of DbVisualizer, and imports into Munki.</string>
+		<string>Downloads and makes a DMG of the latest version of DbVisualizer, and imports into Munki.
+
+For Intel use: "x86_64" in the SUPPORTED_ARCH variable (default)
+For Apple Silicon use: "arm64" in the SUPPORTED_ARCH variable</string>
 		<key>Identifier</key>
 		<string>com.github.nmcspadden.munki.dbvisualizer</string>
 		<key>Input</key>
@@ -14,8 +17,8 @@
 			<string>apps/DbVis</string>
 			<key>NAME</key>
 			<string>DbVisualizer</string>
-			<key>VERSION</key>
-			<string>11</string>
+			<key>SUPPORTED_ARCH</key>
+			<string>x86_64</string>
 			<key>pkginfo</key>
 			<dict>
 				<key>catalogs</key>
@@ -30,9 +33,9 @@
 				<string>DbVis Software</string>
 				<key>display_name</key>
 				<string>DbVisualizer</string>
-				<key>requires</key>
+				<key>supported_architectures</key>
 				<array>
-					<string>OracleJava7</string>
+					<string>%SUPPORTED_ARCH%</string>
 				</array>
 				<key>unattended_install</key>
 				<true/>
@@ -41,7 +44,7 @@
 		<key>MinimumVersion</key>
 		<string>0.5.0</string>
 		<key>ParentRecipe</key>
-		<string>com.github.nmcspadden.dmg.dbvisualizer</string>
+		<string>com.github.nmcspadden.download.dbvisualizer</string>
 		<key>Process</key>
 		<array>
 			<dict>
@@ -60,7 +63,7 @@
 				<key>Arguments</key>
 				<dict>
 					<key>pkg_path</key>
-					<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
+					<string>%pathname%</string>
 					<key>repo_subdirectory</key>
 					<string>%MUNKI_REPO_SUBDIR%</string>
 				</dict>

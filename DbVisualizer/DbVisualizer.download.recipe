@@ -5,7 +5,16 @@
 		<key>Copyright</key>
 		<string>Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved</string>
 		<key>Description</key>
-		<string>Downloads the latest version of DbVisualizer.</string>
+		<string>Downloads the latest version of DbVisualizer.
+
+To download Apple Silicon use: "aarch64" in the DOWNLOAD_ARCH variable
+To download Intel use: "x64" in the DOWNLOAD_ARCH variable (default)
+
+DOWNLOAD_VERSION can be:
+- "download" for the latest version (default)
+- "download/MajorVersion.MinorVersion" for example: download/24.3
+
+See https://www.dbvis.com/version-list/ for all listed versions</string>
 		<key>Identifier</key>
 		<string>com.github.nmcspadden.download.dbvisualizer</string>
 		<key>Input</key>
@@ -13,7 +22,9 @@
 			<key>NAME</key>
 			<string>DbVisualizer</string>
 			<key>VERSION</key>
-			<string>11</string>
+			<string>download</string>
+			<key>DOWNLOAD_ARCH</key>
+			<string>x64</string>
 		</dict>
 		<key>MinimumVersion</key>
 		<string>0.5.0</string>
@@ -23,9 +34,11 @@
 				<key>Arguments</key>
 				<dict>
 					<key>re_pattern</key>
-					<string>\/.*.tgz(?=")</string>
+					<string>href=\"(/product_download/dbvis-([0-9]+(\.[0-9]+)+)/media/dbvis_macos-%DOWNLOAD_ARCH%_([0-9]+(_[0-9]+)+)\.dmg)\"</string>
+					<key>result_output_var_name</key>
+					<string>DOWNLOAD_URL</string>
 					<key>url</key>
-					<string>https://www.dbvis.com/download/%VERSION%.0</string>
+					<string>https://www.dbvis.com/%VERSION%</string>
 				</dict>
 				<key>Processor</key>
 				<string>URLTextSearcher</string>
@@ -34,7 +47,9 @@
 				<key>Arguments</key>
 				<dict>
 					<key>url</key>
-					<string>https:%match%</string>
+					<string>https://www.dbvis.com%DOWNLOAD_URL%</string>
+					<key>filename</key>
+					<string>%NAME%-%DOWNLOAD_ARCH%.dmg</string>
 				</dict>
 				<key>Processor</key>
 				<string>URLDownloader</string>
@@ -42,6 +57,15 @@
 			<dict>
 				<key>Processor</key>
 				<string>EndOfCheckPhase</string>
+			</dict>
+			<dict>
+				<key>Arguments</key>
+				<dict>
+					<key>input_plist_path</key>
+					<string>%pathname%/DbVisualizer.app/Contents/Info.plist</string>
+				</dict>
+				<key>Processor</key>
+				<string>Versioner</string>
 			</dict>
 		</array>
 	</dict>
