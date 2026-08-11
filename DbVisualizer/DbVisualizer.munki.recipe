@@ -41,26 +41,14 @@
 		<key>MinimumVersion</key>
 		<string>0.5.0</string>
 		<key>ParentRecipe</key>
-		<string>com.github.nmcspadden.dmg.dbvisualizer</string>
+		<string>com.github.nmcspadden.download.dbvisualizer</string>
 		<key>Process</key>
 		<array>
 			<dict>
 				<key>Arguments</key>
 				<dict>
-					<key>additional_pkginfo</key>
-					<dict>
-						<key>version</key>
-						<string>%version%</string>
-					</dict>
-				</dict>
-				<key>Processor</key>
-				<string>MunkiPkginfoMerger</string>
-			</dict>
-			<dict>
-				<key>Arguments</key>
-				<dict>
 					<key>pkg_path</key>
-					<string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
+					<string>%pathname%</string>
 					<key>repo_subdirectory</key>
 					<string>%MUNKI_REPO_SUBDIR%</string>
 				</dict>
