@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/autopkg/python
 # -*- coding: utf-8 -*-
 #
 #  Copyright (c) 2015, Facebook, Inc.
@@ -8,8 +8,6 @@
 #  LICENSE file in the root directory of this source tree. An additional grant
 #  of patent rights can be found in the PATENTS file in the same directory.
 """See docstring for Rsync class."""
-
-from __future__ import absolute_import
 
 import subprocess
 
@@ -47,17 +45,19 @@ class Rsync(Processor):
     def main(self):
         rsync_location = self.env.get("rsync_path", "/usr/bin/rsync")
         rsync_args = self.env.get("rsync_arguments", [])
-        if isinstance(rsync_args, basestring):
+        if isinstance(rsync_args, str):
             raise ProcessorError("rsync_args must be a list!")
         cmd = [rsync_location]
         if rsync_args:
             cmd.extend(rsync_args)
         cmd.extend([self.env["source_path"], self.env["destination_path"]])
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        (rout, rerr) = proc.communicate()
-        if rerr:
-            raise ProcessorError(rerr)
-        self.output(rout)
+        proc = subprocess.run(cmd, capture_output=True, check=False, text=True)
+        if proc.returncode:
+            raise ProcessorError(f"rsync exited {proc.returncode}: {proc.stderr.strip()}")
+        if proc.stderr.strip():
+            self.output(proc.stderr.strip())
+        if proc.stdout.strip():
+            self.output(proc.stdout.strip())
 
 
 if __name__ == "__main__":
